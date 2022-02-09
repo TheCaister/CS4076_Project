@@ -26,7 +26,7 @@ Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
 
 void ZorkUL::createRooms()  {
 
-
+    // Adding all rooms
 	a = new Room("a");
         a->addItem(new Item("x", 1, 11));
         a->addItem(new Item("y", 2, 22));
@@ -42,6 +42,7 @@ void ZorkUL::createRooms()  {
 	i = new Room("i");
 	newRoom = new Room("New Room");
 
+    // Setting exits for each room
 //             (N, E, S, W)
 	a->setExits(f, b, d, c);
 	b->setExits(newRoom, NULL, NULL, a);
@@ -55,6 +56,7 @@ void ZorkUL::createRooms()  {
 
 	newRoom->setExits(NULL, NULL, b, NULL);
 
+    // Start off at this room.
         currentRoom = a;
 }
 

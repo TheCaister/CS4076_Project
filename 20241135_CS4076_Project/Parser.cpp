@@ -15,13 +15,16 @@ Command* Parser::getCommand() {
 
 	getline(cin, buffer, '\n');	// read a line from cin to "buffer"
 
+    // Size type is basically an int that's big enough
+    // to represent the size of a string.
 	string::size_type pos = 0, last_pos = 0;
 
 	// Break "buffer" up by spaces
 	bool finished = false;
 	while (!finished) {
 		pos = buffer.find_first_of(' ', last_pos);	// find and remember first space.
-		if (pos == string::npos ) {			// if we found the last word,
+        // npos tells you if there is no string found.
+        if (pos == string::npos ) {			// if we found the last word,
 			words.push_back(buffer.substr(last_pos));	// add it to vector "words"
 			finished = true;				// and finish searching.
 		} else {					// otherwise add to vector and move on to next word.
