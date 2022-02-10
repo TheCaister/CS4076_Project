@@ -14,6 +14,7 @@ SOURCES += \
     CommandWords.cpp \
     Parser.cpp \
     Room.cpp \
+    WordleEngine.cpp \
     ZorkUL.cpp \
     item.cpp \
     mainwindow.cpp
@@ -24,6 +25,7 @@ HEADERS += \
     CommandWords.h \
     Parser.h \
     Room.h \
+    WordleEngine.h \
     ZorkUL.h \
     item.h \
     mainwindow.h
@@ -35,3 +37,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    wordle_words.txt
