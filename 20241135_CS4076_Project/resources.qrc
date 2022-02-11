@@ -4,5 +4,7 @@
     </qresource>
     <qresource prefix="/img">
         <file>img/cave.jpg</file>
+        <file>img/night_city.jpg</file>
+        <file>img/night_city.gif</file>
     </qresource>
 </RCC>

@@ -6,6 +6,7 @@
 
 #include <QTextStream>
 #include <QDebug>
+#include "dialogues.h"
 
 using namespace std;
 #include "ZorkUL.h"
@@ -23,9 +24,13 @@ int main(int argc, char *argv[]) {
 
     w.show();
     w.clearConsole();
-    for (string s : worldleEngine->getAllWords()){
-        w.addToConsole(s);
-    }
+
+    // For testing that all valid Wordle words are present.
+//    for (string s : worldleEngine->getAllWords()){
+//        w.addToConsole(s);
+//    }
+
+    w.addToConsole(welcome);
 
     delete worldleEngine;
     return a.exec();

@@ -27,6 +27,7 @@ HEADERS += \
     Room.h \
     WordleEngine.h \
     ZorkUL.h \
+    dialogues.h \
     item.h \
     mainwindow.h
 

@@ -1,14 +1,24 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include<QDebug>
+#include <QDebug>
+#include <QMovie>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->current_image->pixmap()
+
+    QMovie *movie = new QMovie(":/img/img/night_city.gif");
+
+    // Makking the image fill the available space.
+    ui->current_image->setScaledContents( true );
+
+    ui->current_image->setMovie(movie);
+    movie->start();
+
+    //ui->current_image->setPixmap(pixmap);
 }
 
 MainWindow::~MainWindow()
