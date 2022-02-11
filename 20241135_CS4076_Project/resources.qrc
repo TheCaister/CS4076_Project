@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/text">
+        <file>wordle_words.txt</file>
+    </qresource>
+    <qresource prefix="/img">
+        <file>img/cave.jpg</file>
+    </qresource>
+</RCC>

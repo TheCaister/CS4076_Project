@@ -4,27 +4,41 @@
 
 #include <QApplication>
 
+#include <QTextStream>
+#include <QDebug>
+
 using namespace std;
 #include "ZorkUL.h"
 // git test
 int main(int argc, char *argv[]) {
+    // For printing stuff out in the output pane and debugging
+    QTextStream out(stdout);
     //ZorkUL temp;
     //temp.play();
 
+    WordleEngine *worldleEngine = new WordleEngine();
     QApplication a(argc, argv);
     MainWindow w;
+
+
     w.show();
+    w.clearConsole();
+    for (string s : worldleEngine->getAllWords()){
+        w.addToConsole(s);
+    }
+
+    delete worldleEngine;
     return a.exec();
 }
 
 ZorkUL::ZorkUL() {
     createRooms();
-    int g;
 }
 
 Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
 
 void ZorkUL::createRooms()  {
+
 
     // Adding all rooms
     a = new Room("a");

@@ -7,6 +7,8 @@
 #include "item.h"
 #include <iostream>
 #include <string>
+#include "WordleEngine.h"
+
 using namespace std;
 
 class ZorkUL {
