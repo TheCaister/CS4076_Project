@@ -2,8 +2,18 @@
 #include "Command.h"
 
 
-Room::Room(string description) {
-	this->description = description;
+
+// Setting default background
+Room::Room(string description)
+    : backgroundPath(":/img/img/night_city.jpg"){
+    this->description = description;
+}
+
+Room::Room(string description, string backgroundPath){
+    this->description = description;
+
+    // Setting default background path;
+    this->backgroundPath = backgroundPath;
 }
 
 void Room::setExits(Room *north, Room *east, Room *south, Room *west) {
@@ -88,3 +98,6 @@ int Room::isItemInRoom(string inString)
     return -1;
 }
 
+string Room::getBackgroundPath(){
+    return this->backgroundPath;
+}

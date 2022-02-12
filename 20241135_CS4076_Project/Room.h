@@ -15,11 +15,13 @@ private:
 	map<string, Room*> exits;
 	string exitString();
     vector <Item> itemsInRoom;
+    string backgroundPath;
 
 
 public:
     int numberOfItems();
 	Room(string description);
+    Room(string description, string backgroundPath);
 	void setExits(Room *north, Room *east, Room *south, Room *west);
 	string shortDescription();
 	string longDescription();
@@ -28,6 +30,7 @@ public:
     string displayItem();
     int isItemInRoom(string inString);
     void removeItemFromRoom(int location);
+    string getBackgroundPath();
 };
 
 #endif

@@ -11,15 +11,20 @@
 using namespace std;
 #include "ZorkUL.h"
 // git test
+
+
+Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
+
 int main(int argc, char *argv[]) {
     // For printing stuff out in the output pane and debugging
     QTextStream out(stdout);
-    //ZorkUL temp;
+    ZorkUL temp;
     //temp.play();
 
     WordleEngine *worldleEngine = new WordleEngine();
     QApplication a(argc, argv);
     MainWindow w;
+    MainWindow *windowPtr = &w;
 
 
     w.show();
@@ -31,6 +36,8 @@ int main(int argc, char *argv[]) {
 //    }
 
     w.addToConsole(welcome);
+    temp.updateRoom(b, windowPtr);
+
 
     delete worldleEngine;
     return a.exec();
@@ -40,7 +47,6 @@ ZorkUL::ZorkUL() {
     createRooms();
 }
 
-Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
 
 void ZorkUL::createRooms()  {
 
@@ -256,4 +262,9 @@ string ZorkUL::go(string direction) {
         currentRoom = nextRoom;
         return currentRoom->longDescription();
     }
+}
+
+void ZorkUL::updateRoom(Room *room, MainWindow *window){
+    currentRoom = room;
+    window->updateBackground(room->getBackgroundPath());
 }

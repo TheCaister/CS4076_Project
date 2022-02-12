@@ -20,6 +20,7 @@ public:
     void clearConsole();
     void addToConsole(string input);
     void overwriteConsole(string input);
+    void updateBackground(string path);
 
 private:
     Ui::MainWindow *ui;

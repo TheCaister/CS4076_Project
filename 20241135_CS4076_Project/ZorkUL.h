@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include "WordleEngine.h"
+#include "mainwindow.h"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ public:
 	ZorkUL();
 	void play();
 	string go(string direction);
+    void updateRoom(Room *room, MainWindow *window);
 };
 
 #endif ZORKUL_H_
