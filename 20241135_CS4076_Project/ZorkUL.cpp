@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 //        w.addToConsole(s);
 //    }
 
-    w.addToConsole(welcome);
+    w.addStringToConsole(welcome);
     temp.updateRoom(b, windowPtr);
 
 

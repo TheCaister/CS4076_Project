@@ -18,9 +18,13 @@ public:
     ~MainWindow();
 
     void clearConsole();
-    void addToConsole(string input);
+    void addStringToConsole(string input);
+    void addQStringToConsole(QString input);
     void overwriteConsole(string input);
     void updateBackground(string path);
+
+private slots:
+    void on_input_textChanged();
 
 private:
     Ui::MainWindow *ui;
