@@ -7,14 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>811</width>
-    <height>600</height>
+    <height>730</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(57, 57, 57);
+   <string notr="true">/*background-color: rgb(57, 57, 57);*/
+background-color: rgb(0, 0, 0);
 font: 24pt &quot;8514oem&quot;;
 color: rgb(255, 255, 255);</string>
   </property>
@@ -44,7 +45,7 @@ color: rgb(255, 255, 255);</string>
              <x>0</x>
              <y>0</y>
              <width>247</width>
-             <height>465</height>
+             <height>595</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">

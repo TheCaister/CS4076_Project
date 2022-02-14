@@ -9,17 +9,22 @@
 using std::string;
 using std::vector;
 
+enum gameStatus {WORDLE_START, WORDLE_PROGRESS, WORDLE_FAIL, WORDLE_SUCCESS};
+
 class WordleEngine{
 private:
     // All valid words
     static vector<string> allWords;
-    int triesLeft;
-    void initWords(string filename);
+    static int triesLeft;
+    static void initWords(string filename);
+
 
 public:
-    WordleEngine();
-    bool evaluateInput(string input);
-    vector<string> getAllWords();
+    static bool evaluateInput(string input);
+    static vector<string> getAllWords();
+    static void startWordleGame();
+    static string checkGameStatus();
+    static void initialiseWordleEngine();
 };
 
 #endif // WORDLEENGINE_H
