@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QMovie>
 #include <QKeyEvent>
+#include <QScrollBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -31,6 +32,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::clearConsole(){
     ui->outputConsole->clear();
+}
+
+// Scrolls to the bottom of the output
+void MainWindow::scrollToBottom(){
+    ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximum());
 }
 
 // Printing to game console - Supports string and QString
@@ -89,20 +95,40 @@ void MainWindow::on_input_textChanged()
     string input = ui->input->toPlainText().toStdString();
     size_t newlineIndex = input.find('\n');
 
+    if(newlineIndex == 0){
+        ui->input->clear();
+        return;
+    }
+
     // Removing the newline from the string
     input = input.substr(0, newlineIndex);
 
     // Checks if there are any newlines or if the "enter" key is pressed
     if(newlineIndex != string::npos && input.size() > 0){
-        addStringToConsole(input);
-        Command *command = ZorkUL::parser->convertToCommand(input);
-        if(!ZorkUL::processCommand(*command)){
-            addStringToConsole(Dialogues::inputError);
-        }
+        addStringToConsole("> " + input + "\n");
+        this->parseInput(input);
 
         ui->input->clear();
     }
 
-
+    scrollToBottom();
 }
+
+// I want to get the command from the input,
+void MainWindow::parseInput(string input){
+    Command *command = ZorkUL::parser->convertToCommand(input);
+    string output = ZorkUL::processCommand(*command);
+
+    // Processes errors
+    if(output.compare("") == 0){
+        addStringToConsole(Dialogues::inputError);
+        return;
+    }
+
+    addStringToConsole(output);
+
+    scrollToBottom();
+}
+
+
 

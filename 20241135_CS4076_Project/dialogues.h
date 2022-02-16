@@ -14,6 +14,7 @@ public:
     static string printCurrentRoom(string description);
     static string welcome;
     static string inputError;
+    static string noMoreRooms;
 };
 
 #endif // DIALOGUES_H

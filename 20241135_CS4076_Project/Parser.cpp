@@ -95,3 +95,7 @@ Command* Parser::convertToCommand(string input){
 void Parser::showCommands() {
 	commands->showAll();
 }
+
+string Parser::commandsInString(){
+    return commands->validCommandsToString();
+}

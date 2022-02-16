@@ -107,25 +107,25 @@ vector<Room*> ZorkUL::createRooms()  {
 /**
  *  Main play routine.  Loops until end of play.
  */
-void ZorkUL::play() {
-    printWelcome();
+//void ZorkUL::play() {
+//    printWelcome();
 
-    // Enter the main command loop.  Here we repeatedly read commands and
-    // execute them until the ZorkUL game is over.
+//    // Enter the main command loop.  Here we repeatedly read commands and
+//    // execute them until the ZorkUL game is over.
 
-    bool finished = false;
-    while (!finished) {
-        // Create pointer to command and give it a command.
-        Command* command = ZorkUL::parser->getCommand();
-        // Pass dereferenced command and check for end of game.
-        finished = processCommand(*command);
-        // Free the memory allocated by "parser.getCommand()"
-        //   with ("return new Command(...)")
-        delete command;
-    }
-    cout << endl;
-    cout << "end" << endl;
-}
+//    bool finished = false;
+//    while (!finished) {
+//        // Create pointer to command and give it a command.
+//        Command* command = ZorkUL::parser->getCommand();
+//        // Pass dereferenced command and check for end of game.
+//        //finished = processCommand(*command);
+//        // Free the memory allocated by "parser.getCommand()"
+//        //   with ("return new Command(...)")
+//        delete command;
+//    }
+//    cout << endl;
+//    cout << "end" << endl;
+//}
 
 void ZorkUL::printWelcome() {
     cout << "start"<< endl;
@@ -139,69 +139,73 @@ void ZorkUL::printWelcome() {
  * If this command ends the ZorkUL game, true is returned, otherwise false is
  * returned.
  */
-bool ZorkUL::processCommand(Command command) {
+string ZorkUL::processCommand(Command command) {
     cout << command.getCommandWord() << endl;
 
     if (command.isUnknown()) {
-        cout << "invalid input"<< endl;
-        return false;
+        //cout << "invalid input"<< endl;
+        return "";
     }
 
     string commandWord = command.getCommandWord();
     if (commandWord.compare("info") == 0)
-        printHelp();
+        return printHelp();
 
     else if (commandWord.compare("map") == 0)
     {
-        cout << "[h] --- [f] --- [g]" << endl;
-        cout << "         |         " << endl;
-        cout << "         |         " << endl;
-        cout << "[c] --- [a] --- [b]" << endl;
-        cout << "         |         " << endl;
-        cout << "         |         " << endl;
-        cout << "[i] --- [d] --- [e]" << endl;
+        return "Map to be implemented soon.\n";
+        //        cout << "[h] --- [f] --- [g]" << endl;
+        //        cout << "         |         " << endl;
+        //        cout << "         |         " << endl;
+        //        cout << "[c] --- [a] --- [b]" << endl;
+        //        cout << "         |         " << endl;
+        //        cout << "         |         " << endl;
+        //        cout << "[i] --- [d] --- [e]" << endl;
     }
 
     else if (commandWord.compare("go") == 0)
         if(goRoom(command)){
-            return true;
+            return currentRoom->longDescription();
+        }
+        else{
+            return Dialogues::noMoreRooms;
         }
 
 
     // Attempting to write teleport code
-    else if(commandWord.compare("Teleport random") == 0){
-        cout << "Teleporting to random room..." << endl;
+    //    else if(commandWord.compare("Teleport random") == 0){
+    //        cout << "Teleporting to random room..." << endl;
 
-        //Room rooms [10] = {*a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom};
-        int randomIndex = rand() % 10;
-        //currentRoom = &rooms[randomIndex];
-        cout << currentRoom->longDescription() << endl;
+    //        //Room rooms [10] = {*a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom};
+    //        int randomIndex = rand() % 10;
+    //        //currentRoom = &rooms[randomIndex];
+    //        cout << currentRoom->longDescription() << endl;
 
-    }
+    //    }
 
     // Attempting to write teleport code
-    else if(commandWord.compare("Teleport") == 0){
-        cout << "Which room would you like to teleport to?" << endl;
-        int choice;
+    //    else if(commandWord.compare("Teleport") == 0){
+    //        cout << "Which room would you like to teleport to?" << endl;
+    //        int choice;
 
-        //Room rooms [10] = {*a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom};
-        // int numberOfRooms = sizeof rooms/ sizeof (rooms[0]);
+    //        //Room rooms [10] = {*a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom};
+    //        // int numberOfRooms = sizeof rooms/ sizeof (rooms[0]);
 
-        // cout << "Amount of rooms: " << numberOfRooms << endl;
+    //        // cout << "Amount of rooms: " << numberOfRooms << endl;
 
-        //        for(int i = 0; i < numberOfRooms; i++){
-        //            Room iterRoom = rooms[i];
-        //            cout << i << ": " << iterRoom.shortDescription() << endl;
-        //        }
+    //        //        for(int i = 0; i < numberOfRooms; i++){
+    //        //            Room iterRoom = rooms[i];
+    //        //            cout << i << ": " << iterRoom.shortDescription() << endl;
+    //        //        }
 
-        cout << "Enter selection here: ";
-        cin >> choice;
+    //        cout << "Enter selection here: ";
+    //        cin >> choice;
 
-        cout << "You have chosen: " << choice << endl;
-        // currentRoom = &rooms[choice];
-        cout << currentRoom->longDescription() << endl;
+    //        cout << "You have chosen: " << choice << endl;
+    //        // currentRoom = &rooms[choice];
+    //        cout << currentRoom->longDescription() << endl;
 
-    }
+    //    }
 
     else if (commandWord.compare("take") == 0)
     {
@@ -240,17 +244,19 @@ bool ZorkUL::processCommand(Command command) {
 */
     else if (commandWord.compare("quit") == 0) {
         if (command.hasSecondWord())
-            cout << "overdefined input"<< endl;
+            return "overdefined input";
         else
-            return true; /**signal to quit*/
+            exit(0); /**signal to quit*/
     }
-    return false;
+
+    return "";
 }
 /** COMMANDS **/
-void ZorkUL::printHelp() {
-    cout << "valid inputs are; " << endl;
-    ZorkUL::parser->showCommands();
-
+string ZorkUL::printHelp() {
+    string output = "";
+    output += "Valid inputs are: ";
+    output += ZorkUL::parser->commandsInString();
+    return output;
 }
 
 bool ZorkUL::goRoom(Command command) {

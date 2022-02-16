@@ -16,6 +16,8 @@ public:
 	CommandWords();
 	bool isCommand(string aString);
 	void showAll();
+    vector<string> getValidCommands();
+    string validCommandsToString();
 };
 
 

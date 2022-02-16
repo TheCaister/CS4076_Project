@@ -13,6 +13,7 @@ public:
 	Command* getCommand();
 	void showCommands();
     Command* convertToCommand(string input);
+    string commandsInString();
 };
 
 #endif /*PARSER_H_*/

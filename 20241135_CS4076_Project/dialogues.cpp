@@ -1,10 +1,13 @@
 #include "dialogues.h"
 
 string Dialogues::welcome = "Welcome to the city of Wordleville, a harsh world\n"
-                 "where your status is determined by your Wordle skills.";
+                            "where your status is determined by your Wordle skills.\n"
+                            "If you seek assistance, enter the 'info' command.\n";
 
-string Dialogues::inputError = "Invalid command, please try again.";
+string Dialogues::inputError = "Invalid command, please try again.\n";
+
+string Dialogues::noMoreRooms = "No more rooms this way. Try another direction.\n";
 
 string Dialogues::printCurrentRoom(string description){
-    return "You are currently in: " + description + ". what is your next move?";
+    return "You are currently in: " + description + ". what is your next move?\n";
 }

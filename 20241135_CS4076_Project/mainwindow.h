@@ -22,6 +22,8 @@ public:
     void addQStringToConsole(QString input);
     void overwriteConsole(string input);
     void updateBackground(string path);
+    void parseInput(string input);
+    void scrollToBottom();
 
 private slots:
     void on_input_textChanged();
