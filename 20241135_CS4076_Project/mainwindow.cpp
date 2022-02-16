@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "ZorkUL.h"
+#include "dialogues.h"
 
 #include <QDebug>
 #include <QMovie>
@@ -93,7 +95,14 @@ void MainWindow::on_input_textChanged()
     // Checks if there are any newlines or if the "enter" key is pressed
     if(newlineIndex != string::npos && input.size() > 0){
         addStringToConsole(input);
+        Command *command = ZorkUL::parser->convertToCommand(input);
+        if(!ZorkUL::processCommand(*command)){
+            addStringToConsole(Dialogues::inputError);
+        }
+
         ui->input->clear();
     }
+
+
 }
 

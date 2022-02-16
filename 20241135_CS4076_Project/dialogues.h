@@ -4,9 +4,16 @@
 #include <string>
 using std::string;
 
-string welcome = "Welcome to the city of Wordleville, a harsh world\n"
-                 "where your status is determined by your Wordle skills.";
+string printCurrentRoom(string);
+
+struct Dialogues{
+private:
 
 
+public:
+    static string printCurrentRoom(string description);
+    static string welcome;
+    static string inputError;
+};
 
 #endif // DIALOGUES_H

@@ -10,15 +10,17 @@
 
 using namespace std;
 #include "ZorkUL.h"
-// git test
 
+Parser *ZorkUL::parser;
+Room *ZorkUL::currentRoom;
 
-Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
+//Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
 
 int main(int argc, char *argv[]) {
+    ZorkUL::parser = new Parser();
     // For printing stuff out in the output pane and debugging
     QTextStream out(stdout);
-    ZorkUL temp;
+    //ZorkUL temp;
     //temp.play();
 
     WordleEngine *worldleEngine = new WordleEngine();
@@ -31,15 +33,18 @@ int main(int argc, char *argv[]) {
     w.clearConsole();
 
     // For testing that all valid Wordle words are present.
-//    for (string s : worldleEngine->getAllWords()){
-//        w.addToConsole(s);
-//    }
+    //    for (string s : worldleEngine->getAllWords()){
+    //        w.addToConsole(s);
+    //    }
+    vector<Room*> allRooms = ZorkUL::createRooms();
+    w.addStringToConsole(Dialogues::welcome);
 
-    w.addStringToConsole(welcome);
-    temp.updateRoom(b, windowPtr);
+    ZorkUL::updateRoom(allRooms.at(0), windowPtr);
+    w.addStringToConsole(Dialogues::printCurrentRoom(ZorkUL::getCurrentRoom()->shortDescription()));
 
 
     delete worldleEngine;
+    delete ZorkUL::parser;
     return a.exec();
 }
 
@@ -48,8 +53,9 @@ ZorkUL::ZorkUL() {
 }
 
 
-void ZorkUL::createRooms()  {
-
+vector<Room*> ZorkUL::createRooms()  {
+    Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
+    vector<Room*> allRooms;
 
     // Adding all rooms
     a = new Room("a");
@@ -81,8 +87,21 @@ void ZorkUL::createRooms()  {
 
     newRoom->setExits(NULL, NULL, b, NULL);
 
+    allRooms.push_back(a);
+    allRooms.push_back(b);
+    allRooms.push_back(c);
+    allRooms.push_back(d);
+    allRooms.push_back(e);
+    allRooms.push_back(f);
+    allRooms.push_back(g);
+    allRooms.push_back(h);
+    allRooms.push_back(i);
+    allRooms.push_back(newRoom);
+
     // Start off at this room.
     currentRoom = a;
+
+    return allRooms;
 }
 
 /**
@@ -97,7 +116,7 @@ void ZorkUL::play() {
     bool finished = false;
     while (!finished) {
         // Create pointer to command and give it a command.
-        Command* command = parser.getCommand();
+        Command* command = ZorkUL::parser->getCommand();
         // Pass dereferenced command and check for end of game.
         finished = processCommand(*command);
         // Free the memory allocated by "parser.getCommand()"
@@ -144,15 +163,18 @@ bool ZorkUL::processCommand(Command command) {
     }
 
     else if (commandWord.compare("go") == 0)
-        goRoom(command);
+        if(goRoom(command)){
+            return true;
+        }
+
 
     // Attempting to write teleport code
     else if(commandWord.compare("Teleport random") == 0){
         cout << "Teleporting to random room..." << endl;
 
-        Room rooms [10] = {*a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom};
+        //Room rooms [10] = {*a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom};
         int randomIndex = rand() % 10;
-        currentRoom = &rooms[randomIndex];
+        //currentRoom = &rooms[randomIndex];
         cout << currentRoom->longDescription() << endl;
 
     }
@@ -162,21 +184,21 @@ bool ZorkUL::processCommand(Command command) {
         cout << "Which room would you like to teleport to?" << endl;
         int choice;
 
-        Room rooms [10] = {*a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom};
-        int numberOfRooms = sizeof rooms/ sizeof (rooms[0]);
+        //Room rooms [10] = {*a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom};
+        // int numberOfRooms = sizeof rooms/ sizeof (rooms[0]);
 
-        cout << "Amount of rooms: " << numberOfRooms << endl;
+        // cout << "Amount of rooms: " << numberOfRooms << endl;
 
-        for(int i = 0; i < numberOfRooms; i++){
-            Room iterRoom = rooms[i];
-            cout << i << ": " << iterRoom.shortDescription() << endl;
-        }
+        //        for(int i = 0; i < numberOfRooms; i++){
+        //            Room iterRoom = rooms[i];
+        //            cout << i << ": " << iterRoom.shortDescription() << endl;
+        //        }
 
         cout << "Enter selection here: ";
         cin >> choice;
 
         cout << "You have chosen: " << choice << endl;
-        currentRoom = &rooms[choice];
+        // currentRoom = &rooms[choice];
         cout << currentRoom->longDescription() << endl;
 
     }
@@ -227,14 +249,14 @@ bool ZorkUL::processCommand(Command command) {
 /** COMMANDS **/
 void ZorkUL::printHelp() {
     cout << "valid inputs are; " << endl;
-    parser.showCommands();
+    ZorkUL::parser->showCommands();
 
 }
 
-void ZorkUL::goRoom(Command command) {
+bool ZorkUL::goRoom(Command command) {
     if (!command.hasSecondWord()) {
         cout << "incomplete input"<< endl;
-        return;
+        return false;
     }
 
     string direction = command.getSecondWord();
@@ -242,11 +264,13 @@ void ZorkUL::goRoom(Command command) {
     // Try to leave current room.
     Room* nextRoom = currentRoom->nextRoom(direction);
 
-    if (nextRoom == NULL)
+    if (nextRoom == NULL){
         cout << "underdefined input"<< endl;
+        return false;}
     else {
         currentRoom = nextRoom;
         cout << currentRoom->longDescription() << endl;
+        return true;
     }
 }
 
@@ -267,4 +291,8 @@ string ZorkUL::go(string direction) {
 void ZorkUL::updateRoom(Room *room, MainWindow *window){
     currentRoom = room;
     window->updateBackground(room->getBackgroundPath());
+}
+
+Room *ZorkUL::getCurrentRoom(){
+    return ZorkUL::currentRoom;
 }

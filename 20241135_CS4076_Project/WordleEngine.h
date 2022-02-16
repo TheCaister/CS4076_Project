@@ -25,6 +25,7 @@ public:
     static void startWordleGame();
     static string checkGameStatus();
     static void initialiseWordleEngine();
+    static int gameStatus;
 };
 
 #endif // WORDLEENGINE_H
