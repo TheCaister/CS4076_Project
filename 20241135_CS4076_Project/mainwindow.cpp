@@ -69,7 +69,7 @@ void MainWindow::updateBackground(string path){
     // This can be done using substr, using the position of the "." as param1 and
     // the length between the full path and the string leading up to the "." as param2
     string fileType = path.substr(dotIndex, (path.length() - dotIndex));
-    addStringToConsole("File type: " + fileType);
+    //addStringToConsole("File type: " + fileType);
 
     QString file(QString::fromStdString(path));
 
@@ -105,7 +105,7 @@ void MainWindow::on_input_textChanged()
 
     // Checks if there are any newlines or if the "enter" key is pressed
     if(newlineIndex != string::npos && input.size() > 0){
-        addStringToConsole("> " + input + "\n");
+        //addStringToConsole("> " + input + "\n");
         this->parseInput(input);
 
         ui->input->clear();
@@ -117,7 +117,8 @@ void MainWindow::on_input_textChanged()
 // I want to get the command from the input,
 void MainWindow::parseInput(string input){
     Command *command = ZorkUL::parser->convertToCommand(input);
-    string output = ZorkUL::processCommand(*command);
+    string output = ZorkUL::processCommand(*command, this);
+    addStringToConsole("> " + input + "\n");
 
     // Processes errors
     if(output.compare("") == 0){
@@ -131,4 +132,28 @@ void MainWindow::parseInput(string input){
 }
 
 
+
+
+void MainWindow::on_upButton_released()
+{
+    parseInput("go north");
+}
+
+
+void MainWindow::on_rightButton_released()
+{
+    parseInput("go east");
+}
+
+
+void MainWindow::on_downButton_released()
+{
+    parseInput("go south");
+}
+
+
+void MainWindow::on_leftButton_released()
+{
+    parseInput("go west");
+}
 

@@ -16,6 +16,7 @@ SOURCES += \
     Room.cpp \
     WordleEngine.cpp \
     ZorkUL.cpp \
+    constants.cpp \
     dialogues.cpp \
     item.cpp \
     mainwindow.cpp
@@ -28,6 +29,7 @@ HEADERS += \
     Room.h \
     WordleEngine.h \
     ZorkUL.h \
+    constants.h \
     dialogues.h \
     item.h \
     mainwindow.h

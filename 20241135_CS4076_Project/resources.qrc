@@ -6,5 +6,6 @@
         <file>img/cave.jpg</file>
         <file>img/night_city.jpg</file>
         <file>img/night_city.gif</file>
+        <file>img/sewer.gif</file>
     </qresource>
 </RCC>

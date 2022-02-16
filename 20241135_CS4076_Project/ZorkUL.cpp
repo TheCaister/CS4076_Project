@@ -7,6 +7,7 @@
 #include <QTextStream>
 #include <QDebug>
 #include "dialogues.h"
+#include "constants.h"
 
 using namespace std;
 #include "ZorkUL.h"
@@ -54,52 +55,58 @@ ZorkUL::ZorkUL() {
 
 
 vector<Room*> ZorkUL::createRooms()  {
-    Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
+    //Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
+    Room *city_centre, *sewer_a;
     vector<Room*> allRooms;
 
     // Adding all rooms
-    a = new Room("a");
-    a->addItem(new Item("x", 1, 11));
-    a->addItem(new Item("y", 2, 22));
-    b = new Room("b");
-    b->addItem(new Item("xx", 3, 33));
-    b->addItem(new Item("yy", 4, 44));
-    c = new Room("c");
-    d = new Room("d");
-    e = new Room("e");
-    f = new Room("f");
-    g = new Room("g");
-    h = new Room("h");
-    i = new Room("i");
-    newRoom = new Room("New Room");
+    city_centre = new Room("City Centre", Constants::NIGHT_CITY_GIF);
+    sewer_a = new Room("Sewer", Constants::SEWER_GIF, Room::WORDLE);
+    //    a = new Room("a");
+    //    a->addItem(new Item("x", 1, 11));
+    //    a->addItem(new Item("y", 2, 22));
+    //    b = new Room("b");
+    //    b->addItem(new Item("xx", 3, 33));
+    //    b->addItem(new Item("yy", 4, 44));
+    //    c = new Room("c");
+    //    d = new Room("d");
+    //    e = new Room("e");
+    //    f = new Room("f");
+    //    g = new Room("g");
+    //    h = new Room("h");
+    //    i = new Room("i");
+    //    newRoom = new Room("New Room");
 
     // Setting exits for each room
     //             (N, E, S, W)
-    a->setExits(f, b, d, c);
-    b->setExits(newRoom, NULL, NULL, a);
-    c->setExits(NULL, a, NULL, NULL);
-    d->setExits(a, e, NULL, i);
-    e->setExits(NULL, NULL, NULL, d);
-    f->setExits(NULL, g, a, h);
-    g->setExits(NULL, NULL, NULL, f);
-    h->setExits(NULL, f, NULL, NULL);
-    i->setExits(NULL, d, NULL, NULL);
+    city_centre->setExits(NULL, NULL, sewer_a, NULL);
+    sewer_a->setExits(city_centre, NULL, NULL, NULL);
+    //    a->setExits(f, b, d, c);
+    //    b->setExits(newRoom, NULL, NULL, a);
+    //    c->setExits(NULL, a, NULL, NULL);
+    //    d->setExits(a, e, NULL, i);
+    //    e->setExits(NULL, NULL, NULL, d);
+    //    f->setExits(NULL, g, a, h);
+    //    g->setExits(NULL, NULL, NULL, f);
+    //    h->setExits(NULL, f, NULL, NULL);
+    //    i->setExits(NULL, d, NULL, NULL);
+    //    newRoom->setExits(NULL, NULL, b, NULL);
 
-    newRoom->setExits(NULL, NULL, b, NULL);
-
-    allRooms.push_back(a);
-    allRooms.push_back(b);
-    allRooms.push_back(c);
-    allRooms.push_back(d);
-    allRooms.push_back(e);
-    allRooms.push_back(f);
-    allRooms.push_back(g);
-    allRooms.push_back(h);
-    allRooms.push_back(i);
-    allRooms.push_back(newRoom);
+    allRooms.push_back(city_centre);
+    allRooms.push_back(sewer_a);
+    //    allRooms.push_back(a);
+    //    allRooms.push_back(b);
+    //    allRooms.push_back(c);
+    //    allRooms.push_back(d);
+    //    allRooms.push_back(e);
+    //    allRooms.push_back(f);
+    //    allRooms.push_back(g);
+    //    allRooms.push_back(h);
+    //    allRooms.push_back(i);
+    //    allRooms.push_back(newRoom);
 
     // Start off at this room.
-    currentRoom = a;
+    currentRoom = city_centre;
 
     return allRooms;
 }
@@ -139,7 +146,7 @@ void ZorkUL::printWelcome() {
  * If this command ends the ZorkUL game, true is returned, otherwise false is
  * returned.
  */
-string ZorkUL::processCommand(Command command) {
+string ZorkUL::processCommand(Command command, MainWindow *window) {
     cout << command.getCommandWord() << endl;
 
     if (command.isUnknown()) {
@@ -165,6 +172,7 @@ string ZorkUL::processCommand(Command command) {
 
     else if (commandWord.compare("go") == 0)
         if(goRoom(command)){
+            ZorkUL::updateRoom(currentRoom, window);
             return currentRoom->longDescription();
         }
         else{

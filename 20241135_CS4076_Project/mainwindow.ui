@@ -97,7 +97,7 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="maximumSize">
            <size>
-            <width>600</width>
+            <width>16777215</width>
             <height>16777215</height>
            </size>
           </property>
@@ -136,7 +136,7 @@ color: rgb(255, 255, 255);</string>
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="upButton">
               <property name="text">
                <string>Up</string>
               </property>
@@ -160,7 +160,7 @@ color: rgb(255, 255, 255);</string>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
-             <widget class="QPushButton" name="pushButton_3">
+             <widget class="QPushButton" name="leftButton">
               <property name="text">
                <string>Left</string>
               </property>
@@ -180,7 +180,7 @@ color: rgb(255, 255, 255);</string>
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_2">
+             <widget class="QPushButton" name="rightButton">
               <property name="text">
                <string>Right</string>
               </property>
@@ -204,7 +204,7 @@ color: rgb(255, 255, 255);</string>
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_4">
+             <widget class="QPushButton" name="downButton">
               <property name="text">
                <string>Down</string>
               </property>

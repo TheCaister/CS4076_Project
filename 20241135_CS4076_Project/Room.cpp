@@ -1,20 +1,29 @@
 #include "Room.h"
 #include "Command.h"
 
-
-
 // Setting default background
 Room::Room(string description)
-    : backgroundPath(":/img/img/night_city.jpg"){
+    : backgroundPath(":/img/img/night_city.jpg"), roomType(Room::NORMAL){
     this->description = description;
 }
 
-Room::Room(string description, string backgroundPath){
+Room::Room(string description, string backgroundPath)
+    : roomType(Room::NORMAL){
     this->description = description;
 
     // Setting default background path;
     this->backgroundPath = backgroundPath;
 }
+
+Room::Room(string description, string backgroundPath, typeOfRoom typeOfRoom){
+    this->description = description;
+
+    // Setting default background path;
+    this->backgroundPath = backgroundPath;
+
+    this->roomType = typeOfRoom;
+}
+
 
 void Room::setExits(Room *north, Room *east, Room *south, Room *west) {
 	if (north != NULL)

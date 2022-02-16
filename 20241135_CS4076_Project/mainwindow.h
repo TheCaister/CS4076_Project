@@ -28,6 +28,14 @@ public:
 private slots:
     void on_input_textChanged();
 
+    void on_upButton_released();
+
+    void on_rightButton_released();
+
+    void on_downButton_released();
+
+    void on_leftButton_released();
+
 private:
     Ui::MainWindow *ui;
 };
