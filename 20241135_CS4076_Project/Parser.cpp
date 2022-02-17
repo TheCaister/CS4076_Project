@@ -50,8 +50,8 @@ Command* Parser::getCommand() {
 }
 
 Command* Parser::convertToCommand(string input){
-    string word1;
-    string word2;
+    string word1 = "";
+    string word2 = "";
     vector<string> words;
 
     // Size type is basically an int that's big enough
@@ -83,10 +83,11 @@ Command* Parser::convertToCommand(string input){
     // Now check whether this word is known. If so, create a command with it.
     // If not, create a "nil" command (empty string for unknown command).
 
-    if (commands->isCommand(word1))
-        return new Command(word1, word2);
-    else
-        return new Command("", word2);
+//    if (commands->isCommand(word1))
+//        return new Command(word1, word2);
+//    else
+//        return new Command("", word2);
+    return new Command(word1, word2);
 }
 
 /**

@@ -39,6 +39,10 @@ public:
     int isItemInRoom(string inString);
     void removeItemFromRoom(int location);
     string getBackgroundPath();
+
+    typeOfRoom getTypeOfRoom(){
+        return roomType;
+    }
 };
 
 #endif

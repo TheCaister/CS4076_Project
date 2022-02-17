@@ -24,7 +24,6 @@ Room::Room(string description, string backgroundPath, typeOfRoom typeOfRoom){
     this->roomType = typeOfRoom;
 }
 
-
 void Room::setExits(Room *north, Room *east, Room *south, Room *west) {
 	if (north != NULL)
 		exits["north"] = north;

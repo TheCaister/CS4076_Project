@@ -117,8 +117,8 @@ void MainWindow::on_input_textChanged()
 // I want to get the command from the input,
 void MainWindow::parseInput(string input){
     Command *command = ZorkUL::parser->convertToCommand(input);
-    string output = ZorkUL::processCommand(*command, this);
     addStringToConsole("> " + input + "\n");
+    string output = ZorkUL::processCommand(*command, this);
 
     // Processes errors
     if(output.compare("") == 0){

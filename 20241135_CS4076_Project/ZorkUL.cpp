@@ -147,7 +147,14 @@ void ZorkUL::printWelcome() {
  * returned.
  */
 string ZorkUL::processCommand(Command command, MainWindow *window) {
+
+    if(WordleEngine::wordleStatus == WordleEngine::WORDLE_PROGRESS){
+        return WordleEngine::evaluateInput(command.getCommandWord());
+    }
+
     cout << command.getCommandWord() << endl;
+
+
 
     if (command.isUnknown()) {
         //cout << "invalid input"<< endl;
@@ -302,9 +309,16 @@ string ZorkUL::go(string direction) {
     }
 }
 
+// Update the background
 void ZorkUL::updateRoom(Room *room, MainWindow *window){
     currentRoom = room;
     window->updateBackground(room->getBackgroundPath());
+
+    if(room->getTypeOfRoom() == Room::WORDLE){
+        window->addStringToConsole(Dialogues::welcomeWordle);
+        WordleEngine::initialiseWordleEngine();
+        WordleEngine::startWordleGame();
+    }
 }
 
 Room *ZorkUL::getCurrentRoom(){

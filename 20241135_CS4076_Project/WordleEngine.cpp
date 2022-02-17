@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QDebug>
 #include <mainwindow.h>
+#include <unordered_map>
 
 using std::ifstream;
 using std::getline;
@@ -13,7 +14,8 @@ using std::endl;
 
 vector<string> WordleEngine::allWords;
 int WordleEngine::triesLeft;
-int WordleEngine::gameStatus;
+WordleEngine::gameStatus WordleEngine::wordleStatus = WordleEngine::WORDLE_STOP;
+string WordleEngine::targetWord;
 
 void WordleEngine::initWords(string filename){
     if(filename.empty()){
@@ -36,11 +38,56 @@ void WordleEngine::initWords(string filename){
 void WordleEngine::initialiseWordleEngine(){
     initWords("");
     WordleEngine::triesLeft = 5;
-    WordleEngine::gameStatus = 0;
+    WordleEngine::wordleStatus = WordleEngine::WORDLE_PROGRESS;
 }
 
-bool WordleEngine::evaluateInput(string input){
-    return false;
+string WordleEngine::evaluateInput(string input){
+    string output = "";
+    std::unordered_map<char, int> letter_counts;
+    string correctWord = WordleEngine::targetWord;
+
+    if(input.size() != correctWord.size()){
+        return "";
+    }
+
+    // Initialising the letter_counts map
+    for(int i = 0; i < (int) correctWord.size(); i++){
+        char currentChar = correctWord.at(i);
+        // If the letter does not exist yet, add it and pair it with the int 1
+        // Otherwise, just add 1 to that entry.
+        if(letter_counts.count(currentChar)){
+            letter_counts[currentChar] += 1;
+        }
+        else{
+            letter_counts.insert({currentChar, 1});
+        }
+    }
+
+    for(int i = 0; i < (int) input.size(); i++){
+        char currentInputLetter = input.at(i);
+
+        // If the character is at the correct index
+        if(input.at(i) == correctWord.at(i)){
+            letter_counts[currentInputLetter] -= 1;
+            output.push_back('[');
+            output.push_back(currentInputLetter);
+            output.push_back(']');
+
+        }
+        // If the character exists but is in the wrong index
+        // In this case, we also check the letter_counts map to see if there are any of that particular letter remaining.
+        else if(letter_counts[currentInputLetter] > 0){
+            letter_counts[currentInputLetter] -= 1;
+            output.push_back('{');
+            output.push_back(currentInputLetter);
+            output.push_back('}');
+        }
+        else{
+            output.push_back(currentInputLetter);
+        }
+    }
+    output += '\n';
+    return output;
 }
 
 vector<string> WordleEngine::getAllWords(){
@@ -48,6 +95,5 @@ vector<string> WordleEngine::getAllWords(){
 }
 
 void WordleEngine::startWordleGame(){
-    string targetWord = allWords.at(rand() % allWords.size());
-
+    WordleEngine::targetWord = allWords.at(rand() % allWords.size());
 }

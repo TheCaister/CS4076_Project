@@ -15,6 +15,8 @@ public:
     static string welcome;
     static string inputError;
     static string noMoreRooms;
+    static string welcomeWordle;
+    static string wordleIncorrectInput;
 };
 
 #endif // DIALOGUES_H
