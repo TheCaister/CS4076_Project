@@ -12,11 +12,14 @@ private:
 
 public:
     static string printCurrentRoom(string description);
-    static string welcome;
-    static string inputError;
-    static string noMoreRooms;
-    static string welcomeWordle;
-    static string wordleIncorrectInput;
+    static string printAttemptsLeft(int attemptsLeft);
+    const static string welcome;
+    const static string inputError;
+    const static string noMoreRooms;
+    const static string welcomeWordle;
+    const static string wordleIncorrectInput;
+    const static string wordleSuccess;
+    const static string wordleOutOfAttempts;
 };
 
 #endif // DIALOGUES_H

@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <mainwindow.h>
 #include <unordered_map>
+#include <cctype>
+#include "dialogues.h"
 
 using std::ifstream;
 using std::getline;
@@ -16,6 +18,10 @@ vector<string> WordleEngine::allWords;
 int WordleEngine::triesLeft;
 WordleEngine::gameStatus WordleEngine::wordleStatus = WordleEngine::WORDLE_STOP;
 string WordleEngine::targetWord;
+
+bool WordleEngine::isEqualIgnoreCase(char first, char second){
+    return tolower(first) == tolower(second);
+}
 
 void WordleEngine::initWords(string filename){
     if(filename.empty()){
@@ -37,7 +43,6 @@ void WordleEngine::initWords(string filename){
 
 void WordleEngine::initialiseWordleEngine(){
     initWords("");
-    WordleEngine::triesLeft = 5;
     WordleEngine::wordleStatus = WordleEngine::WORDLE_PROGRESS;
 }
 
@@ -45,14 +50,15 @@ string WordleEngine::evaluateInput(string input){
     string output = "";
     std::unordered_map<char, int> letter_counts;
     string correctWord = WordleEngine::targetWord;
+    int correctLettersAmount = 0;
 
     if(input.size() != correctWord.size()){
         return "";
     }
 
-    // Initialising the letter_counts map
+    // Initialising the letter_counts map, pairing each letter with 1
     for(int i = 0; i < (int) correctWord.size(); i++){
-        char currentChar = correctWord.at(i);
+        char currentChar = tolower(correctWord.at(i));
         // If the letter does not exist yet, add it and pair it with the int 1
         // Otherwise, just add 1 to that entry.
         if(letter_counts.count(currentChar)){
@@ -67,11 +73,12 @@ string WordleEngine::evaluateInput(string input){
         char currentInputLetter = input.at(i);
 
         // If the character is at the correct index
-        if(input.at(i) == correctWord.at(i)){
+        if(WordleEngine::isEqualIgnoreCase(input.at(i), correctWord.at(i))){
             letter_counts[currentInputLetter] -= 1;
             output.push_back('[');
             output.push_back(currentInputLetter);
             output.push_back(']');
+            correctLettersAmount++;
 
         }
         // If the character exists but is in the wrong index
@@ -86,7 +93,25 @@ string WordleEngine::evaluateInput(string input){
             output.push_back(currentInputLetter);
         }
     }
-    output += '\n';
+
+    output = output + " DEV: " + correctWord + '\n';
+
+    if(correctLettersAmount == (int) correctWord.size()){
+        output += Dialogues::wordleSuccess;
+        WordleEngine::wordleStatus = WordleEngine::WORDLE_STOP;
+    }
+    else{
+        WordleEngine::triesLeft--;
+
+        if(WordleEngine::triesLeft == 0){
+            output += Dialogues::wordleOutOfAttempts;
+            WordleEngine::wordleStatus = WordleEngine::WORDLE_STOP;
+        }
+        else{
+            output += Dialogues::printAttemptsLeft(WordleEngine::triesLeft);
+        }
+    }
+
     return output;
 }
 
@@ -95,5 +120,6 @@ vector<string> WordleEngine::getAllWords(){
 }
 
 void WordleEngine::startWordleGame(){
+    WordleEngine::triesLeft = 5;
     WordleEngine::targetWord = allWords.at(rand() % allWords.size());
 }

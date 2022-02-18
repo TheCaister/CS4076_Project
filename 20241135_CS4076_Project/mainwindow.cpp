@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->current_image->setMovie(movie);
     movie->start();
+    delete movie;
 }
 
 MainWindow::~MainWindow()

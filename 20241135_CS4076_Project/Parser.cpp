@@ -4,6 +4,10 @@ Parser::Parser() {
 	commands = new CommandWords();
 }
 
+Parser::~Parser(){
+    delete commands;
+}
+
 Command* Parser::getCommand() {
 	string word1;
 	string word2;

@@ -30,6 +30,7 @@ public:
     static string checkGameStatus();
     static void initialiseWordleEngine();
     static gameStatus wordleStatus;
+    static bool isEqualIgnoreCase(char first, char second);
 };
 
 #endif // WORDLEENGINE_H
