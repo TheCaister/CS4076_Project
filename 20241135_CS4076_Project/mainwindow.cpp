@@ -12,9 +12,15 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+
+
+
     ui->setupUi(this);
     //ui->input->setFocusPolicy(Qt::StrongFocus);
     ui->outputConsole->setWordWrap(true);
+
+    //Setting stylesheets for buttons
+    ui->rightButton->setStyleSheet("color:(255, 255, 255) :hover{color: rgb(229, 84, 222);} :active{color: rgb(200, 200, 200)}");
 
     QMovie *movie = new QMovie(":/img/img/night_city.gif");
 
@@ -156,5 +162,11 @@ void MainWindow::on_downButton_released()
 void MainWindow::on_leftButton_released()
 {
     parseInput("go west");
+}
+
+
+void MainWindow::on_infoButton_released()
+{
+    parseInput("info");
 }
 

@@ -36,6 +36,8 @@ private slots:
 
     void on_leftButton_released();
 
+    void on_infoButton_released();
+
 private:
     Ui::MainWindow *ui;
 };
