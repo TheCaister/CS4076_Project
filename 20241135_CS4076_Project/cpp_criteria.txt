@@ -1,0 +1,45 @@
+Virtual functions
+
+template classes
+
+Multiple inheritance
+
+namespaces
+
+Programmer defined exceptions
+
+Unions
+
+Operator overloading
+
+Abstract classes
+
+Copy constructors (deep , shallow copy)
+
+Bit structures
+
+Advanced pre-processor directives
+
+C++ Object Construction Sequence
+
+YES Initializer List-------------------------------------
+
+C++ References
+
+YES Pointers-------------------------------------
+
+Inheritance
+
+YES Destructors-------------------------------------
+
+Memory management
+
+YES Header files (inclusion guards)-------------------------------------
+
+Arrays and pointers
+
+Friendship
+
+YES Global variables-------------------------------------
+
+Private, Public, Protected

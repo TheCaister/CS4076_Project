@@ -43,6 +43,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
+    cpp_criteria.txt \
     wordle_words.txt
 
 RESOURCES += \
