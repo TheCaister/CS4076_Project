@@ -11,6 +11,8 @@ public:
     static const string NIGHT_CITY_GIF;
     static const string CAVE_PIC;
     static const string SEWER_GIF;
+    static const string TRAIN_GIF;
+    static const string STATION_PIC;
 
 };
 

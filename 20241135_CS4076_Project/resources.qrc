@@ -7,5 +7,7 @@
         <file>img/night_city.jpg</file>
         <file>img/night_city.gif</file>
         <file>img/sewer.gif</file>
+        <file>img/train.gif</file>
+        <file>img/train_station.png</file>
     </qresource>
 </RCC>
