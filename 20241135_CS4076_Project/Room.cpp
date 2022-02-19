@@ -24,6 +24,13 @@ Room::Room(string description, string backgroundPath, typeOfRoom typeOfRoom){
     this->roomType = typeOfRoom;
 }
 
+GoalRoom::GoalRoom(string description) : Room(description), goalCompleted(false){}
+
+GoalRoom::GoalRoom(string description, string backgroundPath) : Room(description, backgroundPath), goalCompleted(false){}
+
+GoalRoom::GoalRoom(string description, string backgroundPath, typeOfRoom typeOfRoom) : Room(description, backgroundPath, typeOfRoom), goalCompleted(false){}
+
+
 void Room::setExits(Room *north, Room *east, Room *south, Room *west) {
 	if (north != NULL)
 		exits["north"] = north;
@@ -109,3 +116,5 @@ int Room::isItemInRoom(string inString)
 string Room::getBackgroundPath(){
     return this->backgroundPath;
 }
+
+

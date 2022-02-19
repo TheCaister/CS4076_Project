@@ -45,4 +45,17 @@ public:
     }
 };
 
+// Subclass GoalRoom with a specific goal to complete
+class GoalRoom : public Room{
+private:
+    bool goalCompleted;
+
+public:
+    GoalRoom(string description);
+    GoalRoom(string description, string backgroundPath);
+    GoalRoom(string description, string backgroundPath, typeOfRoom typeOfRoom);
+    void completeGoal();
+    void getGoalStatus();
+};
+
 #endif
