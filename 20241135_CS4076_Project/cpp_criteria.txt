@@ -1,10 +1,20 @@
+YES namespaces-------------------------------------
+
+YES Initializer List-------------------------------------
+
+YES Pointers-------------------------------------
+
+YES Destructors-------------------------------------
+
+YES Header files (inclusion guards)-------------------------------------
+
+YES Global variables-------------------------------------
+
 Virtual functions
 
 template classes
 
 Multiple inheritance
-
-YES namespaces-------------------------------------
 
 Programmer defined exceptions
 
@@ -22,24 +32,14 @@ Advanced pre-processor directives
 
 C++ Object Construction Sequence
 
-YES Initializer List-------------------------------------
-
 C++ References
-
-YES Pointers-------------------------------------
 
 Inheritance
 
-YES Destructors-------------------------------------
-
 Memory management
-
-YES Header files (inclusion guards)-------------------------------------
 
 Arrays and pointers
 
 Friendship
-
-YES Global variables-------------------------------------
 
 Private, Public, Protected
