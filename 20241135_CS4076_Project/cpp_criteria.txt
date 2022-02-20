@@ -4,7 +4,7 @@ template classes
 
 Multiple inheritance
 
-namespaces
+YES namespaces-------------------------------------
 
 Programmer defined exceptions
 
