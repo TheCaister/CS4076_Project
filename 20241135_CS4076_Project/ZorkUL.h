@@ -25,13 +25,15 @@ private:
 public:
     static Parser *parser;
 
-	ZorkUL();
-	void play();
-	string go(string direction);
+    ZorkUL();
+
+    void play();
+    string go(string direction);
     static void updateRoom(Room *room, MainWindow *window);
     static string processCommand(Command command, MainWindow *window);
     static Room *getCurrentRoom();
     static vector<Room*> createRooms();
+
 };
 
 #endif ZORKUL_H_

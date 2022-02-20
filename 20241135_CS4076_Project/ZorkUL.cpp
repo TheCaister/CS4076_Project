@@ -55,6 +55,7 @@ ZorkUL::ZorkUL() {
 
 
 vector<Room*> ZorkUL::createRooms()  {
+    using namespace Constants;
     //Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
     Room *city_centre, *sewer_a, *train, *station;
     vector<Room*> allRooms;
