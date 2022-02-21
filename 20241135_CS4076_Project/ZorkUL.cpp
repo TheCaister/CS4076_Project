@@ -8,6 +8,7 @@
 #include <QDebug>
 #include "dialogues.h"
 #include "constants.h"
+#include "Errors.h"
 
 using namespace std;
 #include "ZorkUL.h"
@@ -63,7 +64,7 @@ vector<Room*> ZorkUL::createRooms()  {
     // Adding all rooms
     city_centre = new Room("City Centre", Constants::NIGHT_CITY_GIF);
     sewer_a = new Room("Sewer", Constants::SEWER_GIF, Room::WORDLE);
-    train = new Room("Train", Constants::TRAIN_GIF, Room::WORDLE);
+    train = new GoalRoom("Train", Constants::TRAIN_GIF, Room::WORDLE);
     station = new Room("Station", Constants::STATION_PIC);
     //    a = new Room("a");
     //    a->addItem(new Item("x", 1, 11));
@@ -160,14 +161,31 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
         //        cout << "[i] --- [d] --- [e]" << endl;
     }
 
-    else if (commandWord.compare("go") == 0)
-        if(goRoom(command)){
-            ZorkUL::updateRoom(currentRoom, window);
-            return currentRoom->longDescription();
+    else if (commandWord.compare("go") == 0){
+//        if(goRoom(command)){
+//            ZorkUL::updateRoom(currentRoom, window);
+//            return currentRoom->longDescription();
+//        }
+//        else{
+//            return Dialogues::noMoreRooms;
+//        }
+
+        try{
+            // If the goRoom command is successful, return the room's long description.
+            // Otherwise, throw an error message.
+            if(goRoom(command)){
+                ZorkUL::updateRoom(currentRoom, window);
+                return currentRoom->longDescription();
+
+            }
+            else{
+                throw NoRoomError();
+            }
         }
-        else{
-            return Dialogues::noMoreRooms;
+        catch(NoRoomError& errorMessage){
+            return errorMessage.what();
         }
+    }
 
 
     // Attempting to write teleport code
@@ -276,21 +294,39 @@ bool ZorkUL::goRoom(Command command) {
         cout << currentRoom->longDescription() << endl;
         return true;
     }
+
+
 }
 
-string ZorkUL::go(string direction) {
-    //Make the direction lowercase
-    //transform(direction.begin(), direction.end(), direction.begin(),:: tolower);
-    //Move to the next room
-    Room* nextRoom = currentRoom->nextRoom(direction);
-    if (nextRoom == NULL)
-        return("direction null");
-    else
-    {
-        currentRoom = nextRoom;
-        return currentRoom->longDescription();
-    }
-}
+//string ZorkUL::go(string direction) {
+//    //Make the direction lowercase
+//    //transform(direction.begin(), direction.end(), direction.begin(),:: tolower);
+//    //Move to the next room
+//    Room* nextRoom = currentRoom->nextRoom(direction);
+
+//    try{
+//        if(nextRoom == NULL){
+//            throw new NoRoomError();
+//        }
+//        else{
+//            currentRoom = nextRoom;
+//            return currentRoom->longDescription();
+//        }
+//    }
+//    catch(string errorMessage){
+//        return errorMessage;
+//    }
+
+////    Room* nextRoom = currentRoom->nextRoom(direction);
+
+////    if (nextRoom == NULL)
+////        return("direction null");
+////    else
+////    {
+////        currentRoom = nextRoom;
+////        return currentRoom->longDescription();
+////    }
+//}
 
 // Update the background
 void ZorkUL::updateRoom(Room *room, MainWindow *window){

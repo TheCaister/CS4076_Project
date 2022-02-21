@@ -10,13 +10,13 @@ YES Header files (inclusion guards)-------------------------------------
 
 YES Global variables-------------------------------------
 
-Virtual functions
+YES Virtual functions-------------------------------------
+
+YES Multiple inheritance-------------------------------------
+
+YES Programmer defined exceptions-------------------------------------
 
 template classes
-
-Multiple inheritance
-
-Programmer defined exceptions
 
 Unions
 

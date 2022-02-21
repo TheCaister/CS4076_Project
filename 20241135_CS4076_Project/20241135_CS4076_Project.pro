@@ -25,6 +25,7 @@ HEADERS += \
     Character.h \
     Command.h \
     CommandWords.h \
+    Errors.h \
     Parser.h \
     Room.h \
     WordleEngine.h \

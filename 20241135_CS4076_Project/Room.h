@@ -23,8 +23,6 @@ private:
 
 
 public:
-
-
     Room(string description);
     Room(string description, string backgroundPath);
     Room(string description, string backgroundPath, typeOfRoom typeOfRoom);
@@ -32,7 +30,8 @@ public:
     int numberOfItems();
     void setExits(Room *north, Room *east, Room *south, Room *west);
     string shortDescription();
-    string longDescription();
+    // Display different long descriptions for different types of rooms.
+    virtual string longDescription();
     Room* nextRoom(string direction);
     void addItem(Item *inItem);
     string displayItem();
@@ -54,6 +53,7 @@ public:
     GoalRoom(string description);
     GoalRoom(string description, string backgroundPath);
     GoalRoom(string description, string backgroundPath, typeOfRoom typeOfRoom);
+    string longDescription() override;
     void completeGoal();
     void getGoalStatus();
 };
