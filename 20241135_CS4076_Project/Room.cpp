@@ -66,6 +66,15 @@ Room* Room::nextRoom(string direction) {
     // part of the "pair" (<string, Room*>) and return it.
 }
 
+bool Room::hasItems(){
+    if(itemsInRoom.size() == 0){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
 void Room::addItem(Item *inItem) {
     //cout <<endl;
     //cout << "Just added" + inItem->getLongDescription();

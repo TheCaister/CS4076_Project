@@ -8,7 +8,12 @@
 using namespace std;
 using std::vector;
 
-class Room {
+class RoomProperties{
+public:
+    virtual bool hasItems() = 0;
+};
+
+class Room : public RoomProperties{
     friend class ZorkUL;
 
 public:
@@ -44,6 +49,8 @@ public:
     typeOfRoom getTypeOfRoom(){
         return roomType;
     }
+
+    bool hasItems() override;
 };
 
 // Subclass GoalRoom with a specific goal to complete

@@ -24,13 +24,13 @@ YES Friendship-------------------------------------
 
 YES Private, Public, Protected-------------------------------------
 
+YES Abstract classes-------------------------------------
+
 template classes
 
 Unions
 
 Operator overloading
-
-Abstract classes
 
 Copy constructors (deep , shallow copy)
 
