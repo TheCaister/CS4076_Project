@@ -1,4 +1,4 @@
-    YES namespaces-------------------------------------
+YES namespaces-------------------------------------
 
 YES Initializer List-------------------------------------
 
@@ -20,6 +20,10 @@ YES Inheritance-------------------------------------
 
 YES C++ References-------------------------------------
 
+YES Friendship-------------------------------------
+
+YES Private, Public, Protected-------------------------------------
+
 template classes
 
 Unions
@@ -36,12 +40,6 @@ Advanced pre-processor directives
 
 C++ Object Construction Sequence
 
-
-
 Memory management
 
 Arrays and pointers
-
-Friendship
-
-Private, Public, Protected

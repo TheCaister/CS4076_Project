@@ -9,17 +9,19 @@ using namespace std;
 using std::vector;
 
 class Room {
+    friend class ZorkUL;
 
 public:
     enum typeOfRoom : int {WORDLE, NORMAL};
 
-private:
+protected:
     string description;
     map<string, Room*> exits;
     string exitString();
     vector <Item> itemsInRoom;
     string backgroundPath;
     typeOfRoom roomType;
+    Room* nextRoom(string direction);
 
 
 public:
@@ -32,7 +34,7 @@ public:
     string shortDescription();
     // Display different long descriptions for different types of rooms.
     virtual string longDescription();
-    Room* nextRoom(string direction);
+
     void addItem(Item *inItem);
     string displayItem();
     int isItemInRoom(string inString);
