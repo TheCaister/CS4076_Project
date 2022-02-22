@@ -46,7 +46,7 @@ void WordleEngine::initialiseWordleEngine(){
     WordleEngine::wordleStatus = WordleEngine::WORDLE_PROGRESS;
 }
 
-string WordleEngine::evaluateInput(string input){
+string WordleEngine::evaluateInput(const string &input){
     string output = "";
     std::unordered_map<char, int> letter_counts;
     string correctWord = WordleEngine::targetWord;

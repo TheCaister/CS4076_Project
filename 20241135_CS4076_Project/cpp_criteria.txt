@@ -1,4 +1,4 @@
-YES namespaces-------------------------------------
+    YES namespaces-------------------------------------
 
 YES Initializer List-------------------------------------
 
@@ -16,6 +16,10 @@ YES Multiple inheritance-------------------------------------
 
 YES Programmer defined exceptions-------------------------------------
 
+YES Inheritance-------------------------------------
+
+YES C++ References-------------------------------------
+
 template classes
 
 Unions
@@ -32,9 +36,7 @@ Advanced pre-processor directives
 
 C++ Object Construction Sequence
 
-C++ References
 
-Inheritance
 
 Memory management
 

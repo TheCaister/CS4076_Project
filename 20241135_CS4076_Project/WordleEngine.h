@@ -23,7 +23,7 @@ private:
 
 
 public:
-    static string evaluateInput(string input);
+    static string evaluateInput(const string& input);
     static string targetWord;
     static vector<string> getAllWords();
     static void startWordleGame();
