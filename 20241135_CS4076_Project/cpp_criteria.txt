@@ -26,20 +26,20 @@ YES Private, Public, Protected-------------------------------------
 
 YES Abstract classes-------------------------------------
 
-template classes
+YES Arrays and pointers-------------------------------------
+
+YES Memory management-------------------------------------
+
+YES Bit structures-------------------------------------
+
+YES Operator overloading-------------------------------------
+
+YES template classes-------------------------------------
 
 Unions
 
-Operator overloading
-
 Copy constructors (deep , shallow copy)
-
-Bit structures
 
 Advanced pre-processor directives
 
 C++ Object Construction Sequence
-
-Memory management
-
-Arrays and pointers

@@ -14,6 +14,7 @@ SOURCES += \
     CommandWords.cpp \
     Parser.cpp \
     Room.cpp \
+    Stack.cpp \
     WordleEngine.cpp \
     ZorkUL.cpp \
     constants.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     Errors.h \
     Parser.h \
     Room.h \
+    Stack.h \
     WordleEngine.h \
     ZorkUL.h \
     constants.h \

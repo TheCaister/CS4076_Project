@@ -51,14 +51,29 @@ int main(int argc, char *argv[]) {
 }
 
 ZorkUL::ZorkUL() {
+    for(int i = 0; i < sizeof(ZorkUL::keysPresent)/sizeof(ZorkUL::keysPresent[0]); i++){
+        ZorkUL::keysPresent[i] = false;
+    }
+    Quantities.KeysPresent = 0;
+    Quantities.Potions = 0;
+
     createRooms();
 }
 
+static void addItem(Item *item){
+    ZorkUL::itemsInInventory.push_back(item);
+};
+
+void operator+(Item item){
+    ZorkUL::addItem(item);
+};
 
 vector<Room*> ZorkUL::createRooms()  {
     using namespace Constants;
     //Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
     Room *city_centre, *sewer_a, *train, *station;
+    Item *frog = new Item("Cool frog");
+    //city_centre + frog;
     vector<Room*> allRooms;
 
     // Adding all rooms

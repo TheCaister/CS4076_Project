@@ -8,6 +8,7 @@
 using namespace std;
 using std::vector;
 
+
 class RoomProperties{
 public:
     virtual bool hasItems() = 0;
@@ -66,5 +67,6 @@ public:
     void completeGoal();
     void getGoalStatus();
 };
+
 
 #endif
