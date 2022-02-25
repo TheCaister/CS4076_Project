@@ -11,6 +11,11 @@ Item::Item(string inDescription) {
 	description = inDescription;
 }
 
+Item::Item(const Item& other) : description(other.description), longDescription(other.longDescription), value(other.value), weaponCheck(other.weaponCheck){
+    int randomWeight = rand() % 10;
+    this->weightGrams = other.weightGrams + randomWeight;
+}
+
 void Item::setWeight(int inWeightGrams)
 {
     if (inWeightGrams > 9999 || inWeightGrams < 0)

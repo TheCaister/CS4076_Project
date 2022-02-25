@@ -17,6 +17,10 @@ private:
 public:
     Item (string description, int inWeight, float inValue);
     Item (string description);
+
+    // Copy constructor
+    Item(const Item& other);
+
     string getShortDescription();
     string getLongDescription();
     int getWeight();
