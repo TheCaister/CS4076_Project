@@ -12,10 +12,11 @@
 
 using namespace std;
 
+
 struct Quantities{
-    unsigned int KeysPresent : 4;
-    unsigned int Potions : 4;
-} Quantities;
+        unsigned int KeysPresent : 4;
+        unsigned int Potions : 4;
+};
 
 class ZorkUL {
 private:
@@ -26,11 +27,14 @@ private:
     static bool goRoom(Command command);
     void createItems();
     void displayItems();
-    static bool keysPresent[5];
+
 
 
 public:
+    static Quantities *allQuantities;
     static Parser *parser;
+
+    static bool keysPresent[5];
 
     ZorkUL();
 

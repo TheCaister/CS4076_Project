@@ -30,15 +30,15 @@ YES Arrays and pointers-------------------------------------
 
 YES Memory management-------------------------------------
 
-YES Bit structures-------------------------------------
-
 YES Operator overloading-------------------------------------
 
 YES template classes-------------------------------------
 
-Unions
+YES Unions-------------------------------------
 
-Copy constructors (deep , shallow copy)
+YES Copy constructors (deep , shallow copy)-------------------------------------
+
+YES Bit structures-------------------------------------
 
 Advanced pre-processor directives
 

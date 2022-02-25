@@ -8,13 +8,17 @@
 #include <QDebug>
 #include "dialogues.h"
 #include "constants.h"
-#include "Errors.h"
+#include "errors.h"
 
 using namespace std;
 #include "ZorkUL.h"
 
 Parser *ZorkUL::parser;
 Room *ZorkUL::currentRoom;
+Quantities *ZorkUL::allQuantities;
+vector<Item*> ZorkUL::itemsInInventory;
+bool ZorkUL::keysPresent[5];
+
 
 //Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
 
@@ -52,10 +56,10 @@ int main(int argc, char *argv[]) {
 
 ZorkUL::ZorkUL() {
     for(int i = 0; i < sizeof(ZorkUL::keysPresent)/sizeof(ZorkUL::keysPresent[0]); i++){
-        ZorkUL::keysPresent[i] = false;
+        this->keysPresent[i] = false;
     }
-    Quantities.KeysPresent = 0;
-    Quantities.Potions = 0;
+    ZorkUL::allQuantities->KeysPresent = 0;
+    ZorkUL::allQuantities->Potions = 0;
 
     createRooms();
 }
@@ -64,16 +68,12 @@ static void addItem(Item *item){
     ZorkUL::itemsInInventory.push_back(item);
 };
 
-void operator+(Item item){
-    ZorkUL::addItem(item);
-};
-
 vector<Room*> ZorkUL::createRooms()  {
     using namespace Constants;
     //Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
     Room *city_centre, *sewer_a, *train, *station;
     Item *frog = new Item("Cool frog");
-    //city_centre + frog;
+
     vector<Room*> allRooms;
 
     // Adding all rooms
@@ -87,6 +87,8 @@ vector<Room*> ZorkUL::createRooms()  {
     //    b = new Room("b");
     //    b->addItem(new Item("xx", 3, 33));
     //    b->addItem(new Item("yy", 4, 44));
+
+    *city_centre + frog;
 
     // Setting exits for each room
     //             (N, E, S, W)

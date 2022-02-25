@@ -12,6 +12,7 @@ using std::vector;
 class RoomProperties{
 public:
     virtual bool hasItems() = 0;
+
 };
 
 class Room : public RoomProperties{
@@ -19,6 +20,14 @@ class Room : public RoomProperties{
 
 public:
     enum typeOfRoom : int {WORDLE, NORMAL};
+    bool hasHiddenItem;
+
+    // A room can have either a hidden or a hidden clue to be revealed.
+    union {
+        Item* hiddenItem;
+        string hiddenClue;
+
+    };
 
 protected:
     string description;
@@ -34,6 +43,11 @@ public:
     Room(string description);
     Room(string description, string backgroundPath);
     Room(string description, string backgroundPath, typeOfRoom typeOfRoom);
+    Room(const Room& other);
+
+    ~Room();
+
+    void operator+(Item* item);
 
     int numberOfItems();
     void setExits(Room *north, Room *east, Room *south, Room *west);
@@ -46,6 +60,9 @@ public:
     int isItemInRoom(string inString);
     void removeItemFromRoom(int location);
     string getBackgroundPath();
+
+    void setHiddenItem(Item* item);
+    void setHiddenClue(string string);
 
     typeOfRoom getTypeOfRoom(){
         return roomType;

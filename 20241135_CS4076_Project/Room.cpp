@@ -24,11 +24,27 @@ Room::Room(string description, string backgroundPath, typeOfRoom typeOfRoom){
     this->roomType = typeOfRoom;
 }
 
+Room::Room(const Room& other){
+    if(hasHiddenItem){
+        this->hiddenItem = new Item(other.description);
+    }
+    else{
+        this->hiddenClue = other.hiddenClue;
+    }
+}
+
+Room::~Room(){}
+
+void Room::operator+(Item *item){
+    this->addItem(item);
+}
+
 GoalRoom::GoalRoom(string description) : Room(description), goalCompleted(false){}
 
 GoalRoom::GoalRoom(string description, string backgroundPath) : Room(description, backgroundPath), goalCompleted(false){}
 
 GoalRoom::GoalRoom(string description, string backgroundPath, typeOfRoom typeOfRoom) : Room(description, backgroundPath, typeOfRoom), goalCompleted(false){}
+
 
 
 void Room::setExits(Room *north, Room *east, Room *south, Room *west) {
