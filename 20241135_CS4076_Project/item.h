@@ -10,6 +10,7 @@ class Item {
 private:
     string description;
     string longDescription;
+
     int weightGrams;
     float value;
     bool weaponCheck;
@@ -27,8 +28,8 @@ public:
     void setWeight(int weightGrams);
     float getValue();
     void setValue(float value);
-    int getWeaponCheck();
-    void setWeaponCheck(int weaponCheck);
+    //int getWeaponCheck();
+    //void setWeaponCheck(int weaponCheck);
 };
 
 class ConsumableItem : public Item{
@@ -36,6 +37,8 @@ public:
     void consumeItem();
 };
 
+// Items that utilize some kind of luck. Each of these will have
+// a corresponding "success chance"
 class LuckItem : public Item{
 private:
     float successChance;

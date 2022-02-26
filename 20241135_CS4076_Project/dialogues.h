@@ -4,15 +4,11 @@
 #include <string>
 using std::string;
 
-string printCurrentRoom(string);
-
+// Struct containing dialogues and some printing functions.
 struct Dialogues{
-private:
-
-
-public:
     static string printCurrentRoom(string description);
     static string printAttemptsLeft(int attemptsLeft);
+
     const static string welcome;
     const static string inputError;
     const static string noMoreRooms;

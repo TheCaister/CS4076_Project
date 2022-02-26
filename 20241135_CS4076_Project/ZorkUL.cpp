@@ -179,13 +179,6 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
     }
 
     else if (commandWord.compare("go") == 0){
-//        if(goRoom(command)){
-//            ZorkUL::updateRoom(currentRoom, window);
-//            return currentRoom->longDescription();
-//        }
-//        else{
-//            return Dialogues::noMoreRooms;
-//        }
 
         try{
             // If the goRoom command is successful, return the room's long description.

@@ -2,34 +2,27 @@
 #include "ui_mainwindow.h"
 #include "ZorkUL.h"
 #include "dialogues.h"
+#include "constants.h"
 
 #include <QDebug>
 #include <QMovie>
 #include <QKeyEvent>
 #include <QScrollBar>
 
+using namespace Constants;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-
-
-
     ui->setupUi(this);
-    //ui->input->setFocusPolicy(Qt::StrongFocus);
     ui->outputConsole->setWordWrap(true);
 
     //Setting stylesheets for buttons
     ui->rightButton->setStyleSheet("color:(255, 255, 255) :hover{color: rgb(229, 84, 222);} :active{color: rgb(200, 200, 200)}");
 
-    QMovie *movie = new QMovie(":/img/img/night_city.gif");
-
     // Makking the image fill the available space.
     ui->current_image->setScaledContents( true );
-
-    ui->current_image->setMovie(movie);
-    movie->start();
-    delete movie;
 }
 
 MainWindow::~MainWindow()
@@ -57,14 +50,16 @@ void MainWindow::addQStringToConsole(QString input){
     ui->outputConsole->setText(ui->outputConsole->text() + QString::fromStdString("\n") + input);
 }
 
+// Clears the console and prints something
 void MainWindow::overwriteConsole(string input){
     ui->outputConsole->clear();
     addStringToConsole(input);
 }
 
+// Updates the background based on the path parameter
 void MainWindow::updateBackground(string path){
 
-    // find returns npos if a "." is not found
+    // find() returns npos if a "." is not found
     if(path.find(".") == string::npos){
         return;
     }
@@ -72,7 +67,7 @@ void MainWindow::updateBackground(string path){
     int dotIndex = path.find(".");
 
     // Check what type of file "path" is
-    // E.g. we have movie.gif and we want to separate the "movie" part
+    // E.g. we have movie.gif and we want to separate the ".gif" part
     // This can be done using substr, using the position of the "." as param1 and
     // the length between the full path and the string leading up to the "." as param2
     string fileType = path.substr(dotIndex, (path.length() - dotIndex));
@@ -99,9 +94,11 @@ void MainWindow::updateBackground(string path){
 // Handling what happens when the "enter" key is pressed on the text edit input.
 void MainWindow::on_input_textChanged()
 {
+    // Converting from QString to string and finding the index of "enter" or "\n"
     string input = ui->input->toPlainText().toStdString();
     size_t newlineIndex = input.find('\n');
 
+    // Preventing users from entering several enter lines
     if(newlineIndex == 0){
         ui->input->clear();
         return;
@@ -121,7 +118,7 @@ void MainWindow::on_input_textChanged()
     scrollToBottom();
 }
 
-// I want to get the command from the input,
+// Trying to convert input to a command and printing out the appropriate output.
 void MainWindow::parseInput(string input){
     Command *command = ZorkUL::parser->convertToCommand(input);
     addStringToConsole("> " + input + "\n");
@@ -135,11 +132,10 @@ void MainWindow::parseInput(string input){
 
     addStringToConsole(output);
 
+    delete command;
+
     scrollToBottom();
 }
-
-
-
 
 void MainWindow::on_upButton_released()
 {

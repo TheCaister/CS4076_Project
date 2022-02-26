@@ -17,7 +17,6 @@ SOURCES += \
     Stack.cpp \
     WordleEngine.cpp \
     ZorkUL.cpp \
-    constants.cpp \
     dialogues.cpp \
     item.cpp \
     mainwindow.cpp
@@ -47,6 +46,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     cpp_criteria.txt \
+    to-do.txt \
     wordle_words.txt
 
 RESOURCES += \

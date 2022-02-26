@@ -10,7 +10,7 @@ private:
 	string secondWord;
 
 public:
-	Command(string firstWord, string secondWord);
+    Command(const string& firstWord, const string& secondWord);
 	string getCommandWord();
 	string getSecondWord();
 	bool isUnknown();

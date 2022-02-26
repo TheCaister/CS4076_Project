@@ -22,7 +22,7 @@ CommandWords::CommandWords() {
  * Check whether a given String is a valid command word.
  * Return true if it is, false if it isn't.
  **/
-bool CommandWords::isCommand(string aString) {
+bool CommandWords::isCommand(const string& aString) {
 	for (unsigned int i = 0; i < validCommands.size(); i++)
 	{
 		if (validCommands[i].compare(aString) == 0)
@@ -58,6 +58,7 @@ string CommandWords::validCommandsToString(){
         allValidCommands += validCommands.at(i) + ", ";
     }
 
+    // Last command won't have any commas
     allValidCommands += validCommands.at(validCommands.size() - 1);
 
     return allValidCommands;

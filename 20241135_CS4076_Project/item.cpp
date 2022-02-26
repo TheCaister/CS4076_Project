@@ -1,35 +1,38 @@
 #include "item.h"
 
-Item::Item (string inDescription, int inWeightGrams, float inValue/**, int weaponCheck*/) {
-	description = inDescription;
-	setWeight(inWeightGrams);
-	value = inValue;
+Item::Item (string description, int weightGrams, float value/**, int weaponCheck*/) {
+    this->description = description;
+    this->setWeight(weightGrams);
+    this->value = value;
 	/**weaponCheck(isWeapon);*/
 }
 
-Item::Item(string inDescription) {
-	description = inDescription;
+Item::Item(string description) {
+    this->description = description;
 }
 
 Item::Item(const Item& other) : description(other.description), longDescription(other.longDescription), value(other.value), weaponCheck(other.weaponCheck){
+    // Make the copied item slightly heavier.
     int randomWeight = rand() % 10;
     this->weightGrams = other.weightGrams + randomWeight;
 }
 
-void Item::setWeight(int inWeightGrams)
+void Item::setWeight(int weightGrams)
 {
-    if (inWeightGrams > 9999 || inWeightGrams < 0)
-       cout << "weight invalid, must be 0<weight<9999" ;
+    if (weightGrams > 9999 || weightGrams < 0)
+       //cout << "Weight invalid, must be 0 < weight < 9999" ;
+        return;
     else
-	   weightGrams = inWeightGrams;
+       this->weightGrams = weightGrams;
 }
 
-void Item::setValue(float inValue)
+void Item::setValue(float value)
 {
-    if (inValue > 9999 || inValue < 0)
-       cout << "value invalid, must be 0<value<9999" ;
+    if (value > 9999 || value < 0)
+       //cout << "Value invalid, must be 0 < value < 9999" ;
+        return;
     else
-	   value = inValue;
+       this->value = value;
 }
 
 /**void Item::setWeaponCheck(int isWeapon)
@@ -42,11 +45,11 @@ void Item::setValue(float inValue)
 
 string Item::getShortDescription()
 {
-	return description;
+    return this->description;
 }
 
 string Item::getLongDescription()
 {
-	return " item(s), " + description + ".\n";
+    return " item(s), " + this->description + ".\n";
 }
 

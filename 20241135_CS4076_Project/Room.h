@@ -8,7 +8,7 @@
 using namespace std;
 using std::vector;
 
-
+// Class holding properties and features that rooms will have
 class RoomProperties{
 public:
     virtual bool hasItems() = 0;
@@ -19,10 +19,11 @@ class Room : public RoomProperties{
     friend class ZorkUL;
 
 public:
-    enum typeOfRoom : int {WORDLE, NORMAL};
+    enum typeOfRoom : int {WORDLE, NORMAL, GOAL};
     bool hasHiddenItem;
 
     // A room can have either a hidden or a hidden clue to be revealed.
+    // Placed these in an union to save memory space
     union {
         Item* hiddenItem;
         string hiddenClue;
@@ -80,9 +81,15 @@ public:
     GoalRoom(string description);
     GoalRoom(string description, string backgroundPath);
     GoalRoom(string description, string backgroundPath, typeOfRoom typeOfRoom);
+
+    // Unique description for long descriptions
     string longDescription() override;
     void completeGoal();
     void getGoalStatus();
+};
+
+class WordleROom : public Room{
+
 };
 
 
