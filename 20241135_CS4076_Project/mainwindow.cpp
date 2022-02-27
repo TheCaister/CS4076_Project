@@ -166,3 +166,9 @@ void MainWindow::on_infoButton_released()
     parseInput("info");
 }
 
+
+void MainWindow::on_quitButton_released()
+{
+    parseInput("quit");
+}
+

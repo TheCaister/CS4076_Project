@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <cctype>
 #include <vector>
 #include "item.h"
 using namespace std;
@@ -12,7 +13,6 @@ using std::vector;
 class RoomProperties{
 public:
     virtual bool hasItems() = 0;
-
 };
 
 class Room : public RoomProperties{
@@ -70,6 +70,9 @@ public:
     }
 
     bool hasItems() override;
+
+private:
+    string capitaliseFirst(string input);
 };
 
 // Subclass GoalRoom with a specific goal to complete

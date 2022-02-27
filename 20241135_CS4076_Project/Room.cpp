@@ -63,14 +63,16 @@ string Room::shortDescription() {
 }
 
 string Room::longDescription() {
-    return "room = " + description + ".\n" + displayItem() + exitString();
+    return "Room: " + description + "\n" + displayItem() + exitString();
 }
 
 string Room::exitString() {
-    string returnString = "\nexits =";
+    string returnString = "\nExits: ";
     for (map<string, Room*>::iterator i = exits.begin(); i != exits.end(); i++)
         // Loop through map
-        returnString += "  " + i->first;	// access the "first" element of the pair (direction as a string)
+        returnString += "  " + capitaliseFirst(i->first);
+        //returnString += "  " + i->first;	// access the "first" element of the pair (direction as a string)
+    returnString += "\n";
     return returnString;
 }
 
@@ -98,10 +100,10 @@ void Room::addItem(Item *inItem) {
 }
 
 string Room::displayItem() {
-    string tempString = "items in room = ";
+    string tempString = "Items in room: ";
     int sizeItems = (itemsInRoom.size());
     if (itemsInRoom.size() < 1) {
-        tempString = "no items in room";
+        tempString = "There are no items in this room.";
     }
     else if (itemsInRoom.size() > 0) {
         int x = (0);
@@ -140,6 +142,12 @@ int Room::isItemInRoom(string inString)
 
 string Room::getBackgroundPath(){
     return this->backgroundPath;
+}
+
+// Capitalises the first letter
+string Room::capitaliseFirst(string input){
+    input[0] = toupper(input[0]);
+    return input;
 }
 
 string GoalRoom::longDescription(){

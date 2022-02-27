@@ -38,6 +38,8 @@ private slots:
 
     void on_infoButton_released();
 
+    void on_quitButton_released();
+
 private:
     Ui::MainWindow *ui;
 };

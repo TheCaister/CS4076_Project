@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>811</width>
-    <height>730</height>
+    <height>759</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,8 +44,8 @@ color: rgb(255, 255, 255);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>256</width>
-             <height>595</height>
+             <width>298</width>
+             <height>624</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
@@ -72,6 +72,12 @@ color: rgb(255, 255, 255);</string>
         </item>
         <item>
          <widget class="QTextEdit" name="input">
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
@@ -100,12 +106,6 @@ color: rgb(255, 255, 255);</string>
            <size>
             <width>500</width>
             <height>500</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
            </size>
           </property>
           <property name="text">
@@ -147,7 +147,7 @@ color: rgb(255, 255, 255);</string>
               <item>
                <widget class="QPushButton" name="upButton">
                 <property name="text">
-                 <string>UP</string>
+                 <string>NORTH</string>
                 </property>
                </widget>
               </item>
@@ -171,7 +171,7 @@ color: rgb(255, 255, 255);</string>
               <item>
                <widget class="QPushButton" name="leftButton">
                 <property name="text">
-                 <string>LEFT</string>
+                 <string>WEST</string>
                 </property>
                </widget>
               </item>
@@ -194,7 +194,7 @@ color: rgb(255, 255, 255);</string>
                  <string notr="true">:hover{color: rgb(229, 84, 222);}</string>
                 </property>
                 <property name="text">
-                 <string>RIGHT</string>
+                 <string>EAST</string>
                 </property>
                </widget>
               </item>
@@ -218,7 +218,7 @@ color: rgb(255, 255, 255);</string>
               <item>
                <widget class="QPushButton" name="downButton">
                 <property name="text">
-                 <string>DOWN</string>
+                 <string>SOUTH</string>
                 </property>
                </widget>
               </item>
@@ -248,9 +248,9 @@ color: rgb(255, 255, 255);</string>
              <number>20</number>
             </property>
             <item>
-             <widget class="QPushButton" name="pushButton_2">
+             <widget class="QPushButton" name="interactButton">
               <property name="text">
-               <string>PushButton</string>
+               <string>INTERACT</string>
               </property>
              </widget>
             </item>
@@ -261,6 +261,13 @@ color: rgb(255, 255, 255);</string>
               </property>
               <property name="text">
                <string>INFO</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="quitButton">
+              <property name="text">
+               <string>QUIT</string>
               </property>
              </widget>
             </item>

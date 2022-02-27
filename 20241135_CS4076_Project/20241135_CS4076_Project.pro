@@ -19,7 +19,8 @@ SOURCES += \
     ZorkUL.cpp \
     dialogues.cpp \
     item.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    old_zork.cpp
 
 HEADERS += \
     Character.h \
@@ -34,7 +35,8 @@ HEADERS += \
     constants.h \
     dialogues.h \
     item.h \
-    mainwindow.h
+    mainwindow.h \
+    old_zork.h
 
 FORMS += \
     mainwindow.ui

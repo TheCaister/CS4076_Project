@@ -121,5 +121,6 @@ vector<string> WordleEngine::getAllWords(){
 
 void WordleEngine::startWordleGame(){
     WordleEngine::triesLeft = 5;
+    // Get a random word
     WordleEngine::targetWord = allWords.at(rand() % allWords.size());
 }
