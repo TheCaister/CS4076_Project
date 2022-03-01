@@ -12,7 +12,6 @@ public:
 	Parser();
     ~Parser();
 	Command* getCommand();
-	void showCommands();
     Command* convertToCommand(string input);
     string commandsInString();
 };

@@ -15,8 +15,7 @@ private:
 public:
 	CommandWords();
     bool isCommand(const string& aString);
-	void showAll();
-    vector<string> getValidCommands();
+    //void showAll();
     string validCommandsToString();
 };
 

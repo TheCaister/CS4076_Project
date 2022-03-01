@@ -53,24 +53,20 @@ int main(int argc, char *argv[]) {
 }
 
 ZorkUL::ZorkUL() {
-    for(int i = 0; i < sizeof(ZorkUL::keysPresent)/sizeof(ZorkUL::keysPresent[0]); i++){
+    for(int i = 0; i < (int) (sizeof(ZorkUL::keysPresent)/sizeof(ZorkUL::keysPresent[0])); i++){
         this->keysPresent[i] = false;
     }
     ZorkUL::allQuantities->KeysPresent = 0;
-    ZorkUL::allQuantities->Potions = 0;
+    ZorkUL::allQuantities->Bombs = 0;
 
     createRooms();
 }
-
-static void addItem(Item *item){
-    ZorkUL::itemsInInventory.push_back(item);
-};
 
 vector<Room*> ZorkUL::createRooms()  {
     using namespace Constants;
     //Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
     Room *city_centre, *sewer_a, *train, *station;
-    Item *frog = new Item("Cool frog");
+    Item *frog = new Item("frog", "The frog stares at you, eyes gleaming with... passion?");
 
     vector<Room*> allRooms;
 
@@ -81,6 +77,7 @@ vector<Room*> ZorkUL::createRooms()  {
     station = new Room("Station", Constants::STATION_PIC);
 
     *city_centre + frog;
+    vector<Item*> allItems = city_centre->itemsInRoom;
 
     // Setting exits for each room
     //             (N, E, S, W)
@@ -112,7 +109,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
         return WordleEngine::evaluateInput(command.getCommandWord());
     }
 
-    cout << command.getCommandWord() << endl;
+    //cout << command.getCommandWord() << endl;
 
 
 
@@ -149,23 +146,54 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
         }
     }
 
+    else if (commandWord.compare("use") == 0){
+        if(!command.hasSecondWord()){
+            return "What the hell do you want to use, punk?!";
+        }
+        else{
+            //return "Using this item...";
+            //Item* item = itemsInInventory.at(0);
+            //string dialogue = item->getUsedDialogue();
+            return itemsInInventory.at(0)->getUsedDialogue() + "\n";
+        }
+    }
+
     else if (commandWord.compare("take") == 0)
     {
+        string output = "";
         if (!command.hasSecondWord()) {
-            cout << "incomplete input"<< endl;
+            //cout << "What the hell do you want to take, punk?!"<< endl;
+            return "What the hell do you want to take, punk?!\n";
         }
-        else
-            if (command.hasSecondWord()) {
-                cout << "you're trying to take " + command.getSecondWord() << endl;
-                int location = currentRoom->isItemInRoom(command.getSecondWord());
-                if (location  < 0 )
-                    cout << "item is not in room" << endl;
-                else
-                    cout << "item is in room" << endl;
-                cout << "index number " << + location << endl;
-                cout << endl;
-                cout << currentRoom->longDescription() << endl;
+        else{
+            output += "You're trying to take " + command.getSecondWord() + "\n";
+            //cout << "you're trying to take " + command.getSecondWord() << endl;
+            int location = currentRoom->isItemInRoom(command.getSecondWord());
+            if (location  < 0 ){
+                //cout << "Unfortunately, this item is not in this room." << endl;
+                output += "Unfortunately, this item is not in this room.\n";
             }
+            else{
+                output += "This item is in the room!\n";
+                output += "Index number: " + to_string(location) + "\n";
+                output += currentRoom->longDescription();
+
+                // Adding to player's inventory and removing from the room
+                //Room room = *currentRoom;
+                //vector<Item*> items = currentRoom->itemsInRoom;
+                //Item* itemPtr = items.at(location);
+                itemsInInventory.push_back(currentRoom->itemsInRoom.at(location));
+                string dialogue = itemsInInventory.at(0)->getUsedDialogue();
+                currentRoom->itemsInRoom.erase(currentRoom->itemsInRoom.begin() + location);
+//                cout << "item is in room" << endl;
+//                cout << "index number " << + location << endl;
+//                cout << endl;
+//                cout << currentRoom->longDescription() << endl;
+                return output;
+            }
+
+        }
+
     }
 
     else if (commandWord.compare("put") == 0)
@@ -203,7 +231,7 @@ string ZorkUL::printHelp() {
 
 bool ZorkUL::goRoom(Command command) {
     if (!command.hasSecondWord()) {
-        cout << "incomplete input"<< endl;
+        //cout << "incomplete input"<< endl;
         return false;
     }
 
@@ -213,11 +241,11 @@ bool ZorkUL::goRoom(Command command) {
     Room* nextRoom = currentRoom->nextRoom(direction);
 
     if (nextRoom == NULL){
-        cout << "underdefined input"<< endl;
+        //cout << "underdefined input"<< endl;
         return false;}
     else {
         currentRoom = nextRoom;
-        cout << currentRoom->longDescription() << endl;
+        //cout << currentRoom->longDescription() << endl;
         return true;
     }
 

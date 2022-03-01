@@ -15,7 +15,7 @@ using namespace std;
 
 struct Quantities{
         unsigned int KeysPresent : 4;
-        unsigned int Potions : 4;
+        unsigned int Bombs : 4;
 };
 
 class ZorkUL {
@@ -34,6 +34,7 @@ public:
     static Quantities *allQuantities;
     static Parser *parser;
 
+    static vector<Item*> itemsInInventory;
     static bool keysPresent[5];
 
     ZorkUL();
@@ -44,10 +45,8 @@ public:
     static string processCommand(Command command, MainWindow *window);
     static Room *getCurrentRoom();
     static vector<Room*> createRooms();
-    static vector<Item*> itemsInInventory;
     static void confirmKey(int index);
     static void addItem(Item item);
-    void operator+(Item item);
 
 };
 

@@ -7,14 +7,14 @@ using namespace std;
 class Command {
 private:
     string commandWord;
-	string secondWord;
+    string secondWord;
 
 public:
     Command(const string& firstWord, const string& secondWord);
-	string getCommandWord();
-	string getSecondWord();
-	bool isUnknown();
-	bool hasSecondWord();
+    string getCommandWord();
+    string getSecondWord();
+    bool isUnknown();
+    bool hasSecondWord();
 };
 
 #endif /*COMMAND_H_*/

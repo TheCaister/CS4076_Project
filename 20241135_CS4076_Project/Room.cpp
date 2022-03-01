@@ -26,9 +26,11 @@ Room::Room(string description, string backgroundPath, typeOfRoom typeOfRoom){
 
 Room::Room(const Room& other){
     if(hasHiddenItem){
-        this->hiddenItem = new Item(other.description);
+        return;
+        //this->hiddenItem = new Item(other.hiddenItem);
     }
     else{
+        this->itemsInRoom = other.itemsInRoom;
         this->hiddenClue = other.hiddenClue;
     }
 }
@@ -96,7 +98,7 @@ bool Room::hasItems(){
 void Room::addItem(Item *inItem) {
     //cout <<endl;
     //cout << "Just added" + inItem->getLongDescription();
-    itemsInRoom.push_back(*inItem);
+    itemsInRoom.push_back(inItem);
 }
 
 string Room::displayItem() {
@@ -108,7 +110,7 @@ string Room::displayItem() {
     else if (itemsInRoom.size() > 0) {
         int x = (0);
         for (int n = sizeItems; n > 0; n--) {
-            tempString = tempString + itemsInRoom[x].getShortDescription() + "  " ;
+            tempString = tempString + itemsInRoom[x]->getShortDescription() + "  " ;
             x++;
         }
     }
@@ -123,15 +125,15 @@ int Room::isItemInRoom(string inString)
 {
     int sizeItems = (itemsInRoom.size());
     if (itemsInRoom.size() < 1) {
-        return false;
+        return -1;
     }
     else if (itemsInRoom.size() > 0) {
         int x = (0);
         for (int n = sizeItems; n > 0; n--) {
             // compare inString with short description
-            int tempFlag = inString.compare( itemsInRoom[x].getShortDescription());
+            int tempFlag = inString.compare( itemsInRoom[x]->getShortDescription());
             if (tempFlag == 0) {
-                itemsInRoom.erase(itemsInRoom.begin()+x);
+                //itemsInRoom.erase(itemsInRoom.begin()+x);
                 return x;
             }
             x++;
@@ -148,6 +150,10 @@ string Room::getBackgroundPath(){
 string Room::capitaliseFirst(string input){
     input[0] = toupper(input[0]);
     return input;
+}
+
+Room::typeOfRoom Room::getTypeOfRoom(){
+    return roomType;
 }
 
 string GoalRoom::longDescription(){

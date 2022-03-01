@@ -7,8 +7,13 @@ Item::Item (string description, int weightGrams, float value/**, int weaponCheck
 	/**weaponCheck(isWeapon);*/
 }
 
-Item::Item(string description) {
+Item::Item(string description) : usedDialogue("Used the item.") {
     this->description = description;
+}
+
+Item::Item(string description, string usedDialogue){
+    this->description = description;
+    this->usedDialogue = usedDialogue;
 }
 
 Item::Item(const Item& other) : description(other.description), longDescription(other.longDescription), value(other.value), weaponCheck(other.weaponCheck){
@@ -51,5 +56,9 @@ string Item::getShortDescription()
 string Item::getLongDescription()
 {
     return " item(s), " + this->description + ".\n";
+}
+
+string Item::getUsedDialogue(){
+    return this->usedDialogue;
 }
 

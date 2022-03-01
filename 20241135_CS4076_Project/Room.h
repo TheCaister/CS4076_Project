@@ -27,20 +27,8 @@ public:
     union {
         Item* hiddenItem;
         string hiddenClue;
-
     };
 
-protected:
-    string description;
-    map<string, Room*> exits;
-    string exitString();
-    vector <Item> itemsInRoom;
-    string backgroundPath;
-    typeOfRoom roomType;
-    Room* nextRoom(string direction);
-
-
-public:
     Room(string description);
     Room(string description, string backgroundPath);
     Room(string description, string backgroundPath, typeOfRoom typeOfRoom);
@@ -53,23 +41,28 @@ public:
     int numberOfItems();
     void setExits(Room *north, Room *east, Room *south, Room *west);
     string shortDescription();
-    // Display different long descriptions for different types of rooms.
-    virtual string longDescription();
-
     void addItem(Item *inItem);
     string displayItem();
     int isItemInRoom(string inString);
     void removeItemFromRoom(int location);
     string getBackgroundPath();
-
     void setHiddenItem(Item* item);
     void setHiddenClue(string string);
+    typeOfRoom getTypeOfRoom();
 
-    typeOfRoom getTypeOfRoom(){
-        return roomType;
-    }
+    // Display different long descriptions for different types of rooms.
+    virtual string longDescription();
 
     bool hasItems() override;
+
+protected:
+    string description;
+    map<string, Room*> exits;
+    string exitString();
+    vector <Item*> itemsInRoom;
+    string backgroundPath;
+    typeOfRoom roomType;
+    Room* nextRoom(string direction);
 
 private:
     string capitaliseFirst(string input);

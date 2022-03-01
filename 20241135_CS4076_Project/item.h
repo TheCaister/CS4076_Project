@@ -15,8 +15,11 @@ private:
     float value;
     bool weaponCheck;
 
+    string usedDialogue;
+
 public:
     Item (string description, int inWeight, float inValue);
+    Item (string description, string usedDialogue);
     Item (string description);
 
     // Copy constructor
@@ -28,6 +31,7 @@ public:
     void setWeight(int weightGrams);
     float getValue();
     void setValue(float value);
+    string getUsedDialogue();
     //int getWeaponCheck();
     //void setWeaponCheck(int weaponCheck);
 };
