@@ -1,3 +1,4 @@
 -Have some win condition
 -Have some lose condition?
 -Make the thing scroll to the bottom whenever new text is displayed
+-Asking for user name

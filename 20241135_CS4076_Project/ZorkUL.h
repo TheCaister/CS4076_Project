@@ -47,6 +47,8 @@ public:
     static vector<Room*> createRooms();
     static void confirmKey(int index);
     static void addItem(Item item);
+    static void useItem(Item& item);
+    static int findItemIndex(const string& item);
 
 };
 

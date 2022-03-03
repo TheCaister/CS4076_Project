@@ -167,28 +167,24 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
         }
         else{
             output += "You're trying to take " + command.getSecondWord() + "\n";
-            //cout << "you're trying to take " + command.getSecondWord() << endl;
             int location = currentRoom->isItemInRoom(command.getSecondWord());
             if (location  < 0 ){
-                //cout << "Unfortunately, this item is not in this room." << endl;
                 output += "Unfortunately, this item is not in this room.\n";
             }
             else{
                 output += "This item is in the room!\n";
                 output += "Index number: " + to_string(location) + "\n";
-                output += currentRoom->longDescription();
+
 
                 // Adding to player's inventory and removing from the room
-                //Room room = *currentRoom;
-                //vector<Item*> items = currentRoom->itemsInRoom;
-                //Item* itemPtr = items.at(location);
                 itemsInInventory.push_back(currentRoom->itemsInRoom.at(location));
-                string dialogue = itemsInInventory.at(0)->getUsedDialogue();
+                //string dialogue = itemsInInventory.at(0)->getUsedDialogue();
                 currentRoom->itemsInRoom.erase(currentRoom->itemsInRoom.begin() + location);
-//                cout << "item is in room" << endl;
-//                cout << "index number " << + location << endl;
-//                cout << endl;
-//                cout << currentRoom->longDescription() << endl;
+                //                cout << "item is in room" << endl;
+                //                cout << "index number " << + location << endl;
+                //                cout << endl;
+                //                cout << currentRoom->longDescription() << endl;
+                output += currentRoom->longDescription();
                 return output;
             }
 
@@ -198,7 +194,31 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
     else if (commandWord.compare("put") == 0)
     {
+        string output = "";
+        if (!command.hasSecondWord()) {
+            //cout << "What the hell do you want to take, punk?!"<< endl;
+            return "What the hell do you want to put, punk?!\n";
+        }
+        else{
+            output += "You're trying to put " + command.getSecondWord() + "\n";
+            int location = findItemIndex(command.getSecondWord());
 
+
+            if(location == -1){
+                return "Item not in inventory.";
+            }
+
+            // Adding to player's inventory and removing from the room
+            //itemsInInventory.push_back(currentRoom->itemsInRoom.at(location));
+            //currentRoom->itemsInRoom.erase(currentRoom->itemsInRoom.begin() + location);
+            currentRoom->itemsInRoom.push_back(itemsInInventory.at(location));
+            itemsInInventory.erase(itemsInInventory.begin() + location);
+
+            output += currentRoom->longDescription();
+
+            return output;
+
+        }
     }
     /*
     {
@@ -262,6 +282,29 @@ void ZorkUL::updateRoom(Room *room, MainWindow *window){
         WordleEngine::initialiseWordleEngine();
         WordleEngine::startWordleGame();
     }
+}
+
+// Finding the index of an item in the Zork inventory
+int ZorkUL::findItemIndex(const string& item){
+    int sizeItems = (ZorkUL::itemsInInventory.size());
+
+    if (ZorkUL::itemsInInventory.size() < 1) {
+        return -1;
+    }
+
+    else if (ZorkUL::itemsInInventory.size() > 0) {
+        int x = 0;
+        for (int n = sizeItems; n > 0; n--) {
+            // compare item with short description
+            int tempFlag = item.compare(ZorkUL::itemsInInventory[x]->getShortDescription());
+            if (tempFlag == 0) {
+                return x;
+            }
+            x++;
+        }
+    }
+
+    return -1;
 }
 
 Room *ZorkUL::getCurrentRoom(){
