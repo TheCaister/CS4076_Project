@@ -6,6 +6,7 @@
 #include <cctype>
 #include <vector>
 #include "item.h"
+#include "Stack.h"
 using namespace std;
 using std::vector;
 
@@ -13,13 +14,13 @@ using std::vector;
 class RoomProperties{
 public:
     virtual bool hasItems() = 0;
+    enum typeOfRoom : int {WORDLE, NORMAL, GOAL, STACK};
 };
 
 class Room : public RoomProperties{
     friend class ZorkUL;
 
 public:
-    enum typeOfRoom : int {WORDLE, NORMAL, GOAL};
     bool hasHiddenItem;
 
     // A room can have either a hidden or a hidden clue to be revealed.
@@ -84,8 +85,15 @@ public:
     void getGoalStatus();
 };
 
-class WordleROom : public Room{
+class WordleRoom : public Room{
 
+};
+
+// Room that contains a stack
+class StackRoom : public Room{
+private:
+    // A stack of items?
+    Stack<Item*> roomStack;
 };
 
 

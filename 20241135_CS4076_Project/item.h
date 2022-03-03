@@ -6,24 +6,34 @@
 #include <iostream>
 using namespace std;
 
-class Item {
+class ItemProperties{
+public:
+    enum typeOfItem : int {HINT, HEALTH};
+};
+
+class Item : public ItemProperties{
 private:
     string description;
     string longDescription;
 
     int weightGrams;
-    float value;
-    bool weaponCheck;
+    int value;
+    //float value;
+    //bool weaponCheck;
+    bool sellable;
 
     string usedDialogue;
 
 public:
-    Item (string description, int inWeight, float inValue);
+    Item (string description, int inWeight, int inValue);
+    Item (string description, string usedDialogue, typeOfItem typeOfItem);
     Item (string description, string usedDialogue);
     Item (string description);
 
     // Copy constructor
     Item(const Item& other);
+
+
 
     string getShortDescription();
     string getLongDescription();
@@ -32,8 +42,11 @@ public:
     float getValue();
     void setValue(float value);
     string getUsedDialogue();
+    typeOfItem getTypeOfItem();
     //int getWeaponCheck();
     //void setWeaponCheck(int weaponCheck);
+
+    typeOfItem itemType;
 };
 
 class ConsumableItem : public Item{

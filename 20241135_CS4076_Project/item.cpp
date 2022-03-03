@@ -1,6 +1,6 @@
 #include "item.h"
 
-Item::Item (string description, int weightGrams, float value/**, int weaponCheck*/) {
+Item::Item (string description, int weightGrams, int value/**, int weaponCheck*/) {
     this->description = description;
     this->setWeight(weightGrams);
     this->value = value;
@@ -11,12 +11,18 @@ Item::Item(string description) : usedDialogue("Used the item.") {
     this->description = description;
 }
 
-Item::Item(string description, string usedDialogue){
+Item::Item(string description, string usedDialogue) : itemType(HINT){
     this->description = description;
     this->usedDialogue = usedDialogue;
 }
 
-Item::Item(const Item& other) : description(other.description), longDescription(other.longDescription), value(other.value), weaponCheck(other.weaponCheck){
+Item::Item(string description, string usedDialogue, typeOfItem itemType){
+    this->description = description;
+    this->usedDialogue = usedDialogue;
+    this->itemType = itemType;
+}
+
+Item::Item(const Item& other) : description(other.description), longDescription(other.longDescription), value(other.value)/*weaponCheck(other.weaponCheck)*/{
     // Make the copied item slightly heavier.
     int randomWeight = rand() % 10;
     this->weightGrams = other.weightGrams + randomWeight;
@@ -53,12 +59,11 @@ string Item::getShortDescription()
     return this->description;
 }
 
-string Item::getLongDescription()
-{
-    return " item(s), " + this->description + ".\n";
-}
-
 string Item::getUsedDialogue(){
     return this->usedDialogue;
+}
+
+Item::typeOfItem Item::getTypeOfItem(){
+    return itemType;
 }
 

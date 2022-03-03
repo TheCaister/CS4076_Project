@@ -26,7 +26,7 @@ private:
     static string printHelp();
     static bool goRoom(Command command);
     void createItems();
-    void displayItems();
+    static string printAllItems();
 
 
 
@@ -47,7 +47,7 @@ public:
     static vector<Room*> createRooms();
     static void confirmKey(int index);
     static void addItem(Item item);
-    static void useItem(Item& item);
+    static string useItem(Item& item);
     static int findItemIndex(const string& item);
 
 };

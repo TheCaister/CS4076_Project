@@ -65,11 +65,11 @@ string Room::shortDescription() {
 }
 
 string Room::longDescription() {
-    return "Room: " + description + "\n" + displayItem() + exitString();
+    return "Room: " + description + "\n-\n" + displayItem() + exitString();
 }
 
 string Room::exitString() {
-    string returnString = "\nExits: ";
+    string returnString = "\n-\nExits: ";
     for (map<string, Room*>::iterator i = exits.begin(); i != exits.end(); i++)
         // Loop through map
         returnString += "  " + capitaliseFirst(i->first);

@@ -426,3 +426,11 @@
 //	else
 //		return new Command("", word2);
 //}
+
+
+////////////////item///////////////////
+//string Item::getLongDescription()
+//{
+//    return " item(s), " + this->description + ".\n";
+//}
+

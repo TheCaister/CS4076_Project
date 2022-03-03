@@ -9,6 +9,7 @@
 #include "dialogues.h"
 #include "constants.h"
 #include "Errors.h"
+#include "item.h"
 
 using namespace std;
 #include "ZorkUL.h"
@@ -109,16 +110,12 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
         return WordleEngine::evaluateInput(command.getCommandWord());
     }
 
-    //cout << command.getCommandWord() << endl;
-
-
-
     if (command.isUnknown()) {
-        //cout << "invalid input"<< endl;
         return "";
     }
 
     string commandWord = command.getCommandWord();
+
     if (commandWord.compare("info") == 0)
         return printHelp();
 
@@ -151,10 +148,15 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             return "What the hell do you want to use, punk?!";
         }
         else{
+            int location = findItemIndex(command.getSecondWord());
+
+            if(location == -1){
+                return "Item not in inventory.";
+            }
+
             //return "Using this item...";
-            //Item* item = itemsInInventory.at(0);
-            //string dialogue = item->getUsedDialogue();
-            return itemsInInventory.at(0)->getUsedDialogue() + "\n";
+            return ZorkUL::useItem(*itemsInInventory.at(location));
+            //return itemsInInventory.at(0)->getUsedDialogue() + "\n";
         }
     }
 
@@ -168,8 +170,9 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
         else{
             output += "You're trying to take " + command.getSecondWord() + "\n";
             int location = currentRoom->isItemInRoom(command.getSecondWord());
-            if (location  < 0 ){
+            if (location < 0 ){
                 output += "Unfortunately, this item is not in this room.\n";
+                return output;
             }
             else{
                 output += "This item is in the room!\n";
@@ -178,12 +181,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
                 // Adding to player's inventory and removing from the room
                 itemsInInventory.push_back(currentRoom->itemsInRoom.at(location));
-                //string dialogue = itemsInInventory.at(0)->getUsedDialogue();
                 currentRoom->itemsInRoom.erase(currentRoom->itemsInRoom.begin() + location);
-                //                cout << "item is in room" << endl;
-                //                cout << "index number " << + location << endl;
-                //                cout << endl;
-                //                cout << currentRoom->longDescription() << endl;
                 output += currentRoom->longDescription();
                 return output;
             }
@@ -220,18 +218,24 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
         }
     }
-    /*
-    {
-    if (!command.hasSecondWord()) {
-        cout << "incomplete input"<< endl;
+
+    else if(commandWord.compare("check") == 0){
+
+        if(!command.hasSecondWord()){
+            return "What do you want to check, punk??\n";
         }
-        else
-            if (command.hasSecondWord()) {
-            cout << "you're adding " + command.getSecondWord() << endl;
-            itemsInRoom.push_Back;
+        else{
+            string secondWord = command.getSecondWord();
+            if(secondWord.compare("inventory") == 0|| secondWord.compare("inv") == 0){
+                // Print out inventory here
+                return printAllItems();
+            }
+            else if(secondWord.compare("room") == 0 || secondWord.compare("area") == 0){
+                return currentRoom->longDescription();
+            }
         }
     }
-*/
+
     else if (commandWord.compare("quit") == 0) {
         if (command.hasSecondWord())
             return "Overdefined input. If you want to quit, please type 'quit' in the input console or click the 'quit' button.";
@@ -246,6 +250,23 @@ string ZorkUL::printHelp() {
     string output = "";
     output += "Valid inputs are: ";
     output += ZorkUL::parser->commandsInString();
+    return output;
+}
+
+string ZorkUL::printAllItems(){
+    string output = "";
+
+    if(itemsInInventory.size() <= 0){
+        output += "You have no items!\n";
+        return output;
+    }
+
+    output += "Here are all the items currently in your inventory: ";
+    for(Item* item : itemsInInventory){
+        output += item->getShortDescription();
+        output += " ";
+    }
+    output += "\n";
     return output;
 }
 
@@ -282,6 +303,21 @@ void ZorkUL::updateRoom(Room *room, MainWindow *window){
         WordleEngine::initialiseWordleEngine();
         WordleEngine::startWordleGame();
     }
+}
+
+// When trying to use an Item
+string ZorkUL::useItem(Item& item){
+    string output = "";
+    switch (item.getTypeOfItem()){
+    case(Item::HINT):
+        output += item.getUsedDialogue();
+        break;
+    case(Item::HEALTH):
+        break;
+    default:
+        break;
+    }
+    return output;
 }
 
 // Finding the index of an item in the Zork inventory
