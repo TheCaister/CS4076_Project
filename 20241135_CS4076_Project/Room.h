@@ -14,6 +14,7 @@ using std::vector;
 class RoomProperties{
 public:
     virtual bool hasItems() = 0;
+    virtual void completionEvent() = 0;
     enum typeOfRoom : int {WORDLE, NORMAL, GOAL, STACK};
 };
 
@@ -30,6 +31,7 @@ public:
         string hiddenClue;
     };
 
+    Room();
     Room(string description);
     Room(string description, string backgroundPath);
     Room(string description, string backgroundPath, typeOfRoom typeOfRoom);
@@ -55,6 +57,7 @@ public:
     virtual string longDescription();
 
     bool hasItems() override;
+    void completionEvent() override;
 
 protected:
     string description;
@@ -69,24 +72,50 @@ private:
     string capitaliseFirst(string input);
 };
 
+// Room with reward
+class RewardRoom{
+public:
+    enum rewardType : int{ITEM, MONEY, CLUE, NONE};
+protected:
+    union{
+        Item* rewardItem;
+        int rewardMoney;
+        string rewardClue;
+    };
+
+public:
+    RewardRoom();
+    ~RewardRoom();
+
+
+
+
+};
+
 // Subclass GoalRoom with a specific goal to complete
 class GoalRoom : public Room{
 private:
     bool goalCompleted;
 
 public:
+    GoalRoom();
     GoalRoom(string description);
     GoalRoom(string description, string backgroundPath);
     GoalRoom(string description, string backgroundPath, typeOfRoom typeOfRoom);
+    ~GoalRoom();
 
     // Unique description for long descriptions
     string longDescription() override;
     void completeGoal();
     void getGoalStatus();
+
+    void completionEvent() override;
 };
 
-class WordleRoom : public Room{
-
+class WordleRoom : public GoalRoom, public RewardRoom{
+public:
+    WordleRoom(string description, string backgroundPath, int moneyReward);
+private:
 };
 
 // Room that contains a stack

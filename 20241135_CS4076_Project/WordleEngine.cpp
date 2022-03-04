@@ -96,9 +96,10 @@ string WordleEngine::evaluateInput(const string &input){
 
     output = output + " DEV: " + correctWord + '\n';
 
+    // If the guess is correct, set status to success
     if(correctLettersAmount == (int) correctWord.size()){
         output += Dialogues::wordleSuccess;
-        WordleEngine::wordleStatus = WordleEngine::WORDLE_STOP;
+        WordleEngine::wordleStatus = WordleEngine::WORDLE_SUCCESS;
     }
     else{
         WordleEngine::triesLeft--;

@@ -19,9 +19,7 @@ Room *ZorkUL::currentRoom;
 Quantities *ZorkUL::allQuantities;
 vector<Item*> ZorkUL::itemsInInventory;
 bool ZorkUL::keysPresent[5];
-
-
-//Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
+int ZorkUL::money;
 
 int main(int argc, char *argv[]) {
     ZorkUL::parser = new Parser();
@@ -59,13 +57,13 @@ ZorkUL::ZorkUL() {
     }
     ZorkUL::allQuantities->KeysPresent = 0;
     ZorkUL::allQuantities->Bombs = 0;
+    ZorkUL::money = 10;
 
     createRooms();
 }
 
 vector<Room*> ZorkUL::createRooms()  {
     using namespace Constants;
-    //Room *a, *b, *c, *d, *e, *f, *g, *h, *i, *newRoom;
     Room *city_centre, *sewer_a, *train, *station;
     Item *frog = new Item("frog", "The frog stares at you, eyes gleaming with... passion?");
 
@@ -73,7 +71,8 @@ vector<Room*> ZorkUL::createRooms()  {
 
     // Adding all rooms
     city_centre = new Room("City Centre", Constants::NIGHT_CITY_GIF);
-    sewer_a = new Room("Sewer", Constants::SEWER_GIF, Room::WORDLE);
+    //sewer_a = new Room("Sewer", Constants::SEWER_GIF, Room::WORDLE);
+    sewer_a = new WordleRoom("Sewer", Constants::SEWER_GIF, 100);
     train = new GoalRoom("Train", Constants::TRAIN_GIF, Room::WORDLE);
     station = new Room("Station", Constants::STATION_PIC);
 
@@ -107,7 +106,14 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
     // If we're in a Wordle game, treat the input as a Wordle attempt
     if(WordleEngine::wordleStatus == WordleEngine::WORDLE_PROGRESS){
-        return WordleEngine::evaluateInput(command.getCommandWord());
+        string output = "";
+        output += WordleEngine::evaluateInput(command.getCommandWord());
+
+        // If it's a success, give the reward of that particular room
+        if(WordleEngine::wordleStatus == WordleEngine::WORDLE_SUCCESS){
+
+        }
+        return output;
     }
 
     if (command.isUnknown()) {
@@ -207,8 +213,6 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             }
 
             // Adding to player's inventory and removing from the room
-            //itemsInInventory.push_back(currentRoom->itemsInRoom.at(location));
-            //currentRoom->itemsInRoom.erase(currentRoom->itemsInRoom.begin() + location);
             currentRoom->itemsInRoom.push_back(itemsInInventory.at(location));
             itemsInInventory.erase(itemsInInventory.begin() + location);
 
@@ -278,6 +282,11 @@ bool ZorkUL::goRoom(Command command) {
 
     string direction = command.getSecondWord();
 
+    // Going back to the previous room
+    if(direction.compare("back") == 0){
+
+    }
+
     // Try to leave current room.
     Room* nextRoom = currentRoom->nextRoom(direction);
 
@@ -322,7 +331,7 @@ string ZorkUL::useItem(Item& item){
 
 // Finding the index of an item in the Zork inventory
 int ZorkUL::findItemIndex(const string& item){
-    int sizeItems = (ZorkUL::itemsInInventory.size());
+    int sizeItems = (int)(ZorkUL::itemsInInventory.size());
 
     if (ZorkUL::itemsInInventory.size() < 1) {
         return -1;
@@ -341,6 +350,14 @@ int ZorkUL::findItemIndex(const string& item){
     }
 
     return -1;
+}
+
+void ZorkUL::changeMoney(int moneyAmount){
+    ZorkUL::money += moneyAmount;
+}
+
+int ZorkUL::getMoney(){
+    return ZorkUL::money;
 }
 
 Room *ZorkUL::getCurrentRoom(){

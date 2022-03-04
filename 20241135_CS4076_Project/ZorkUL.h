@@ -12,7 +12,6 @@
 
 using namespace std;
 
-
 struct Quantities{
         unsigned int KeysPresent : 4;
         unsigned int Bombs : 4;
@@ -27,6 +26,7 @@ private:
     static bool goRoom(Command command);
     void createItems();
     static string printAllItems();
+    static int money;
 
 
 
@@ -49,6 +49,8 @@ public:
     static void addItem(Item item);
     static string useItem(Item& item);
     static int findItemIndex(const string& item);
+    static void changeMoney(int moneyAmount);
+    static int getMoney();
 
 };
 

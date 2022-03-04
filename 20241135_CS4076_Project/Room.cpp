@@ -1,6 +1,8 @@
 #include "Room.h"
 #include "Command.h"
 
+Room::Room(){}
+
 // Setting default background
 Room::Room(string description)
     : backgroundPath(":/img/img/night_city.jpg"), roomType(Room::NORMAL){
@@ -41,13 +43,25 @@ void Room::operator+(Item *item){
     this->addItem(item);
 }
 
+GoalRoom::GoalRoom(){}
+
 GoalRoom::GoalRoom(string description) : Room(description), goalCompleted(false){}
 
 GoalRoom::GoalRoom(string description, string backgroundPath) : Room(description, backgroundPath), goalCompleted(false){}
 
 GoalRoom::GoalRoom(string description, string backgroundPath, typeOfRoom typeOfRoom) : Room(description, backgroundPath, typeOfRoom), goalCompleted(false){}
 
+GoalRoom::~GoalRoom(){}
 
+RewardRoom::RewardRoom(){}
+RewardRoom::~RewardRoom(){}
+
+WordleRoom::WordleRoom(string description, string backgroundPath, int rewardMoney){
+    this->roomType = WORDLE;
+    this->description = description;
+    this->backgroundPath = backgroundPath;
+    this->RewardRoom::rewardMoney = rewardMoney;
+}
 
 void Room::setExits(Room *north, Room *east, Room *south, Room *west) {
     if (north != NULL)
@@ -95,6 +109,10 @@ bool Room::hasItems(){
     }
 }
 
+void Room::completionEvent(){
+    return;
+}
+
 void Room::addItem(Item *inItem) {
     //cout <<endl;
     //cout << "Just added" + inItem->getLongDescription();
@@ -103,7 +121,7 @@ void Room::addItem(Item *inItem) {
 
 string Room::displayItem() {
     string tempString = "Items in room: ";
-    int sizeItems = (itemsInRoom.size());
+    int sizeItems = (int)(itemsInRoom.size());
     if (itemsInRoom.size() < 1) {
         tempString = "There are no items in this room.";
     }
@@ -118,12 +136,12 @@ string Room::displayItem() {
 }
 
 int Room::numberOfItems() {
-    return itemsInRoom.size();
+    return (int)itemsInRoom.size();
 }
 
 int Room::isItemInRoom(string inString)
 {
-    int sizeItems = (itemsInRoom.size());
+    int sizeItems = (int)(itemsInRoom.size());
     if (itemsInRoom.size() < 1) {
         return -1;
     }
@@ -167,4 +185,7 @@ string GoalRoom::longDescription(){
     }
 }
 
+void GoalRoom::completionEvent(){
+
+}
 

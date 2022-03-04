@@ -131,6 +131,7 @@ void MainWindow::parseInput(string input){
     }
 
     addStringToConsole(output);
+    ui->moneyLabel->setText(QString::fromStdString("Money: " + std::to_string(ZorkUL::getMoney())));
 
     delete command;
 
