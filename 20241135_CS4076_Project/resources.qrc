@@ -9,5 +9,13 @@
         <file>img/sewer.gif</file>
         <file>img/train.gif</file>
         <file>img/train_station.png</file>
+        <file>img/chinese_restaurant.gif</file>
+        <file>img/conveyor_sushi.gif</file>
+        <file>img/noodle_stall.gif</file>
+        <file>img/claw_machine.gif</file>
+        <file>img/cafe.gif</file>
+        <file>img/busy_street.gif</file>
+        <file>img/under_bridge.gif</file>
+        <file>img/lively_alley.gif</file>
     </qresource>
 </RCC>

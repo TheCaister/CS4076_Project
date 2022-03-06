@@ -65,8 +65,13 @@ ZorkUL::ZorkUL() {
 
 vector<Room*> ZorkUL::createRooms()  {
     using namespace Constants;
-    Room *city_centre, *sewer_a, *train, *station;
-    Item *frog = new Item("frog", "The frog stares at you, eyes gleaming with... passion?");
+    Room *city_centre, *sewer_a, *train, *station, /**chinese_restaurant,*/ *pei_street;
+    Item *frog, *weird_magazine;
+    frog = new Item("frog", "The frog stares at you, eyes gleaming with... passion?");
+    weird_magazine = new Item("weird magazine", "A dubious magazine that you picked up from the street. Upon further inspection,\n"
+                                                " you see that this magazine contains copious amounts of photos with\n"
+                                                " people on their knees, pleading for forgiveness. Apparently, there are\n"
+                                                " folks out there who are really into apologies.");
 
     vector<Room*> allRooms;
 
@@ -76,21 +81,26 @@ vector<Room*> ZorkUL::createRooms()  {
     sewer_a = new WordleRoom("Sewer", Constants::SEWER_GIF, 100);
     train = new GoalRoom("Train", Constants::TRAIN_GIF, Room::WORDLE);
     station = new Room("Station", Constants::STATION_PIC);
+    //chinese_restaurant = new Room("Chinese Restaurant", Constants::CHINESE_RESTAURANT_PIC);
+    pei_street = new Room("Pei Street", Constants::BUSY_STREET);
 
     *city_centre + frog;
+    *pei_street + weird_magazine;
     vector<Item*> allItems = city_centre->itemsInRoom;
 
     // Setting exits for each room
     //             (N, E, S, W)
-    city_centre->setExits(NULL, station, sewer_a, NULL);
+    city_centre->setExits(pei_street, station, sewer_a, NULL);
     sewer_a->setExits(city_centre, NULL, NULL, NULL);
     station->setExits(NULL, train, NULL, city_centre);
     train->setExits(NULL, NULL, NULL, station);
+    pei_street->setExits(NULL, NULL, city_centre, NULL);
 
     allRooms.push_back(city_centre);
     allRooms.push_back(sewer_a);
     allRooms.push_back(station);
     allRooms.push_back(train);
+    allRooms.push_back(pei_street);
 
     // Start off at this room.
     currentRoom = city_centre;
