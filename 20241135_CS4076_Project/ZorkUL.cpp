@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
     WordleEngine *worldleEngine = new WordleEngine();
     QApplication a(argc, argv);
     MainWindow w;
+    w.setWindowState(Qt::WindowMaximized);
     MainWindow *windowPtr = &w;
 
 
@@ -111,10 +112,12 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
         // If it's a success, give the reward of that particular room
         if(WordleEngine::wordleStatus == WordleEngine::WORDLE_SUCCESS){
-
+            output += giveReward();
         }
+
         return output;
     }
+
 
     if (command.isUnknown()) {
         return "";
@@ -307,7 +310,7 @@ void ZorkUL::updateRoom(Room *room, MainWindow *window){
     currentRoom = room;
     window->updateBackground(room->getBackgroundPath());
 
-    if(room->getTypeOfRoom() == Room::WORDLE){
+    if((room->getTypeOfRoom() & Room::WORDLE) == Room::WORDLE){
         window->addStringToConsole(Dialogues::welcomeWordle);
         WordleEngine::initialiseWordleEngine();
         WordleEngine::startWordleGame();
@@ -350,6 +353,43 @@ int ZorkUL::findItemIndex(const string& item){
     }
 
     return -1;
+}
+
+string ZorkUL::giveReward(){
+    string output = "";
+
+    // Check to see if the current room is a Goal Room
+    if((currentRoom->roomType & RoomProperties::GOAL) == RoomProperties::GOAL){
+        GoalRoom* goalRoom = dynamic_cast<GoalRoom*>(currentRoom);
+
+        // Checking to see if the goal has already been completed or not
+        if(goalRoom->getGoalStatus() == false){
+            // Casting to RewardRoom so that certain features can be accessed.
+            RewardRoom* rewardRoom = dynamic_cast<RewardRoom*>(currentRoom);
+
+            switch(rewardRoom->rewardType){
+            case RewardRoom::MONEY : {
+                int rewardMoney = rewardRoom->giveMoneyReward();
+                output += "Congratulations! You have received $" + to_string(rewardMoney) + "!\n";
+                ZorkUL::changeMoney(rewardMoney);
+                break;
+            }
+
+            case RewardRoom::ITEM : break;
+            case RewardRoom::CLUE : break;
+            case RewardRoom::NONE : break;
+            default : break;
+            }
+        }
+        goalRoom->setGoalStatus(true);
+    }
+    else{
+        output += "Damn, it looks like this room isn't a goal room.\n";
+    }
+
+
+
+    return output;
 }
 
 void ZorkUL::changeMoney(int moneyAmount){

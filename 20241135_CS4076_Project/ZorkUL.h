@@ -43,6 +43,7 @@ public:
     string go(string direction);
     static void updateRoom(Room *room, MainWindow *window);
     static string processCommand(Command command, MainWindow *window);
+    static string giveReward();
     static Room *getCurrentRoom();
     static vector<Room*> createRooms();
     static void confirmKey(int index);

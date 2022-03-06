@@ -21,8 +21,10 @@ MainWindow::MainWindow(QWidget *parent)
     //Setting stylesheets for buttons
     ui->rightButton->setStyleSheet("color:(255, 255, 255) :hover{color: rgb(229, 84, 222);} :active{color: rgb(200, 200, 200)}");
 
+    ui->moneyLabel->setText(QString::fromStdString("Money: " + std::to_string(ZorkUL::getMoney())));
     // Makking the image fill the available space.
     ui->current_image->setScaledContents( true );
+    ui->input->setFocus();
 }
 
 MainWindow::~MainWindow()
@@ -43,17 +45,21 @@ void MainWindow::scrollToBottom(){
 void MainWindow::addStringToConsole(string input){
     //qDebug("Hello");
     ui->outputConsole->setText(ui->outputConsole->text() + QString::fromStdString("\n") + QString::fromStdString(input));
+    scrollToBottom();
 }
 
 void MainWindow::addQStringToConsole(QString input){
     //qDebug("Hello");
     ui->outputConsole->setText(ui->outputConsole->text() + QString::fromStdString("\n") + input);
+    scrollToBottom();
 }
 
 // Clears the console and prints something
 void MainWindow::overwriteConsole(string input){
     ui->outputConsole->clear();
     addStringToConsole(input);
+
+    scrollToBottom();
 }
 
 // Updates the background based on the path parameter
@@ -135,6 +141,7 @@ void MainWindow::parseInput(string input){
 
     delete command;
 
+    ui->input->setFocus();
     scrollToBottom();
 }
 

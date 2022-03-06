@@ -53,13 +53,33 @@ GoalRoom::GoalRoom(string description, string backgroundPath, typeOfRoom typeOfR
 
 GoalRoom::~GoalRoom(){}
 
+void GoalRoom::setGoalStatus(bool status){
+    this->goalCompleted = status;
+}
+
+bool GoalRoom::getGoalStatus(){
+    return this->goalCompleted;
+}
+
 RewardRoom::RewardRoom(){}
 RewardRoom::~RewardRoom(){}
 
+// For giving monetary reward
+int RewardRoom::giveMoneyReward(){
+    int reward = 0;
+    if(this->rewardType == MONEY){
+        reward = this->rewardMoney;
+        this->rewardMoney = 0;
+    }
+    return reward;
+}
+
 WordleRoom::WordleRoom(string description, string backgroundPath, int rewardMoney){
-    this->roomType = WORDLE;
+    this->roomType = (typeOfRoom) (WORDLE | GOAL);
+
     this->description = description;
     this->backgroundPath = backgroundPath;
+    this->RewardRoom::rewardType = MONEY;
     this->RewardRoom::rewardMoney = rewardMoney;
 }
 

@@ -15,7 +15,8 @@ class RoomProperties{
 public:
     virtual bool hasItems() = 0;
     virtual void completionEvent() = 0;
-    enum typeOfRoom : int {WORDLE, NORMAL, GOAL, STACK};
+    // Using bitmask
+    enum typeOfRoom : int {WORDLE = 1, NORMAL = 2, GOAL = 4, STACK = 8};
 };
 
 class Room : public RoomProperties{
@@ -75,7 +76,7 @@ private:
 // Room with reward
 class RewardRoom{
 public:
-    enum rewardType : int{ITEM, MONEY, CLUE, NONE};
+    enum typeOfReward : int{ITEM, MONEY, CLUE, NONE};
 protected:
     union{
         Item* rewardItem;
@@ -84,12 +85,14 @@ protected:
     };
 
 public:
+    Item* giveItemReward();
+    int giveMoneyReward();
+    string giveClueReward();
+
+    typeOfReward rewardType;
+
     RewardRoom();
     ~RewardRoom();
-
-
-
-
 };
 
 // Subclass GoalRoom with a specific goal to complete
@@ -106,8 +109,8 @@ public:
 
     // Unique description for long descriptions
     string longDescription() override;
-    void completeGoal();
-    void getGoalStatus();
+    void setGoalStatus(bool status);
+    bool getGoalStatus();
 
     void completionEvent() override;
 };
