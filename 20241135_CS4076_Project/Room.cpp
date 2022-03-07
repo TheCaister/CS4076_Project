@@ -1,29 +1,17 @@
 #include "Room.h"
 #include "Command.h"
 
-Room::Room(){}
+// For checking variable types
+#include <typeinfo>
+#include <string.h>
 
-// Setting default background
-Room::Room(string description)
-    : backgroundPath(":/img/img/night_city.jpg"), roomType(Room::NORMAL){
+Room::Room(string name, string description, string backgroundPath,
+           typeOfRoom typeOfRoom, bool hasHiddenItem){
+    this->name = name;
     this->description = description;
-}
-
-Room::Room(string description, string backgroundPath)
-    : roomType(Room::NORMAL){
-    this->description = description;
-
-    // Setting default background path;
     this->backgroundPath = backgroundPath;
-}
-
-Room::Room(string description, string backgroundPath, typeOfRoom typeOfRoom){
-    this->description = description;
-
-    // Setting default background path;
-    this->backgroundPath = backgroundPath;
-
     this->roomType = typeOfRoom;
+    this->hasHiddenItem = hasHiddenItem;
 }
 
 Room::Room(const Room& other){
@@ -43,13 +31,11 @@ void Room::operator+(Item *item){
     this->addItem(item);
 }
 
-GoalRoom::GoalRoom(){}
-
-GoalRoom::GoalRoom(string description) : Room(description), goalCompleted(false){}
-
-GoalRoom::GoalRoom(string description, string backgroundPath) : Room(description, backgroundPath), goalCompleted(false){}
-
-GoalRoom::GoalRoom(string description, string backgroundPath, typeOfRoom typeOfRoom) : Room(description, backgroundPath, typeOfRoom), goalCompleted(false){}
+GoalRoom::GoalRoom(string name, string description, string backgroundPath, typeOfRoom typeOfRoom,
+                   bool hasHiddenItem, bool goalCompleted){
+    Room(name, description, backgroundPath, typeOfRoom, hasHiddenItem);
+    this->goalCompleted = goalCompleted;
+}
 
 GoalRoom::~GoalRoom(){}
 
@@ -74,14 +60,15 @@ int RewardRoom::giveMoneyReward(){
     return reward;
 }
 
-WordleRoom::WordleRoom(string description, string backgroundPath, int rewardMoney){
-    this->roomType = (typeOfRoom) (WORDLE | GOAL);
+//WordleRoom::WordleRoom(string description, string backgroundPath, int rewardMoney){
+//    this->roomType = (typeOfRoom) (WORDLE | GOAL);
 
-    this->description = description;
-    this->backgroundPath = backgroundPath;
-    this->RewardRoom::rewardType = MONEY;
-    this->RewardRoom::rewardMoney = rewardMoney;
-}
+//    this->description = description;
+//    this->backgroundPath = backgroundPath;
+//    this->RewardRoom::rewardType = MONEY;
+//    this->RewardRoom::rewardMoney = rewardMoney;
+//}
+
 
 void Room::setExits(Room *north, Room *east, Room *south, Room *west) {
     if (north != NULL)
@@ -94,7 +81,7 @@ void Room::setExits(Room *north, Room *east, Room *south, Room *west) {
         exits["west"] = west;
 }
 
-string Room::shortDescription() {
+string Room::getShortDescription() {
     return description;
 }
 
@@ -107,12 +94,19 @@ string Room::exitString() {
     for (map<string, Room*>::iterator i = exits.begin(); i != exits.end(); i++)
         // Loop through map
         returnString += "  " + capitaliseFirst(i->first);
-        //returnString += "  " + i->first;	// access the "first" element of the pair (direction as a string)
+    //returnString += "  " + i->first;	// access the "first" element of the pair (direction as a string)
     returnString += "\n";
     return returnString;
 }
 
 Room* Room::nextRoom(string direction) {
+    // See if the name matches instead of direction first
+//    for(map<string, Room*>::iterator roomName = exits.begin(); roomName != exits.end(); roomName++){
+//        if(direction.compare(roomName->second->getShortDescription())){
+//            return roomName->second;
+//        }
+//    }
+
     map<string, Room*>::iterator next = exits.find(direction); //returns an iterator for the "pair"
     if (next == exits.end())
         return NULL; // if exits.end() was returned, there's no room in that direction.

@@ -44,8 +44,7 @@ int main(int argc, char *argv[]) {
     w.addStringToConsole(Dialogues::welcome);
 
     ZorkUL::updateRoom(allRooms.at(0), windowPtr);
-    w.addStringToConsole(Dialogues::printCurrentRoom(ZorkUL::getCurrentRoom()->shortDescription()));
-
+    w.addStringToConsole(Dialogues::printCurrentRoom(ZorkUL::getCurrentRoom()->getShortDescription()));
 
     delete worldleEngine;
     delete ZorkUL::parser;
@@ -76,13 +75,15 @@ vector<Room*> ZorkUL::createRooms()  {
     vector<Room*> allRooms;
 
     // Adding all rooms
-    city_centre = new Room("City Centre", Constants::NIGHT_CITY_GIF);
-    //sewer_a = new Room("Sewer", Constants::SEWER_GIF, Room::WORDLE);
-    sewer_a = new WordleRoom("Sewer", Constants::SEWER_GIF, 100);
-    train = new GoalRoom("Train", Constants::TRAIN_GIF, Room::WORDLE);
-    station = new Room("Station", Constants::STATION_PIC);
+    city_centre = new Room("City Centre", "Main City Centre. Blinding lights violate your eyes from"
+                                          " every direction. Keep an eye out for tourist traps.", Constants::NIGHT_CITY_GIF);
+    //sewer_a = new WordleRoom("Sewer", Constants::SEWER_GIF, 100);
+    sewer_a = new WordleRoom<int>(100, "Sewers", "The city sewers. Hidden from the glamour of life above-ground, you can't help"
+                                       " but gag at the foul odours emanating from this area. Maybe it's best that you leave soon...");
+    train = new GoalRoom("Train", "", Constants::TRAIN_GIF, Room::WORDLE);
+    station = new Room("Station", "", Constants::STATION_PIC);
     //chinese_restaurant = new Room("Chinese Restaurant", Constants::CHINESE_RESTAURANT_PIC);
-    pei_street = new Room("Pei Street", Constants::BUSY_STREET);
+    pei_street = new Room("Pei Street", "", Constants::BUSY_STREET);
 
     *city_centre + frog;
     *pei_street + weird_magazine;
@@ -106,6 +107,10 @@ vector<Room*> ZorkUL::createRooms()  {
     currentRoom = city_centre;
 
     return allRooms;
+}
+
+void deleteAllRooms(){
+
 }
 
 /**
