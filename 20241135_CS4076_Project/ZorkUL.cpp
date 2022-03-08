@@ -65,25 +65,27 @@ ZorkUL::ZorkUL() {
 vector<Room*> ZorkUL::createRooms()  {
     using namespace Constants;
     Room *city_centre, *sewer_a, *train, *station, /**chinese_restaurant,*/ *pei_street;
-    Item *frog, *weird_magazine;
+    Item *frog, *weird_magazine, *pen;
     frog = new Item("frog", "The frog stares at you, eyes gleaming with... passion?");
     weird_magazine = new Item("weird magazine", "A dubious magazine that you picked up from the street. Upon further inspection,\n"
                                                 " you see that this magazine contains copious amounts of photos with\n"
                                                 " people on their knees, pleading for forgiveness. Apparently, there are\n"
                                                 " folks out there who are really into apologies.");
-
+    pen = new Item("pen", "A pen that you got from a man in the train. It smells kinda funky and the tip seems slightly chewed on.");
     vector<Room*> allRooms;
 
     // Adding all rooms
     city_centre = new Room("City Centre", "Main City Centre. Blinding lights violate your eyes from"
                                           " every direction. Keep an eye out for tourist traps.", Constants::NIGHT_CITY_GIF);
     //sewer_a = new WordleRoom("Sewer", Constants::SEWER_GIF, 100);
-    sewer_a = new WordleRoom<int>(100, "Sewers", "The city sewers. Hidden from the glamour of life above-ground, you can't help"
-                                       " but gag at the foul odours emanating from this area. Maybe it's best that you leave soon...");
-    train = new GoalRoom("Train", "", Constants::TRAIN_GIF, Room::WORDLE);
+    sewer_a = new WordleRoom(100, "Sewers", "The city sewers. Hidden from the glamour of life above-ground, you can't help"
+                                       " but gag at the foul odours emanating from this area. Maybe it's best that you leave soon...",
+                             Constants::SEWER_GIF);
+    //train = new GoalRoom("Train", "", Constants::TRAIN_GIF, Room::WORDLE);
+    train = new WordleRoom(pen, "Train", "The local metro train.", Constants::TRAIN_GIF);
     station = new Room("Station", "", Constants::STATION_PIC);
     //chinese_restaurant = new Room("Chinese Restaurant", Constants::CHINESE_RESTAURANT_PIC);
-    pei_street = new Room("Pei Street", "", Constants::BUSY_STREET);
+    pei_street = new Room("Pei Street", "The northern street.", Constants::BUSY_STREET);
 
     *city_centre + frog;
     *pei_street + weird_magazine;
@@ -390,8 +392,15 @@ string ZorkUL::giveReward(){
                 break;
             }
 
-            case RewardRoom::ITEM : break;
-            case RewardRoom::CLUE : break;
+            case RewardRoom::ITEM : {
+                ZorkUL::itemsInInventory.push_back(rewardRoom->giveItemReward());
+                output += "You have received: " + ZorkUL::itemsInInventory.at(ZorkUL::itemsInInventory.size() - 1)->getShortDescription() + ".\n";
+                break;
+            }
+            case RewardRoom::CLUE : {
+                output += "Clue: " + rewardRoom->giveClueReward() + "\n";
+                break;
+            }
             case RewardRoom::NONE : break;
             default : break;
             }

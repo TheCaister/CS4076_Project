@@ -32,8 +32,8 @@ void Room::operator+(Item *item){
 }
 
 GoalRoom::GoalRoom(string name, string description, string backgroundPath, typeOfRoom typeOfRoom,
-                   bool hasHiddenItem, bool goalCompleted){
-    Room(name, description, backgroundPath, typeOfRoom, hasHiddenItem);
+                   bool hasHiddenItem, bool goalCompleted)
+    : Room(name, description, backgroundPath, typeOfRoom, hasHiddenItem){
     this->goalCompleted = goalCompleted;
 }
 
@@ -60,14 +60,53 @@ int RewardRoom::giveMoneyReward(){
     return reward;
 }
 
-//WordleRoom::WordleRoom(string description, string backgroundPath, int rewardMoney){
-//    this->roomType = (typeOfRoom) (WORDLE | GOAL);
+string RewardRoom::giveClueReward(){
+    string reward = "";
+    if(this->rewardType == CLUE){
+        reward = this->rewardClue;
+    }
+    return reward;
+}
 
-//    this->description = description;
-//    this->backgroundPath = backgroundPath;
-//    this->RewardRoom::rewardType = MONEY;
-//    this->RewardRoom::rewardMoney = rewardMoney;
-//}
+Item* RewardRoom::giveItemReward(){
+    Item* reward = NULL;
+    if(this->rewardType == ITEM){
+        reward = this->rewardItem;
+        this->rewardItem = NULL;
+    }
+    return reward;
+}
+
+WordleRoom::WordleRoom(string description, string backgroundPath, int rewardMoney){
+    this->roomType = (typeOfRoom) (WORDLE | GOAL);
+
+    this->description = description;
+    this->backgroundPath = backgroundPath;
+    this->RewardRoom::rewardType = MONEY;
+    this->RewardRoom::rewardMoney = rewardMoney;
+}
+
+WordleRoom::WordleRoom(int moneyReward, string name, string description, string backgroundPath,
+                       typeOfRoom typeOfRoom, bool hasHiddenItem, bool goalCompleted) : GoalRoom(name, description, backgroundPath, typeOfRoom, hasHiddenItem, goalCompleted){
+    this->rewardType = MONEY;
+    this->RewardRoom::rewardMoney = moneyReward;
+}
+
+WordleRoom::WordleRoom(string clueReward, string name, string description, string backgroundPath,
+                       typeOfRoom typeOfRoom, bool hasHiddenItem, bool goalCompleted)
+    : GoalRoom(name, description, backgroundPath, typeOfRoom, hasHiddenItem, goalCompleted){
+    this->rewardType = CLUE;
+    this->RewardRoom::rewardClue = clueReward;
+    this->GoalRoom::setGoalStatus(goalCompleted);
+}
+
+WordleRoom::WordleRoom(Item* itemReward, string name, string description, string backgroundPath,
+                       typeOfRoom typeOfRoom, bool hasHiddenItem, bool goalCompleted)
+    : GoalRoom(name, description, backgroundPath, typeOfRoom, hasHiddenItem, goalCompleted){
+    this->rewardType = ITEM;
+    this->RewardRoom::rewardItem = itemReward;
+    this->GoalRoom::setGoalStatus(goalCompleted);
+}
 
 
 void Room::setExits(Room *north, Room *east, Room *south, Room *west) {
@@ -101,11 +140,11 @@ string Room::exitString() {
 
 Room* Room::nextRoom(string direction) {
     // See if the name matches instead of direction first
-//    for(map<string, Room*>::iterator roomName = exits.begin(); roomName != exits.end(); roomName++){
-//        if(direction.compare(roomName->second->getShortDescription())){
-//            return roomName->second;
-//        }
-//    }
+    //    for(map<string, Room*>::iterator roomName = exits.begin(); roomName != exits.end(); roomName++){
+    //        if(direction.compare(roomName->second->getShortDescription())){
+    //            return roomName->second;
+    //        }
+    //    }
 
     map<string, Room*>::iterator next = exits.find(direction); //returns an iterator for the "pair"
     if (next == exits.end())
