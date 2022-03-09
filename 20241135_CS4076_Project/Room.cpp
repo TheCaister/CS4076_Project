@@ -5,6 +5,31 @@
 #include <typeinfo>
 #include <string.h>
 
+namespace GoalCheckFunctions{
+string checkPlainFunc(GoalRoom* room){
+    return "";
+}
+
+string checkPeiCompleteFunc(GoalRoom* room){
+    string output = "";
+    string goalItem = "frog";
+    vector<Item*> allItems = room->getAllItems();
+
+    for(std::vector<Item*>::iterator iPtr = std::begin(allItems); iPtr != std::end(allItems); ++iPtr){
+        if((*iPtr)->getShortDescription().compare(goalItem) == 0){
+            room->setGoalStatus(true);
+            output += "You set the frog free into Pei Street. It"
+                      " looks back at you with moist eyes, overcome with sadness."
+                      " Maybe, just maybe, you two might meet again...\n";
+            allItems.erase(iPtr);
+            break;
+        }
+    }
+
+    return output;
+}
+}
+
 Room::Room(string name, string description, string backgroundPath,
            typeOfRoom typeOfRoom, bool hasHiddenItem){
     this->name = name;
@@ -33,8 +58,13 @@ void Room::operator+(Item *item){
 
 GoalRoom::GoalRoom(string name, string description, string backgroundPath, typeOfRoom typeOfRoom,
                    bool hasHiddenItem, bool goalCompleted)
-    : Room(name, description, backgroundPath, typeOfRoom, hasHiddenItem){
+    : Room(name, description, backgroundPath, typeOfRoom, hasHiddenItem),
+      checkIfGoalCompleted(&(GoalCheckFunctions::checkPlainFunc)){
     this->goalCompleted = goalCompleted;
+
+    if(checkIfGoalCompleted != NULL){
+        this->setCheckGoalFunction(checkIfGoalCompleted);
+    }
 }
 
 GoalRoom::~GoalRoom(){}
@@ -87,7 +117,8 @@ WordleRoom::WordleRoom(string description, string backgroundPath, int rewardMone
 }
 
 WordleRoom::WordleRoom(int moneyReward, string name, string description, string backgroundPath,
-                       typeOfRoom typeOfRoom, bool hasHiddenItem, bool goalCompleted) : GoalRoom(name, description, backgroundPath, typeOfRoom, hasHiddenItem, goalCompleted){
+                       typeOfRoom typeOfRoom, bool hasHiddenItem, bool goalCompleted)
+    : GoalRoom(name, description, backgroundPath, typeOfRoom, hasHiddenItem, goalCompleted){
     this->rewardType = MONEY;
     this->RewardRoom::rewardMoney = moneyReward;
 }
@@ -224,7 +255,11 @@ string Room::capitaliseFirst(string input){
 }
 
 Room::typeOfRoom Room::getTypeOfRoom(){
-    return roomType;
+    return this->roomType;
+}
+
+vector<Item*> Room::getAllItems(){
+    return this->itemsInRoom;
 }
 
 string GoalRoom::longDescription(){
@@ -236,6 +271,10 @@ string GoalRoom::longDescription(){
         return Room::longDescription() + "\nThe objective in the room is completed.\n";
 
     }
+}
+
+void GoalRoom::setCheckGoalFunction(string (*checkIfGoalCompleted)(GoalRoom *)){
+    this->checkIfGoalCompleted = checkIfGoalCompleted;
 }
 
 void GoalRoom::completionEvent(){

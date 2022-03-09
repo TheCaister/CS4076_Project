@@ -16,6 +16,8 @@ using namespace std;
 using std::vector;
 using namespace Constants;
 
+
+
 // Class holding properties and features that rooms will have
 class RoomProperties{
 public:
@@ -57,6 +59,7 @@ public:
     void setHiddenItem(Item* item);
     void setHiddenClue(string string);
     typeOfRoom getTypeOfRoom();
+    vector<Item*> getAllItems();
 
     // Display different long descriptions for different types of rooms.
     virtual string longDescription();
@@ -87,12 +90,14 @@ protected:
         Item* rewardItem;
         int rewardMoney;
         string rewardClue;
+        vector<Item*> rewardItemsMultiple;
     };
 
 public:
     Item* giveItemReward();
     int giveMoneyReward();
     string giveClueReward();
+    vector<Item*> giveMultipleItemsReward();
 
     typeOfReward rewardType;
 
@@ -100,13 +105,16 @@ public:
     ~RewardRoom();
 };
 
+
+
 // Subclass GoalRoom with a specific goal to complete
 class GoalRoom : public Room{
 private:
     bool goalCompleted;
 
 public:
-    GoalRoom(string name="Generic Goal Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF, typeOfRoom=GOAL,
+    GoalRoom(string name="Generic Goal Area", string description="No description.",
+             string backgroundPath=Constants::NIGHT_CITY_GIF, typeOfRoom=GOAL,
              bool hasHiddenItem=false, bool goalCompleted=false);
     ~GoalRoom();
 
@@ -115,13 +123,15 @@ public:
     void setGoalStatus(bool status);
     bool getGoalStatus();
 
+    // Function to check if a particular goal for a room is completed.
+    string (*checkIfGoalCompleted)(GoalRoom* room);
+    void setCheckGoalFunction(string (*checkGoalCompleted)(GoalRoom* room));
+
     void completionEvent() override;
 };
 
 class WordleRoom : public GoalRoom, public RewardRoom{
 public:
-
-
     WordleRoom(string description, string backgroundPath, int moneyReward);
     WordleRoom(int moneyReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
                typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
@@ -129,44 +139,6 @@ public:
                typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
     WordleRoom(Item* itemReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
                typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
-
-
-
-    // Can accept different reward types
-
-    //    WordleRoom(RewardType reward=false, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
-    //               typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
-    //    WordleRoom<RewardType>(RewardType reward=false, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
-    //                           typeOfRoom roomType=(typeOfRoom)(WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false){
-    //        GoalRoom(name, description, backgroundPath, roomType, hasHiddenItem, goalCompleted);
-
-    //        Item* testItemPtr;
-    //        int testInt;
-    //        string testString;
-
-
-    //        qDebug(typeid(reward).name());
-    //        qDebug(typeid(testItemPtr).name());
-    //        qDebug(typeid(testInt).name());
-    //        qDebug(typeid(testString).name());
-    //        // Checking the type of reward passed in and assigning it.
-    //        if(std::string(typeid(reward).name()).compare(std::string(typeid(testItemPtr).name())) == 0){
-    //            qDebug("Bruh");
-    //            this->RewardRoom::reward = reward;
-    //            //this->rewardType = RewardRoom::ITEM;
-    //        }
-    //        else if(std::string(typeid(reward).name()).compare(std::string(typeid(testInt).name())) == 0){
-    //            this->RewardRoom::reward = reward;
-    //            this->rewardType = RewardRoom::MONEY;
-    //        }
-    //        else if(std::string(typeid(reward).name()).compare(std::string(typeid(testString).name())) == 0){
-    //            this->RewardRoom::reward = reward;
-    //            this->rewardType = RewardRoom::CLUE;
-    //        }
-    //        else{
-    //            this->rewardType = RewardRoom::NONE;
-    //        }
-    //    }
 };
 
 // Room that contains a stack
@@ -175,6 +147,12 @@ private:
     // A stack of items?
     Stack<Item*> roomStack;
 };
+
+namespace GoalCheckFunctions{
+string checkPlainFunc(GoalRoom* room);
+
+string checkPeiCompleteFunc(GoalRoom* room);
+}
 
 
 #endif
