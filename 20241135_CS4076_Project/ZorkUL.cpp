@@ -64,6 +64,7 @@ ZorkUL::ZorkUL() {
 
 vector<Room*> ZorkUL::createRooms()  {
     using namespace Constants;
+    using namespace GoalCheckFunctions;
     Room *city_centre, *station/*, *chinese_restaurant,*/;
     GoalRoom *sewer_a, *pei_street, *train;
     Item *frog, *weird_magazine, *pen;
@@ -90,9 +91,9 @@ vector<Room*> ZorkUL::createRooms()  {
                               Constants::BUSY_STREET);
 
     // Setting goal checkers
-    sewer_a->setCheckGoalFunction(&(GoalCheckFunctions::checkPlainFunc));
-    train->setCheckGoalFunction(&(GoalCheckFunctions::checkPlainFunc));
-    pei_street->setCheckGoalFunction(&(GoalCheckFunctions::checkPeiCompleteFunc));
+    sewer_a->setCheckGoalFunction(&checkPlainFunc);
+    train->setCheckGoalFunction(&checkPlainFunc);
+    pei_street->setCheckGoalFunction(&checkPeiCompleteFunc);
 
     *city_centre + frog;
     *pei_street + weird_magazine;

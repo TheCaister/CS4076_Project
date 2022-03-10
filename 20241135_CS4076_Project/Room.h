@@ -60,6 +60,8 @@ public:
     void setHiddenClue(string string);
     typeOfRoom getTypeOfRoom();
     vector<Item*> getAllItems();
+    void setAllItems(vector<Item*> items);
+    void deleteAllItems();
 
     // Display different long descriptions for different types of rooms.
     virtual string longDescription();
@@ -153,6 +155,4 @@ string checkPlainFunc(GoalRoom* room);
 
 string checkPeiCompleteFunc(GoalRoom* room);
 }
-
-
 #endif

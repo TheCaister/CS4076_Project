@@ -10,18 +10,19 @@ string checkPlainFunc(GoalRoom* room){
     return "";
 }
 
-string checkPeiCompleteFunc(GoalRoom* room){
+string checkPeiCompleteFunc(GoalRoom* currentRoom){
     string output = "";
     string goalItem = "frog";
-    vector<Item*> allItems = room->getAllItems();
+    vector<Item*> allItems = currentRoom->getAllItems();
 
-    for(std::vector<Item*>::iterator iPtr = std::begin(allItems); iPtr != std::end(allItems); ++iPtr){
+    for(std::vector<Item*>::iterator iPtr = allItems.begin(); iPtr != allItems.end(); ++iPtr){
         if((*iPtr)->getShortDescription().compare(goalItem) == 0){
-            room->setGoalStatus(true);
+            currentRoom->setGoalStatus(true);
             output += "You set the frog free into Pei Street. It"
                       " looks back at you with moist eyes, overcome with sadness."
                       " Maybe, just maybe, you two might meet again...\n";
             allItems.erase(iPtr);
+            currentRoom->setAllItems(allItems);
             break;
         }
     }
@@ -54,6 +55,17 @@ Room::~Room(){}
 
 void Room::operator+(Item *item){
     this->addItem(item);
+}
+
+void Room::setAllItems(vector<Item*> items){
+    this->deleteAllItems();
+    this->itemsInRoom = items;
+}
+
+void Room::deleteAllItems(){
+    for(auto& iPtr : this->getAllItems()){
+        delete iPtr;
+    }
 }
 
 GoalRoom::GoalRoom(string name, string description, string backgroundPath, typeOfRoom typeOfRoom,
