@@ -17,6 +17,7 @@ CommandWords::CommandWords() {
         //validCommands.push_back("teleport");
         validCommands.push_back("use");
         validCommands.push_back("check");
+        validCommands.push_back("interact");
 	}
 }
 

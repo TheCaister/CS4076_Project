@@ -16,7 +16,19 @@ using namespace std;
 using std::vector;
 using namespace Constants;
 
+class Room;
+class GoalRoom;
 
+namespace GoalCheckFunctions{
+string checkPlainFunc(GoalRoom*);
+
+string checkPeiCompleteFunc(GoalRoom*);
+}
+
+namespace InteractFunctions{
+string interactPlain(Room*);
+string interactDescription(Room*);
+}
 
 // Class holding properties and features that rooms will have
 class RoomProperties{
@@ -42,6 +54,8 @@ public:
 
     Room(string name="Generic Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
          typeOfRoom typeOfRoom=NORMAL, bool hasHiddenItem=false);
+    Room(string (*interactFunc)(Room*)=&(InteractFunctions::interactPlain), string name="Generic Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
+         typeOfRoom typeOfRoom=NORMAL, bool hasHiddenItem=false);
     Room(const Room& other);
 
     ~Room();
@@ -64,10 +78,15 @@ public:
     void deleteAllItems();
 
     // Display different long descriptions for different types of rooms.
-    virtual string longDescription();
+    virtual string getLongDescription();
 
     bool hasItems() override;
     void completionEvent() override;
+
+    // Function to check if a particular goal for a room is completed.
+    string (*interactionFunc)(Room*);
+    void setInteractionFunction(string (*interactionFunc)(Room*));
+
 
 protected:
     string name;
@@ -118,10 +137,13 @@ public:
     GoalRoom(string name="Generic Goal Area", string description="No description.",
              string backgroundPath=Constants::NIGHT_CITY_GIF, typeOfRoom=GOAL,
              bool hasHiddenItem=false, bool goalCompleted=false);
+    GoalRoom(string(*goalFunc)(GoalRoom*)=&(GoalCheckFunctions::checkPlainFunc), string name="Generic Goal Area", string description="No description.",
+             string backgroundPath=Constants::NIGHT_CITY_GIF, typeOfRoom=GOAL,
+             bool hasHiddenItem=false, bool goalCompleted=false);
     ~GoalRoom();
 
     // Unique description for long descriptions
-    string longDescription() override;
+    string getLongDescription() override;
     void setGoalStatus(bool status);
     bool getGoalStatus();
 
@@ -150,9 +172,5 @@ private:
     Stack<Item*> roomStack;
 };
 
-namespace GoalCheckFunctions{
-string checkPlainFunc(GoalRoom* room);
 
-string checkPeiCompleteFunc(GoalRoom* room);
-}
 #endif

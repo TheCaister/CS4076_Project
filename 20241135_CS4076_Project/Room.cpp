@@ -31,6 +31,15 @@ string checkPeiCompleteFunc(GoalRoom* currentRoom){
 }
 }
 
+namespace InteractFunctions{
+string interactPlain(Room* room){
+    return "Plain interaction.";
+}
+string interactDescription(Room* room){
+    return room->getShortDescription();
+}
+}
+
 Room::Room(string name, string description, string backgroundPath,
            typeOfRoom typeOfRoom, bool hasHiddenItem){
     this->name = name;
@@ -79,6 +88,17 @@ GoalRoom::GoalRoom(string name, string description, string backgroundPath, typeO
     }
 }
 
+GoalRoom::GoalRoom(string(*goalFunc)(GoalRoom*), string name, string description,
+         string backgroundPath, typeOfRoom roomType,
+         bool hasHiddenItem, bool goalCompleted) : Room(name, description, backgroundPath, roomType, hasHiddenItem){
+    this->goalCompleted = goalCompleted;
+    this->checkIfGoalCompleted = goalFunc;
+
+}
+
+
+
+
 GoalRoom::~GoalRoom(){}
 
 void GoalRoom::setGoalStatus(bool status){
@@ -117,15 +137,6 @@ Item* RewardRoom::giveItemReward(){
         this->rewardItem = NULL;
     }
     return reward;
-}
-
-WordleRoom::WordleRoom(string description, string backgroundPath, int rewardMoney){
-    this->roomType = (typeOfRoom) (WORDLE | GOAL);
-
-    this->description = description;
-    this->backgroundPath = backgroundPath;
-    this->RewardRoom::rewardType = MONEY;
-    this->RewardRoom::rewardMoney = rewardMoney;
 }
 
 WordleRoom::WordleRoom(int moneyReward, string name, string description, string backgroundPath,
@@ -167,7 +178,7 @@ string Room::getShortDescription() {
     return description;
 }
 
-string Room::longDescription() {
+string Room::getLongDescription() {
     return "Room: " + description + "\n-\n" + displayItem() + exitString();
 }
 
@@ -274,13 +285,13 @@ vector<Item*> Room::getAllItems(){
     return this->itemsInRoom;
 }
 
-string GoalRoom::longDescription(){
+string GoalRoom::getLongDescription(){
     if(!this->goalCompleted){
-        return Room::longDescription() + "\nThere seems to be a objective to be completed here...\n";
+        return Room::getLongDescription() + "\nThere seems to be a objective to be completed here...\n";
 
     }
     else{
-        return Room::longDescription() + "\nThe objective in the room is completed.\n";
+        return Room::getLongDescription() + "\nThe objective in the room is completed.\n";
 
     }
 }

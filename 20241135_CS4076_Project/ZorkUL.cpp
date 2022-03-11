@@ -65,6 +65,7 @@ ZorkUL::ZorkUL() {
 vector<Room*> ZorkUL::createRooms()  {
     using namespace Constants;
     using namespace GoalCheckFunctions;
+    using namespace InteractFunctions;
     Room *city_centre, *station/*, *chinese_restaurant,*/;
     GoalRoom *sewer_a, *pei_street, *train;
     Item *frog, *weird_magazine, *pen;
@@ -87,13 +88,15 @@ vector<Room*> ZorkUL::createRooms()  {
     station = new Room("Station", "", Constants::STATION_PIC);
     //chinese_restaurant = new Room("Chinese Restaurant", Constants::CHINESE_RESTAURANT_PIC);
     //pei_street = new GoalRoom("Pei Street", "The northern street.", Constants::BUSY_STREET);
-    pei_street = new GoalRoom("Pei Street", "The northern street.",
+//    pei_street = new GoalRoom("Pei Street", "The northern street.",
+//                              Constants::BUSY_STREET);
+    pei_street = new GoalRoom(&(GoalCheckFunctions::checkPeiCompleteFunc),"Pei Street", "The northern street.",
                               Constants::BUSY_STREET);
 
     // Setting goal checkers
-    sewer_a->setCheckGoalFunction(&checkPlainFunc);
-    train->setCheckGoalFunction(&checkPlainFunc);
-    pei_street->setCheckGoalFunction(&checkPeiCompleteFunc);
+    //sewer_a->setCheckGoalFunction(&checkPlainFunc);
+    //train->setCheckGoalFunction(&checkPlainFunc);
+    //pei_street->setCheckGoalFunction(&checkPeiCompleteFunc);
 
     *city_centre + frog;
     *pei_street + weird_magazine;
@@ -143,9 +146,9 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
     }
 
 
-    if (command.isUnknown()) {
-        //return "";
-    }
+//    if (command.isUnknown()) {
+//        //return "";
+//    }
 
     string commandWord = command.getCommandWord();
 
@@ -166,7 +169,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             // Otherwise, throw an error message.
             if(goRoom(command)){
                 ZorkUL::updateRoom(currentRoom, window);
-                output += currentRoom->longDescription();
+                output += currentRoom->getLongDescription();
                 //return currentRoom->longDescription();
 
             }
@@ -223,7 +226,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
                 // Adding to player's inventory and removing from the room
                 itemsInInventory.push_back(currentRoom->itemsInRoom.at(location));
                 currentRoom->itemsInRoom.erase(currentRoom->itemsInRoom.begin() + location);
-                output += currentRoom->longDescription();
+                output += currentRoom->getLongDescription();
                 //return output;
             }
 
@@ -254,11 +257,15 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             currentRoom->itemsInRoom.push_back(itemsInInventory.at(location));
             itemsInInventory.erase(itemsInInventory.begin() + location);
 
-            output += currentRoom->longDescription();
+            output += currentRoom->getLongDescription();
 
             //return output;
 
         }
+    }
+
+    else if(commandWord.compare("interact") == 0){
+        output += currentRoom->interactionFunc(currentRoom);
     }
 
     else if(commandWord.compare("check") == 0){
@@ -277,7 +284,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 //                return printAllItems();
             }
             else if(secondWord.compare("room") == 0 || secondWord.compare("area") == 0){
-                output += currentRoom->longDescription();
+                output += currentRoom->getLongDescription();
 
 //                return currentRoom->longDescription();
             }
