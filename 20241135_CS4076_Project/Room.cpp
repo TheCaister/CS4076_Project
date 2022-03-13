@@ -5,31 +5,7 @@
 #include <typeinfo>
 #include <string.h>
 
-namespace GoalCheckFunctions{
-string checkPlainFunc(GoalRoom* room){
-    return "";
-}
 
-string checkPeiCompleteFunc(GoalRoom* currentRoom){
-    string output = "";
-    string goalItem = "frog";
-    vector<Item*> allItems = currentRoom->getAllItems();
-
-    for(std::vector<Item*>::iterator iPtr = allItems.begin(); iPtr != allItems.end(); ++iPtr){
-        if((*iPtr)->getShortDescription().compare(goalItem) == 0){
-            currentRoom->setGoalStatus(true);
-            output += "You set the frog free into Pei Street. It"
-                      " looks back at you with moist eyes, overcome with sadness."
-                      " Maybe, just maybe, you two might meet again...\n";
-            allItems.erase(iPtr);
-            currentRoom->setAllItems(allItems);
-            break;
-        }
-    }
-
-    return output;
-}
-}
 
 namespace InteractFunctions{
 string interactPlain(Room* room){
@@ -49,6 +25,7 @@ Room::Room(string name, string description, string backgroundPath,
     this->hasHiddenItem = hasHiddenItem;
 }
 
+// Copy constructor
 Room::Room(const Room& other){
     if(hasHiddenItem){
         return;
@@ -60,21 +37,41 @@ Room::Room(const Room& other){
     }
 }
 
-Room::~Room(){}
+Room::~Room(){
+    for(auto& item : this->getAllItems()){
+        delete item;
+    }
+
+    this->getAllItems().clear();
+
+}
 
 void Room::operator+(Item *item){
     this->addItem(item);
 }
 
 void Room::setAllItems(vector<Item*> items){
-    this->deleteAllItems();
     this->itemsInRoom = items;
+}
+
+bool Room::deleteItemByName(string name){
+    vector<Item*> items = this->getAllItems();
+    for(int i = 0; i < items.size(); i++){
+        if(items.at(i)->getShortDescription().compare(name) == 0){
+            delete items.at(i);
+            items.erase(items.begin() + i);
+            this->setAllItems(items);
+            return true;
+        }
+    }
+    return false;
 }
 
 void Room::deleteAllItems(){
     for(auto& iPtr : this->getAllItems()){
         delete iPtr;
     }
+    this->getAllItems().clear();
 }
 
 GoalRoom::GoalRoom(string name, string description, string backgroundPath, typeOfRoom typeOfRoom,
@@ -89,8 +86,8 @@ GoalRoom::GoalRoom(string name, string description, string backgroundPath, typeO
 }
 
 GoalRoom::GoalRoom(string(*goalFunc)(GoalRoom*), string name, string description,
-         string backgroundPath, typeOfRoom roomType,
-         bool hasHiddenItem, bool goalCompleted) : Room(name, description, backgroundPath, roomType, hasHiddenItem){
+                   string backgroundPath, typeOfRoom roomType,
+                   bool hasHiddenItem, bool goalCompleted) : Room(name, description, backgroundPath, roomType, hasHiddenItem){
     this->goalCompleted = goalCompleted;
     this->checkIfGoalCompleted = goalFunc;
 
@@ -300,7 +297,40 @@ void GoalRoom::setCheckGoalFunction(string (*checkIfGoalCompleted)(GoalRoom *)){
     this->checkIfGoalCompleted = checkIfGoalCompleted;
 }
 
-void GoalRoom::completionEvent(){
+namespace GoalCheckFunctions{
+string checkPlainFunc(GoalRoom* room){
+    return "";
+}
 
+string checkPeiCompleteFunc(GoalRoom* currentRoom){
+    string output = "";
+    string goalItem = "frog";
+    // vector<Item*> allItems = currentRoom->getAllItems();
+
+    //    for(std::vector<Item*>::iterator iPtr = allItems.begin(); iPtr != allItems.end(); ++iPtr){
+    //        if((*iPtr)->getShortDescription().compare(goalItem) == 0){
+    //            currentRoom->setGoalStatus(true);
+    //            output += "You set the frog free into Pei Street. It"
+    //                      " looks back at you with moist eyes, overcome with sadness."
+    //                      " Maybe, just maybe, you two might meet again...\n";
+    //            allItems.erase(iPtr);
+    //            currentRoom->setAllItems(allItems);
+    //            break;
+    //        }
+    //    }
+
+    //int numberOfItems = (int) currentRoom->getAllItems().size();
+
+    // I want to remove a particular item from the list that matches the name of the goal item.
+    if(currentRoom->deleteItemByName(goalItem)){
+        currentRoom->setGoalStatus(true);
+        output += "You set the frog free into Pei Street. It"
+                  " looks back at you with moist eyes, overcome with sadness."
+                  " Maybe, just maybe, you two might meet again...\n";
+
+    }
+
+    return output;
+}
 }
 

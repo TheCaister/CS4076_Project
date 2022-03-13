@@ -24,6 +24,7 @@ public:
     void updateBackground(string path);
     void parseInput(string input);
     void scrollToBottom();
+    QMovie* currentMovie;
 
 private slots:
     void on_input_textChanged();

@@ -58,7 +58,7 @@ public:
          typeOfRoom typeOfRoom=NORMAL, bool hasHiddenItem=false);
     Room(const Room& other);
 
-    ~Room();
+    virtual ~Room();
 
     void operator+(Item* item);
 
@@ -76,6 +76,7 @@ public:
     vector<Item*> getAllItems();
     void setAllItems(vector<Item*> items);
     void deleteAllItems();
+    bool deleteItemByName(string name);
 
     // Display different long descriptions for different types of rooms.
     virtual string getLongDescription();
@@ -123,7 +124,7 @@ public:
     typeOfReward rewardType;
 
     RewardRoom();
-    ~RewardRoom();
+    virtual ~RewardRoom();
 };
 
 
@@ -140,7 +141,7 @@ public:
     GoalRoom(string(*goalFunc)(GoalRoom*)=&(GoalCheckFunctions::checkPlainFunc), string name="Generic Goal Area", string description="No description.",
              string backgroundPath=Constants::NIGHT_CITY_GIF, typeOfRoom=GOAL,
              bool hasHiddenItem=false, bool goalCompleted=false);
-    ~GoalRoom();
+    virtual ~GoalRoom();
 
     // Unique description for long descriptions
     string getLongDescription() override;
@@ -151,7 +152,6 @@ public:
     string (*checkIfGoalCompleted)(GoalRoom* room);
     void setCheckGoalFunction(string (*checkGoalCompleted)(GoalRoom* room));
 
-    void completionEvent() override;
 };
 
 class WordleRoom : public GoalRoom, public RewardRoom{
@@ -163,6 +163,7 @@ public:
                typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
     WordleRoom(Item* itemReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
                typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
+
 };
 
 // Room that contains a stack

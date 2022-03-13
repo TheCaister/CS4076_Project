@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete this->currentMovie;
 }
 
 void MainWindow::clearConsole(){
@@ -82,13 +83,13 @@ void MainWindow::updateBackground(string path){
     QString file(QString::fromStdString(path));
 
     if(fileType.compare(".gif") == 0){
-        QMovie *movie = new QMovie(file);
+        this->currentMovie = new QMovie(file);
 
         // Making the image fill the available space.
         ui->current_image->setScaledContents( true );
 
-        ui->current_image->setMovie(movie);
-        movie->start();
+        ui->current_image->setMovie(this->currentMovie);
+        this->currentMovie->start();
     }
 
     else if(fileType.compare(".jpg") == 0 || fileType.compare(".png") == 0){

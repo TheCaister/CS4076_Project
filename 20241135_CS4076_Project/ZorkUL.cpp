@@ -20,8 +20,10 @@ Quantities *ZorkUL::allQuantities;
 vector<Item*> ZorkUL::itemsInInventory;
 bool ZorkUL::keysPresent[5];
 int ZorkUL::money;
+vector<Room*> ZorkUL::allRooms;
 
 int main(int argc, char *argv[]) {
+
     ZorkUL::parser = new Parser();
     // For printing stuff out in the output pane and debugging
     QTextStream out(stdout);
@@ -40,10 +42,10 @@ int main(int argc, char *argv[]) {
     //    for (string s : worldleEngine->getAllWords()){
     //        w.addToConsole(s);
     //    }
-    vector<Room*> allRooms = ZorkUL::createRooms();
+    ZorkUL::setAllRooms(ZorkUL::createRooms());
     w.addStringToConsole(Dialogues::welcome);
 
-    ZorkUL::updateRoom(allRooms.at(0), windowPtr);
+    ZorkUL::updateRoom(ZorkUL::getAllRooms().at(0), windowPtr);
     w.addStringToConsole(Dialogues::printCurrentRoom(ZorkUL::getCurrentRoom()->getShortDescription()));
 
     delete worldleEngine;
@@ -60,6 +62,31 @@ ZorkUL::ZorkUL() {
     ZorkUL::money = 10;
 
     createRooms();
+}
+
+void ZorkUL::setAllRooms(vector<Room *> rooms){
+    ZorkUL::allRooms = rooms;
+}
+
+vector<Room*> ZorkUL::getAllRooms(){
+    return ZorkUL::allRooms;
+}
+
+// Cleaning up heap stuff
+void ZorkUL::deleteAll(){
+    currentRoom = NULL;
+
+    for(auto& room : ZorkUL::getAllRooms()){
+        delete room;
+    }
+
+    for(auto& item : ZorkUL::itemsInInventory){
+        delete item;
+    }
+
+    ZorkUL::getAllRooms().clear();
+    ZorkUL::itemsInInventory.clear();
+
 }
 
 vector<Room*> ZorkUL::createRooms()  {
@@ -100,7 +127,7 @@ vector<Room*> ZorkUL::createRooms()  {
 
     *city_centre + frog;
     *pei_street + weird_magazine;
-    vector<Item*> allItems = city_centre->itemsInRoom;
+    //vector<Item*> allItems = city_centre->itemsInRoom;
 
     // Setting exits for each room
     //             (N, E, S, W)
@@ -296,6 +323,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
 //            return "Overdefined input. If you want to quit, please type 'quit' in the input console or click the 'quit' button.";
         else
+            ZorkUL::deleteAll();
             exit(0); /**signal to quit*/
     }
 

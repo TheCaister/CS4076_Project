@@ -20,6 +20,7 @@ struct Quantities{
 class ZorkUL {
 private:
     static Room *currentRoom;
+    static vector<Room*> allRooms;
 
     void printWelcome();
     static string printHelp();
@@ -52,6 +53,9 @@ public:
     static int findItemIndex(const string& item);
     static void changeMoney(int moneyAmount);
     static int getMoney();
+    static void setAllRooms(vector<Room*> rooms);
+    static vector<Room*> getAllRooms();
+    static void deleteAll();
 
 };
 
