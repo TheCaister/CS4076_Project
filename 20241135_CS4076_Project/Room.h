@@ -34,7 +34,7 @@ string interactDescription(Room*);
 class RoomProperties{
 public:
     virtual bool hasItems() = 0;
-    virtual void completionEvent() = 0;
+
     // Using bitmask
     enum typeOfRoom : int {WORDLE = 1, NORMAL = 2, GOAL = 4, STACK = 8};
 };
@@ -82,7 +82,6 @@ public:
     virtual string getLongDescription();
 
     bool hasItems() override;
-    void completionEvent() override;
 
     // Function to check if a particular goal for a room is completed.
     string (*interactionFunc)(Room*);

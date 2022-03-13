@@ -213,10 +213,6 @@ bool Room::hasItems(){
     }
 }
 
-void Room::completionEvent(){
-    return;
-}
-
 void Room::addItem(Item *inItem) {
     //cout <<endl;
     //cout << "Just added" + inItem->getLongDescription();

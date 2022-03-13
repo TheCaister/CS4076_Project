@@ -15,7 +15,6 @@ private:
 public:
 	CommandWords();
     bool isCommand(const string& aString);
-    //void showAll();
     string validCommandsToString();
 };
 

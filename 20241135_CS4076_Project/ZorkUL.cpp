@@ -93,7 +93,9 @@ vector<Room*> ZorkUL::createRooms()  {
     using namespace Constants;
     using namespace GoalCheckFunctions;
     using namespace InteractFunctions;
-    Room *city_centre, *station/*, *chinese_restaurant,*/;
+    Room *city_centre, *station, *cafe, *cave, *chinese_restaurant,
+            *claw_machine, *conveyor_sushi, *lively_alley, *noodle_stall,
+            *under_bridge;
     GoalRoom *sewer_a, *pei_street, *train;
     Item *frog, *weird_magazine, *pen;
     frog = new Item("frog", "The frog stares at you, eyes gleaming with... passion?");
@@ -109,14 +111,14 @@ vector<Room*> ZorkUL::createRooms()  {
                                           " every direction. Keep an eye out for tourist traps.", Constants::NIGHT_CITY_GIF);
     //sewer_a = new WordleRoom("Sewer", Constants::SEWER_GIF, 100);
     sewer_a = new WordleRoom(100, "Sewers", "The city sewers. Hidden from the glamour of life above-ground, you can't help"
-                                       " but gag at the foul odours emanating from this area. Maybe it's best that you leave soon...",
+                                            " but gag at the foul odours emanating from this area. Maybe it's best that you leave soon...",
                              Constants::SEWER_GIF);
     train = new WordleRoom(pen, "Train", "The local metro train.", Constants::TRAIN_GIF);
     station = new Room("Station", "", Constants::STATION_PIC);
     //chinese_restaurant = new Room("Chinese Restaurant", Constants::CHINESE_RESTAURANT_PIC);
     //pei_street = new GoalRoom("Pei Street", "The northern street.", Constants::BUSY_STREET);
-//    pei_street = new GoalRoom("Pei Street", "The northern street.",
-//                              Constants::BUSY_STREET);
+    //    pei_street = new GoalRoom("Pei Street", "The northern street.",
+    //                              Constants::BUSY_STREET);
     pei_street = new GoalRoom(&(GoalCheckFunctions::checkPeiCompleteFunc),"Pei Street", "The northern street.",
                               Constants::BUSY_STREET);
 
@@ -166,16 +168,11 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
         // If it's a success, give the reward of that particular room
         if(WordleEngine::wordleStatus == WordleEngine::WORDLE_SUCCESS){
-            output += giveReward();
+            output += ZorkUL::giveReward();
         }
 
         //return output;
     }
-
-
-//    if (command.isUnknown()) {
-//        //return "";
-//    }
 
     string commandWord = command.getCommandWord();
 
@@ -226,7 +223,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             //return "Using this item...";
             output += ZorkUL::useItem(*itemsInInventory.at(location));
 
-//            return ZorkUL::useItem(*itemsInInventory.at(location));
+            //            return ZorkUL::useItem(*itemsInInventory.at(location));
             //return itemsInInventory.at(0)->getUsedDialogue() + "\n";
         }
     }
@@ -236,7 +233,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
         if (!command.hasSecondWord()) {
             output += "What the hell do you want to take, punk?!\n";
 
-//            return "What the hell do you want to take, punk?!\n";
+            //            return "What the hell do you want to take, punk?!\n";
         }
         else{
             output += "You're trying to take " + command.getSecondWord() + "\n";
@@ -267,7 +264,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             //cout << "What the hell do you want to take, punk?!"<< endl;
             output += "What the hell do you want to put, punk?!\n";
 
-//            return "What the hell do you want to put, punk?!\n";
+            //            return "What the hell do you want to put, punk?!\n";
         }
         else{
             output += "You're trying to put " + command.getSecondWord() + "\n";
@@ -276,15 +273,16 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
             if(location == -1){
                 output += "Item not in inventory.";
+            }
+            else{
+                // Adding to player's inventory and removing from the room
+                currentRoom->itemsInRoom.push_back(itemsInInventory.at(location));
+                itemsInInventory.erase(itemsInInventory.begin() + location);
 
-//                return "Item not in inventory.";
+                output += currentRoom->getLongDescription();
             }
 
-            // Adding to player's inventory and removing from the room
-            currentRoom->itemsInRoom.push_back(itemsInInventory.at(location));
-            itemsInInventory.erase(itemsInInventory.begin() + location);
 
-            output += currentRoom->getLongDescription();
 
             //return output;
 
@@ -300,7 +298,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
         if(!command.hasSecondWord()){
             output += "What do you want to check, punk??\n";
 
-//            return "What do you want to check, punk??\n";
+            //            return "What do you want to check, punk??\n";
         }
         else{
             string secondWord = command.getSecondWord();
@@ -308,23 +306,26 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
                 // Print out inventory here
                 output += printAllItems();
 
-//                return printAllItems();
+                //                return printAllItems();
             }
             else if(secondWord.compare("room") == 0 || secondWord.compare("area") == 0){
                 output += currentRoom->getLongDescription();
 
-//                return currentRoom->longDescription();
+                //                return currentRoom->longDescription();
             }
         }
     }
+
     else if (commandWord.compare("quit") == 0) {
         if (command.hasSecondWord())
             output += "Overdefined input. If you want to quit, please type 'quit' in the input console or click the 'quit' button.";
 
-//            return "Overdefined input. If you want to quit, please type 'quit' in the input console or click the 'quit' button.";
-        else
+        //            return "Overdefined input. If you want to quit, please type 'quit' in the input console or click the 'quit' button.";
+        else{
             ZorkUL::deleteAll();
-            exit(0); /**signal to quit*/
+        }
+
+        exit(0); /**signal to quit*/
     }
 
     if((currentRoom->roomType & RoomProperties::GOAL) == RoomProperties::GOAL){

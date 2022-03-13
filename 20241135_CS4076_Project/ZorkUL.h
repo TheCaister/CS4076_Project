@@ -40,15 +40,11 @@ public:
 
     ZorkUL();
 
-    void play();
-    string go(string direction);
     static void updateRoom(Room *room, MainWindow *window);
     static string processCommand(Command command, MainWindow *window);
     static string giveReward();
     static Room *getCurrentRoom();
     static vector<Room*> createRooms();
-    static void confirmKey(int index);
-    static void addItem(Item item);
     static string useItem(Item& item);
     static int findItemIndex(const string& item);
     static void changeMoney(int moneyAmount);
