@@ -24,7 +24,10 @@ vector<Room*> ZorkUL::allRooms;
 
 int main(int argc, char *argv[]) {
 
-    ZorkUL::parser = new Parser();
+    //ZorkUL::parser = new Parser();
+    Parser* parser = new Parser();
+    ZorkUL::setParser(parser);
+
     // For printing stuff out in the output pane and debugging
     QTextStream out(stdout);
 
@@ -49,7 +52,7 @@ int main(int argc, char *argv[]) {
     w.addStringToConsole(Dialogues::printCurrentRoom(ZorkUL::getCurrentRoom()->getShortDescription()));
 
     delete worldleEngine;
-    delete ZorkUL::parser;
+    delete ZorkUL::getParser();
     return a.exec();
 }
 
@@ -494,3 +497,10 @@ Room *ZorkUL::getCurrentRoom(){
     return ZorkUL::currentRoom;
 }
 
+void ZorkUL::setParser(Parser *parser){
+    ZorkUL::parser = parser;
+}
+
+Parser* ZorkUL::getParser(){
+    return ZorkUL::parser;
+}

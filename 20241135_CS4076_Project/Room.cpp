@@ -56,7 +56,7 @@ void Room::setAllItems(vector<Item*> items){
 
 bool Room::deleteItemByName(string name){
     vector<Item*> items = this->getAllItems();
-    for(int i = 0; i < items.size(); i++){
+    for(int i = 0; i < (int) (items.size()); i++){
         if(items.at(i)->getShortDescription().compare(name) == 0){
             delete items.at(i);
             items.erase(items.begin() + i);
@@ -301,21 +301,6 @@ string checkPlainFunc(GoalRoom* room){
 string checkPeiCompleteFunc(GoalRoom* currentRoom){
     string output = "";
     string goalItem = "frog";
-    // vector<Item*> allItems = currentRoom->getAllItems();
-
-    //    for(std::vector<Item*>::iterator iPtr = allItems.begin(); iPtr != allItems.end(); ++iPtr){
-    //        if((*iPtr)->getShortDescription().compare(goalItem) == 0){
-    //            currentRoom->setGoalStatus(true);
-    //            output += "You set the frog free into Pei Street. It"
-    //                      " looks back at you with moist eyes, overcome with sadness."
-    //                      " Maybe, just maybe, you two might meet again...\n";
-    //            allItems.erase(iPtr);
-    //            currentRoom->setAllItems(allItems);
-    //            break;
-    //        }
-    //    }
-
-    //int numberOfItems = (int) currentRoom->getAllItems().size();
 
     // I want to remove a particular item from the list that matches the name of the goal item.
     if(currentRoom->deleteItemByName(goalItem)){

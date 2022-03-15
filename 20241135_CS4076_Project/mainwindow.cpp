@@ -127,7 +127,7 @@ void MainWindow::on_input_textChanged()
 
 // Trying to convert input to a command and printing out the appropriate output.
 void MainWindow::parseInput(string input){
-    Command *command = ZorkUL::parser->convertToCommand(input);
+    Command *command = ZorkUL::getParser()->convertToCommand(input);
     addStringToConsole("> " + input + "\n");
     string output = ZorkUL::processCommand(*command, this);
 

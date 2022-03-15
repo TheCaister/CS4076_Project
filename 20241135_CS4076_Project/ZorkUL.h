@@ -9,6 +9,7 @@
 #include <string>
 #include "WordleEngine.h"
 #include "mainwindow.h"
+#include "Stack.h"
 
 using namespace std;
 
@@ -29,14 +30,15 @@ private:
     static string printAllItems();
     static int money;
 
-
-
-public:
     static Quantities *allQuantities;
     static Parser *parser;
+    static Stack<Room*> recentRooms;
 
     static vector<Item*> itemsInInventory;
     static bool keysPresent[5];
+
+public:
+
 
     ZorkUL();
 
@@ -52,6 +54,8 @@ public:
     static void setAllRooms(vector<Room*> rooms);
     static vector<Room*> getAllRooms();
     static void deleteAll();
+    static void setParser(Parser* parser);
+    static Parser* getParser();
 
 };
 
