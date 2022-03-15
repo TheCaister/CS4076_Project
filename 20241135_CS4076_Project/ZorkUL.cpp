@@ -21,6 +21,7 @@ vector<Item*> ZorkUL::itemsInInventory;
 bool ZorkUL::keysPresent[5];
 int ZorkUL::money;
 vector<Room*> ZorkUL::allRooms;
+Stack<Room*> ZorkUL::recentRooms;
 
 int main(int argc, char *argv[]) {
 
@@ -112,23 +113,14 @@ vector<Room*> ZorkUL::createRooms()  {
     // Adding all rooms
     city_centre = new Room("City Centre", "Main City Centre. Blinding lights violate your eyes from"
                                           " every direction. Keep an eye out for tourist traps.", Constants::NIGHT_CITY_GIF);
-    //sewer_a = new WordleRoom("Sewer", Constants::SEWER_GIF, 100);
     sewer_a = new WordleRoom(100, "Sewers", "The city sewers. Hidden from the glamour of life above-ground, you can't help"
                                             " but gag at the foul odours emanating from this area. Maybe it's best that you leave soon...",
                              Constants::SEWER_GIF);
     train = new WordleRoom(pen, "Train", "The local metro train.", Constants::TRAIN_GIF);
     station = new Room("Station", "", Constants::STATION_PIC);
     //chinese_restaurant = new Room("Chinese Restaurant", Constants::CHINESE_RESTAURANT_PIC);
-    //pei_street = new GoalRoom("Pei Street", "The northern street.", Constants::BUSY_STREET);
-    //    pei_street = new GoalRoom("Pei Street", "The northern street.",
-    //                              Constants::BUSY_STREET);
     pei_street = new GoalRoom(&(GoalCheckFunctions::checkPeiCompleteFunc),"Pei Street", "The northern street.",
                               Constants::BUSY_STREET);
-
-    // Setting goal checkers
-    //sewer_a->setCheckGoalFunction(&checkPlainFunc);
-    //train->setCheckGoalFunction(&checkPlainFunc);
-    //pei_street->setCheckGoalFunction(&checkPeiCompleteFunc);
 
     *city_centre + frog;
     *pei_street + weird_magazine;
@@ -225,9 +217,6 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
             //return "Using this item...";
             output += ZorkUL::useItem(*itemsInInventory.at(location));
-
-            //            return ZorkUL::useItem(*itemsInInventory.at(location));
-            //return itemsInInventory.at(0)->getUsedDialogue() + "\n";
         }
     }
 
@@ -371,24 +360,35 @@ bool ZorkUL::goRoom(Command command) {
 
     string direction = command.getSecondWord();
 
+    Room* previousRoom = currentRoom;
+
     // Going back to the previous room
     if(direction.compare("back") == 0){
+        Room* nextRoom = recentRooms.pop();
+        if(nextRoom != NULL){
+            currentRoom = nextRoom;
+            return true;
+        }
+        else{
+            return false;
+        }
 
     }
+    else{
+        // Try to leave current room.
+        Room* nextRoom = currentRoom->nextRoom(direction);
 
-    // Try to leave current room.
-    Room* nextRoom = currentRoom->nextRoom(direction);
+        if (nextRoom == NULL){
+            //cout << "underdefined input"<< endl;
+            return false;}
+        else {
+            currentRoom = nextRoom;
+            recentRooms.push(previousRoom);
+            //cout << currentRoom->longDescription() << endl;
+            return true;
+        }
 
-    if (nextRoom == NULL){
-        //cout << "underdefined input"<< endl;
-        return false;}
-    else {
-        currentRoom = nextRoom;
-        //cout << currentRoom->longDescription() << endl;
-        return true;
     }
-
-
 }
 
 // Update the background

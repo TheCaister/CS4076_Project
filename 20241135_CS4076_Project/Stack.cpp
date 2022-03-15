@@ -1,8 +1,9 @@
 #include "Stack.h"
+#include "Room.h"
 
-template <typename T>
-Stack<T>::Stack(){
-}
+//template <typename T>
+//Stack<T>::Stack(){
+//}
 
 template <typename T>
 Stack<T>::Stack(vector<T> list){
@@ -11,19 +12,29 @@ Stack<T>::Stack(vector<T> list){
 
 template <typename T>
 T Stack<T>::peek(){
-    return this->objectList.at(this->objectList.size() - 1);
+    if(this->objectList.size() > 0){
+        return this->objectList.at(this->objectList.size() - 1);
+    }
 }
 
-template <typename T>
-T Stack<T>::pop(){
-    T output;
-    if(this->objectList.size() > 0){
-        output = this->objectList.at(this->objectList.size() - 1);
-        this->objectList.pop_back();
-        return output;
-    }
-    return NULL;
-}
+//Room* Stack<Room*>::pop(){
+//    Room* output = NULL;
+//    if(this->objectList.size() > 0){
+//        output = this->objectList.at(this->objectList.size() - 1);
+//        this->objectList.pop_back();
+//        return output;
+//    }
+//    return output;
+//}
+//T Stack<T>::pop(){
+//    T output = NULL;
+//    if(this->objectList.size() > 0){
+//        output = this->objectList.at(this->objectList.size() - 1);
+//        this->objectList.pop_back();
+//        return output;
+//    }
+//    return output;
+//}
 
 // For deleting off the heap
 template <typename T>
@@ -39,10 +50,10 @@ T Stack<T>::popDelete(){
     return NULL;
 }
 
-template <typename T>
-void Stack<T>::push(T item){
-    this->objectList.push_back(item);
-}
+//template <typename T>
+//void Stack<T>::push(T item){
+//    this->objectList.push_back(item);
+//}
 
 template <typename T>
 void Stack<T>::clear(){
