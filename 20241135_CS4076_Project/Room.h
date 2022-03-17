@@ -1,13 +1,6 @@
 #ifndef ROOM_H_
 #define ROOM_H_
 
-#include <map>
-#include <string>
-#include <cctype>
-#include <vector>
-
-#include <QDebug>
-
 #include "item.h"
 #include "Stack.h"
 #include "constants.h"
@@ -19,18 +12,24 @@ using namespace Constants;
 class Room;
 class GoalRoom;
 
+// All the different goal conditions that can be assigned
+// to a room
 namespace GoalCheckFunctions{
 string checkPlainFunc(GoalRoom*);
 
 string checkPeiCompleteFunc(GoalRoom*);
+
+string checkFinalGoalFunc(GoalRoom*);
 }
 
+// All the different interact functions that can
+// be assigned to a room
 namespace InteractFunctions{
 string interactPlain(Room*);
 string interactDescription(Room*);
 }
 
-// Class holding properties and features that rooms will have
+// Abstract class holding properties and features that rooms will have
 class RoomProperties{
 public:
     virtual bool hasItems() = 0;
@@ -83,8 +82,7 @@ public:
 
     bool hasItems() override;
 
-    // Function to check if a particular goal for a room is completed.
-    string (*interactionFunc)(Room*);
+
     void setInteractionFunction(string (*interactionFunc)(Room*));
 
 
@@ -97,9 +95,9 @@ protected:
     string backgroundPath;
     typeOfRoom roomType;
     Room* nextRoom(string direction);
-
-private:
     string capitaliseFirst(string input);
+    // Function to check if a particular goal for a room is completed.
+    string (*interactionFunc)(Room*);
 };
 
 // Room with reward
@@ -133,6 +131,7 @@ class GoalRoom : public Room{
 private:
     bool goalCompleted;
 
+
 public:
     GoalRoom(string name="Generic Goal Area", string description="No description.",
              string backgroundPath=Constants::NIGHT_CITY_GIF, typeOfRoom=GOAL,
@@ -140,6 +139,7 @@ public:
     GoalRoom(string(*goalFunc)(GoalRoom*)=&(GoalCheckFunctions::checkPlainFunc), string name="Generic Goal Area", string description="No description.",
              string backgroundPath=Constants::NIGHT_CITY_GIF, typeOfRoom=GOAL,
              bool hasHiddenItem=false, bool goalCompleted=false);
+
     virtual ~GoalRoom();
 
     // Unique description for long descriptions

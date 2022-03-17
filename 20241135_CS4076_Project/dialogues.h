@@ -6,8 +6,8 @@ using std::string;
 
 // Struct containing dialogues and some printing functions.
 struct Dialogues{
-    static string printCurrentRoom(string description);
-    static string printAttemptsLeft(int attemptsLeft);
+    static string printCurrentRoom(string& description);
+    static string printAttemptsLeft(int& attemptsLeft);
 
     const static string welcome;
     const static string inputError;

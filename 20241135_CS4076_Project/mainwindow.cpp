@@ -39,7 +39,7 @@ void MainWindow::clearConsole(){
 
 // Scrolls to the bottom of the output
 void MainWindow::scrollToBottom(){
-    ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximum());
+    //ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximum());
 }
 
 // Printing to game console - Supports string and QString
@@ -71,7 +71,7 @@ void MainWindow::updateBackground(string path){
         return;
     }
 
-    int dotIndex = path.find(".");
+    int dotIndex = (int) path.find(".");
 
     // Check what type of file "path" is
     // E.g. we have movie.gif and we want to separate the ".gif" part

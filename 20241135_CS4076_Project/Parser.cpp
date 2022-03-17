@@ -17,20 +17,6 @@ Command* Parser::convertToCommand(string input){
     // to represent the size of a string.
     string::size_type pos = 0, last_pos = 0;
 
-    // Break "buffer" up by spaces
-    //bool finished = false;
-    //    while (!finished) {
-    //        pos = input.find_first_of(' ', last_pos);	// find and remember first space.
-    //        // npos tells you if there is no string found.
-    //        if (pos == string::npos ) {			// if we found the last word,
-    //            words.push_back(input.substr(last_pos));	// add it to vector "words"
-    //            finished = true;				// and finish searching.
-    //        } else {					// otherwise add to vector and move on to next word.
-    //            words.push_back(input.substr(last_pos, pos - last_pos));
-    //            last_pos = pos + 1;
-    //        }
-    //    }
-
     pos = input.find_first_of(' ', last_pos);	// find and remember first space.
     // npos tells you if there is no string found.
     if (pos == string::npos ) {

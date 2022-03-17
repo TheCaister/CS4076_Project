@@ -19,10 +19,10 @@ const string Dialogues::wordleSuccess = "Congratulations! You have guessed the c
 
 const string Dialogues::wordleOutOfAttempts = "Oof! You have run out of attempts!\n";
 
-string Dialogues::printCurrentRoom(string description){
+string Dialogues::printCurrentRoom(string& description){
     return "You are currently in: " + description + ". What is your next move?\n";
 }
 
-string Dialogues::printAttemptsLeft(int attemptsLeft){
+string Dialogues::printAttemptsLeft(int& attemptsLeft){
     return "Keep it up! You have " + std::to_string(attemptsLeft) + " tries left.\n";
 }

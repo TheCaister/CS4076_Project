@@ -19,7 +19,7 @@ int WordleEngine::triesLeft;
 WordleEngine::gameStatus WordleEngine::wordleStatus = WordleEngine::WORDLE_STOP;
 string WordleEngine::targetWord;
 
-bool WordleEngine::isEqualIgnoreCase(char first, char second){
+bool WordleEngine::isEqualIgnoreCase(char& first, char& second){
     return tolower(first) == tolower(second);
 }
 
@@ -73,7 +73,7 @@ string WordleEngine::evaluateInput(const string &input){
         char currentInputLetter = input.at(i);
 
         // If the character is at the correct index
-        if(WordleEngine::isEqualIgnoreCase(input.at(i), correctWord.at(i))){
+        if(WordleEngine::isEqualIgnoreCase(currentInputLetter, correctWord.at(i))){
             letter_counts[currentInputLetter] -= 1;
             output.push_back('[');
             output.push_back(currentInputLetter);
@@ -124,4 +124,8 @@ void WordleEngine::startWordleGame(){
     WordleEngine::triesLeft = 5;
     // Get a random word
     WordleEngine::targetWord = allWords.at(rand() % allWords.size());
+}
+
+WordleEngine::gameStatus WordleEngine::getWordleStatus(){
+    return WordleEngine::wordleStatus;
 }

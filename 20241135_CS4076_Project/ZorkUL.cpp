@@ -46,11 +46,14 @@ int main(int argc, char *argv[]) {
     //    for (string s : worldleEngine->getAllWords()){
     //        w.addToConsole(s);
     //    }
+
     ZorkUL::setAllRooms(ZorkUL::createRooms());
     w.addStringToConsole(Dialogues::welcome);
 
     ZorkUL::updateRoom(ZorkUL::getAllRooms().at(0), windowPtr);
-    w.addStringToConsole(Dialogues::printCurrentRoom(ZorkUL::getCurrentRoom()->getShortDescription()));
+
+    string roomDescription = ZorkUL::getCurrentRoom()->getShortDescription();
+    w.addStringToConsole(Dialogues::printCurrentRoom(roomDescription));
 
     delete worldleEngine;
     delete ZorkUL::getParser();
@@ -112,15 +115,31 @@ vector<Room*> ZorkUL::createRooms()  {
 
     // Adding all rooms
     city_centre = new Room("City Centre", "Main City Centre. Blinding lights violate your eyes from"
-                                          " every direction. Keep an eye out for tourist traps.", Constants::NIGHT_CITY_GIF);
+                                          " every direction. Keep an eye out for tourist traps.", NIGHT_CITY_GIF);
     sewer_a = new WordleRoom(100, "Sewers", "The city sewers. Hidden from the glamour of life above-ground, you can't help"
                                             " but gag at the foul odours emanating from this area. Maybe it's best that you leave soon...",
-                             Constants::SEWER_GIF);
-    train = new WordleRoom(pen, "Train", "The local metro train.", Constants::TRAIN_GIF);
-    station = new Room("Station", "", Constants::STATION_PIC);
-    //chinese_restaurant = new Room("Chinese Restaurant", Constants::CHINESE_RESTAURANT_PIC);
+                             SEWER_GIF);
+    train = new WordleRoom(pen, "Train", "The local metro train.", TRAIN_GIF);
+    station = new Room("Station", "", STATION_PIC);
     pei_street = new GoalRoom(&(GoalCheckFunctions::checkPeiCompleteFunc),"Pei Street", "The northern street.",
-                              Constants::BUSY_STREET);
+                              BUSY_STREET);
+    chinese_restaurant = new Room("Chinese Restaurant", "The local Chinese restaurant. Your stomach rumbles as the scent of"
+                                                        " fried pork and soy sauce emanates from the establishment.", CHINESE_RESTAURANT_PIC);
+    cafe = new Room("Cafe", "You arrive at one of the popular cafes in town. Nobody bats an eye when you entered."
+                            " They are too busy either lost in their conversations or working with headphones on.", CAFE);
+    cave = new Room("Cave", "You head out further away from the big city and ended up in a cave."
+                            " The walls are damp and there's not a soul in sight.", CAVE_PIC);
+    claw_machine = new Room("Alley with Claw Machine", "As you wander about, you see a claw machine on the side of"
+                                                       " the street. Maybe you can try to grab something to sell later on?", CLAW_MACHINE);
+    conveyor_sushi = new Room("Conveyor Sushi Restaurant", "You arrive at a restaurant that serves sushi on convenient conveyor belts."
+                                                           " The prices here aren't exorbitant so maybe you can treat yourself every now and again?",
+                              CONVEYOR_SUSHI);
+    lively_alley = new Room("Lively alley", "As you head further down the alley, you come across what seems to be"
+                                            " a gang of people moping about. This could be their hangout spot. Provoking"
+                                            " them might not be a good idea.", LIVELY_ALLEY);
+    noodle_stall = new Room("Noodle Stall", "You see a small noodle stall, operated by a lone man. \"You"
+                                            " must have had it rough, huh? I feel sorry for kids like you.\"", NOODLE_STALL);
+    under_bridge = new Room("Bridge", "You cross under a bridge. There doesn't seem to be anyone here.", UNDER_BRIDGE);
 
     *city_centre + frog;
     *pei_street + weird_magazine;
@@ -128,17 +147,33 @@ vector<Room*> ZorkUL::createRooms()  {
 
     // Setting exits for each room
     //             (N, E, S, W)
-    city_centre->setExits(pei_street, station, sewer_a, NULL);
+    city_centre->setExits(pei_street, station, sewer_a, under_bridge);
     sewer_a->setExits(city_centre, NULL, NULL, NULL);
     station->setExits(NULL, train, NULL, city_centre);
     train->setExits(NULL, NULL, NULL, station);
-    pei_street->setExits(NULL, NULL, city_centre, NULL);
+    pei_street->setExits(cafe, chinese_restaurant, city_centre, claw_machine);
+    chinese_restaurant->setExits(NULL, NULL, NULL, pei_street);
+    cafe->setExits(NULL, NULL, pei_street, NULL);
+    cave->setExits(under_bridge, NULL, NULL, NULL);
+    claw_machine->setExits(conveyor_sushi, pei_street, noodle_stall, lively_alley);
+    conveyor_sushi->setExits(NULL, NULL, claw_machine, NULL);
+    lively_alley->setExits(NULL, claw_machine, NULL, NULL);
+    noodle_stall->setExits(claw_machine, NULL, NULL, NULL);
+    under_bridge->setExits(NULL, city_centre, cave, NULL);
 
     allRooms.push_back(city_centre);
     allRooms.push_back(sewer_a);
     allRooms.push_back(station);
     allRooms.push_back(train);
     allRooms.push_back(pei_street);
+    allRooms.push_back(chinese_restaurant);
+    allRooms.push_back(cafe);
+    allRooms.push_back(cave);
+    allRooms.push_back(claw_machine);
+    allRooms.push_back(conveyor_sushi);
+    allRooms.push_back(lively_alley);
+    allRooms.push_back(noodle_stall);
+    allRooms.push_back(under_bridge);
 
     // Start off at this room.
     currentRoom = city_centre;
@@ -158,11 +193,11 @@ void deleteAllRooms(){
 string ZorkUL::processCommand(Command command, MainWindow *window) {
     string output = "";
     // If we're in a Wordle game, treat the input as a Wordle attempt
-    if(WordleEngine::wordleStatus == WordleEngine::WORDLE_PROGRESS){
+    if(WordleEngine::getWordleStatus() == WordleEngine::WORDLE_PROGRESS){
         output += WordleEngine::evaluateInput(command.getCommandWord());
 
         // If it's a success, give the reward of that particular room
-        if(WordleEngine::wordleStatus == WordleEngine::WORDLE_SUCCESS){
+        if(WordleEngine::getWordleStatus() == WordleEngine::WORDLE_SUCCESS){
             output += ZorkUL::giveReward();
         }
 

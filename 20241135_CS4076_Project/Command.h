@@ -13,7 +13,6 @@ public:
     Command(const string& firstWord, const string& secondWord);
     string getCommandWord();
     string getSecondWord();
-    bool isUnknown();
     bool hasSecondWord();
 };
 

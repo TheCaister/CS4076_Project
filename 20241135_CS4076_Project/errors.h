@@ -1,9 +1,6 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
-#include <iostream>
-#include <exception>
-
 class NoRoomError
 {
 public:

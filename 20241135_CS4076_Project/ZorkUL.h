@@ -1,15 +1,10 @@
 #ifndef ZORKUL_H_
 #define ZORKUL_H_
 
-#include "Command.h"
 #include "Parser.h"
 #include "Room.h"
-#include "item.h"
-#include <iostream>
-#include <string>
 #include "WordleEngine.h"
 #include "mainwindow.h"
-#include "Stack.h"
 
 using namespace std;
 

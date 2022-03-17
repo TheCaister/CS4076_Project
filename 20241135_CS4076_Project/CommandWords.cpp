@@ -21,20 +21,6 @@ CommandWords::CommandWords() {
 	}
 }
 
-/**
- * Check whether a given String is a valid command word.
- * Return true if it is, false if it isn't.
- **/
-bool CommandWords::isCommand(const string& aString) {
-	for (unsigned int i = 0; i < validCommands.size(); i++)
-	{
-		if (validCommands[i].compare(aString) == 0)
-			return true;
-	}
-	// if we get here, the string was not found in the commands
-	return false;
-}
-
 // Puts all valid commands in a single string(used for printing)
 string CommandWords::validCommandsToString(){
     string allValidCommands = "";

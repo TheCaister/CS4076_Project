@@ -37,7 +37,7 @@ void Item::setWeight(int weightGrams)
        this->weightGrams = weightGrams;
 }
 
-void Item::setValue(float value)
+void Item::setValue(int value)
 {
     if (value > 9999 || value < 0)
        //cout << "Value invalid, must be 0 < value < 9999" ;
@@ -46,13 +46,6 @@ void Item::setValue(float value)
        this->value = value;
 }
 
-/**void Item::setWeaponCheck(int isWeapon)
-{
-    if(isWeapon > 0 || isWeapon < 0)
-        cout << "Item not a weapon" ;
-    else
-        cout << "Item is a weapon" ;
-}*/
 
 string Item::getShortDescription()
 {

@@ -20,17 +20,20 @@ private:
     static vector<string> allWords;
     static int triesLeft;
     static void initWords(string filename);
+    static string targetWord;
+    static gameStatus wordleStatus;
 
 
 public:
     static string evaluateInput(const string& input);
-    static string targetWord;
+
     static vector<string> getAllWords();
     static void startWordleGame();
     static string checkGameStatus();
     static void initialiseWordleEngine();
-    static gameStatus wordleStatus;
-    static bool isEqualIgnoreCase(char first, char second);
+    static gameStatus getWordleStatus();
+
+    static bool isEqualIgnoreCase(char& first, char& second);
 };
 
 #endif // WORDLEENGINE_H

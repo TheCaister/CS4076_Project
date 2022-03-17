@@ -2,7 +2,6 @@
 #define ITEM_H_
 
 #include <map>
-#include <string>
 #include <iostream>
 using namespace std;
 
@@ -18,11 +17,10 @@ private:
 
     int weightGrams;
     int value;
-    //float value;
-    //bool weaponCheck;
     bool sellable;
 
     string usedDialogue;
+    typeOfItem itemType;
 
 public:
     Item (string description, int inWeight, int inValue);
@@ -33,20 +31,14 @@ public:
     // Copy constructor
     Item(const Item& other);
 
-
-
     string getShortDescription();
     string getLongDescription();
     int getWeight();
     void setWeight(int weightGrams);
     float getValue();
-    void setValue(float value);
+    void setValue(int value);
     string getUsedDialogue();
     typeOfItem getTypeOfItem();
-    //int getWeaponCheck();
-    //void setWeaponCheck(int weaponCheck);
-
-    typeOfItem itemType;
 };
 
 class ConsumableItem : public Item{
@@ -64,8 +56,6 @@ private:
 };
 
 class Raffle : public ConsumableItem, public LuckItem{
-public:
-    int value;
 };
 
 #endif /*ITEM_H_*/

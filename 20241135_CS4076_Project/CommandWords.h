@@ -1,7 +1,6 @@
 #ifndef COMMANDWORDS_H_
 #define COMMANDWORDS_H_
 
-#include <iostream>
 #include <string>
 #include <vector>
 using namespace std;
@@ -13,8 +12,7 @@ private:
 	static vector<string> validCommands;
 
 public:
-	CommandWords();
-    bool isCommand(const string& aString);
+    CommandWords();
     string validCommandsToString();
 };
 

@@ -1,5 +1,6 @@
 #include "Room.h"
 #include "Command.h"
+#include "ZorkUL.h"
 
 // For checking variable types
 #include <typeinfo>
@@ -311,6 +312,19 @@ string checkPeiCompleteFunc(GoalRoom* currentRoom){
 
     }
 
+    return output;
+}
+
+string checkFinalGoalFunc(GoalRoom* room){
+    string output = "";
+    int goalMoney = 1000;
+
+    if(ZorkUL::getMoney() >= goalMoney){
+        room->setGoalStatus(true);
+        output += "You present the money to your father. He nods"
+                  " and you go home together. It looks like you'll"
+                  " be able to eat dinner tonight.";
+    }
     return output;
 }
 }
