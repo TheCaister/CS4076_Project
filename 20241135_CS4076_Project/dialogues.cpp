@@ -2,8 +2,8 @@
 
 const string Dialogues::welcome = "This is Wordleville, a harsh world"
                                   " where your status and prestige is determined by your Wordle skills."
-                                  " Your father throws you into the city centre. \"If you can't"
-                                  " earn enough $1000 tonight, don't even think about coming back to me.\""
+                                  " Your father throws you off the train. \"If you can't"
+                                  " earn at least $1000 tonight, don't even think about coming back to me.\""
                                   " You set off on your way...\n"
                                   "If you seek assistance, enter the 'info' command.\n";
 

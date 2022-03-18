@@ -309,6 +309,7 @@ string checkPeiCompleteFunc(GoalRoom* currentRoom){
         output += "You set the frog free into Pei Street. It"
                   " looks back at you with moist eyes, overcome with sadness."
                   " Maybe, just maybe, you two might meet again...\n";
+        ZorkUL::changeMoney(1000);
 
     }
 
@@ -323,7 +324,14 @@ string checkFinalGoalFunc(GoalRoom* room){
         room->setGoalStatus(true);
         output += "You present the money to your father. He nods"
                   " and you go home together. It looks like you'll"
-                  " be able to eat dinner tonight.";
+                  " be able to eat dinner tonight.\n Congratulations!"
+                  " you have beaten this game! Feel free to quit or if you"
+                  " want, you can also play the Wordle challenges again!";
+    }
+    else{
+        output += "Your father is sitting on the bench, scowling at you."
+                  " He knows that you haven't earned enough money yet. Better"
+                  " get back to it.";
     }
     return output;
 }

@@ -50,7 +50,8 @@ int main(int argc, char *argv[]) {
     ZorkUL::setAllRooms(ZorkUL::createRooms());
     w.addStringToConsole(Dialogues::welcome);
 
-    ZorkUL::updateRoom(ZorkUL::getAllRooms().at(0), windowPtr);
+    //ZorkUL::updateRoom(ZorkUL::getAllRooms().at(0), windowPtr);
+    ZorkUL::updateRoom(ZorkUL::getCurrentRoom(), windowPtr);
 
     string roomDescription = ZorkUL::getCurrentRoom()->getShortDescription();
     w.addStringToConsole(Dialogues::printCurrentRoom(roomDescription));
@@ -120,8 +121,8 @@ vector<Room*> ZorkUL::createRooms()  {
                                             " but gag at the foul odours emanating from this area. Maybe it's best that you leave soon...",
                              SEWER_GIF);
     train = new WordleRoom(pen, "Train", "The local metro train.", TRAIN_GIF);
-    station = new Room("Station", "", STATION_PIC);
-    pei_street = new GoalRoom(&(GoalCheckFunctions::checkPeiCompleteFunc),"Pei Street", "The northern street.",
+    station = new GoalRoom(&(checkFinalGoalFunc),"Station", "", STATION_PIC);
+    pei_street = new GoalRoom(&(checkPeiCompleteFunc),"Pei Street", "The northern street.",
                               BUSY_STREET);
     chinese_restaurant = new Room("Chinese Restaurant", "The local Chinese restaurant. Your stomach rumbles as the scent of"
                                                         " fried pork and soy sauce emanates from the establishment.", CHINESE_RESTAURANT_PIC);
@@ -143,7 +144,6 @@ vector<Room*> ZorkUL::createRooms()  {
 
     *city_centre + frog;
     *pei_street + weird_magazine;
-    //vector<Item*> allItems = city_centre->itemsInRoom;
 
     // Setting exits for each room
     //             (N, E, S, W)
@@ -176,7 +176,7 @@ vector<Room*> ZorkUL::createRooms()  {
     allRooms.push_back(under_bridge);
 
     // Start off at this room.
-    currentRoom = city_centre;
+    currentRoom = station;
 
     return allRooms;
 }
@@ -223,6 +223,10 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             // Otherwise, throw an error message.
             if(goRoom(command)){
                 ZorkUL::updateRoom(currentRoom, window);
+                if((currentRoom->getTypeOfRoom() & Room::WORDLE) == Room::WORDLE){
+                    output += Dialogues::welcomeWordle + "\n";
+                }
+
                 output += currentRoom->getLongDescription();
                 //return currentRoom->longDescription();
 
@@ -432,7 +436,8 @@ void ZorkUL::updateRoom(Room *room, MainWindow *window){
     window->updateBackground(room->getBackgroundPath());
 
     if((room->getTypeOfRoom() & Room::WORDLE) == Room::WORDLE){
-        window->addStringToConsole(Dialogues::welcomeWordle);
+        //window->addStringToConsole(Dialogues::welcomeWordle);
+        //window->overwriteConsole(Dialogues::welcomeWordle + room->getShortDescription());
         WordleEngine::initialiseWordleEngine();
         WordleEngine::startWordleGame();
     }

@@ -128,16 +128,19 @@ void MainWindow::on_input_textChanged()
 // Trying to convert input to a command and printing out the appropriate output.
 void MainWindow::parseInput(string input){
     Command *command = ZorkUL::getParser()->convertToCommand(input);
-    addStringToConsole("> " + input + "\n");
+    //    addStringToConsole("> " + input + "\n");
+    overwriteConsole("> " + input + "\n");
     string output = ZorkUL::processCommand(*command, this);
 
     // Processes errors
     if(output.compare("") == 0){
-        addStringToConsole(Dialogues::inputError);
+        //addStringToConsole(Dialogues::inputError);
+        overwriteConsole(Dialogues::inputError);
         return;
     }
 
-    addStringToConsole(output);
+    //    addStringToConsole(output);
+    overwriteConsole(output);
     ui->moneyLabel->setText(QString::fromStdString("Money: " + std::to_string(ZorkUL::getMoney())));
 
     delete command;
