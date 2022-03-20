@@ -19,6 +19,8 @@ string checkPlainFunc(GoalRoom*);
 
 string checkPeiCompleteFunc(GoalRoom*);
 
+string checkCafeCompleteFunc(GoalRoom*);
+
 string checkFinalGoalFunc(GoalRoom*);
 }
 
@@ -27,6 +29,8 @@ string checkFinalGoalFunc(GoalRoom*);
 namespace InteractFunctions{
 string interactPlain(Room*);
 string interactDescription(Room*);
+string interactPlainGoal(GoalRoom*);
+string interactCafe(GoalRoom*);
 }
 
 // Abstract class holding properties and features that rooms will have
@@ -97,7 +101,7 @@ protected:
     Room* nextRoom(string direction);
     string capitaliseFirst(string input);
     // Function to check if a particular goal for a room is completed.
-    string (*interactionFunc)(Room*);
+    string (*interactFunc)(Room*);
 };
 
 // Room with reward
@@ -139,6 +143,9 @@ public:
     GoalRoom(string(*goalFunc)(GoalRoom*)=&(GoalCheckFunctions::checkPlainFunc), string name="Generic Goal Area", string description="No description.",
              string backgroundPath=Constants::NIGHT_CITY_GIF, typeOfRoom=GOAL,
              bool hasHiddenItem=false, bool goalCompleted=false);
+    GoalRoom(string(*interactFunc)(GoalRoom*)=&(InteractFunctions::interactPlainGoal), string(*goalFunc)(GoalRoom*)=&(GoalCheckFunctions::checkPlainFunc), string name="Generic Goal Area", string description="No description.",
+             string backgroundPath=Constants::NIGHT_CITY_GIF, typeOfRoom=GOAL,
+             bool hasHiddenItem=false, bool goalCompleted=false);
 
     virtual ~GoalRoom();
 
@@ -149,6 +156,8 @@ public:
 
     // Function to check if a particular goal for a room is completed.
     string (*checkIfGoalCompleted)(GoalRoom* room);
+
+    string (*interactFunc)(GoalRoom* room);
     void setCheckGoalFunction(string (*checkGoalCompleted)(GoalRoom* room));
 
 };

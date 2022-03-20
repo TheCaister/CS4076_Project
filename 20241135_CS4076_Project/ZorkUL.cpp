@@ -102,46 +102,31 @@ vector<Room*> ZorkUL::createRooms()  {
     using namespace GoalCheckFunctions;
     using namespace InteractFunctions;
 
-    Room *city_centre, *station, *cafe, *cave, *chinese_restaurant,
+    Room *city_centre, *station, *cave, *chinese_restaurant,
             *claw_machine, *conveyor_sushi, *lively_alley, *noodle_stall,
             *under_bridge;
-    GoalRoom *sewer_a, *pei_street, *train;
+    GoalRoom *sewer_a, *pei_street, *train, *cafe;
     Item *frog, *weird_magazine, *pen;
-    frog = new Item("frog", "The frog stares at you, eyes gleaming with... passion?");
-    weird_magazine = new Item("weird magazine", "A dubious magazine that you picked up from the street. Upon further inspection,\n"
-                                                " you see that this magazine contains copious amounts of photos with\n"
-                                                " people on their knees, pleading for forgiveness. Apparently, there are\n"
-                                                " folks out there who are really into apologies.");
-    pen = new Item("pen", "A pen that you got from a man in the train. It smells kinda funky and the tip seems slightly chewed on.");
+    frog = new Item("frog", ItemDialogues::frog);
+    weird_magazine = new Item("weird magazine", ItemDialogues::weirdMagazine);
+    pen = new Item("pen", ItemDialogues::pen);
     vector<Room*> allRooms;
 
     // Adding all rooms
-    city_centre = new Room("City Centre", "Main City Centre. Blinding lights violate your eyes from"
-                                          " every direction. Keep an eye out for tourist traps.", NIGHT_CITY_GIF);
-    sewer_a = new WordleRoom(100, "Sewers", "The city sewers. Hidden from the glamour of life above-ground, you can't help"
-                                            " but gag at the foul odours emanating from this area. Maybe it's best that you leave soon...",
-                             SEWER_GIF);
+    city_centre = new Room("City Centre", RoomDialogues::cityCentre, NIGHT_CITY_GIF);
+    sewer_a = new WordleRoom(100, "Sewers", RoomDialogues::sewers, SEWER_GIF);
     train = new WordleRoom(pen, "Train", "The local metro train.", TRAIN_GIF);
     station = new GoalRoom(&(checkFinalGoalFunc),"Station", "", STATION_PIC);
     pei_street = new GoalRoom(&(checkPeiCompleteFunc),"Pei Street", "The northern street.",
                               BUSY_STREET);
-    chinese_restaurant = new Room("Chinese Restaurant", "The local Chinese restaurant. Your stomach rumbles as the scent of"
-                                                        " fried pork and soy sauce emanates from the establishment.", CHINESE_RESTAURANT_PIC);
-    cafe = new Room("Cafe", "You arrive at one of the popular cafes in town. Nobody bats an eye when you entered."
-                            " They are too busy either lost in their conversations or working with headphones on.", CAFE);
-    cave = new Room("Cave", "You head out further away from the big city and ended up in a cave."
-                            " The walls are damp and there's not a soul in sight.", CAVE_PIC);
-    claw_machine = new Room("Alley with Claw Machine", "As you wander about, you see a claw machine on the side of"
-                                                       " the street. Maybe you can try to grab something to sell later on?", CLAW_MACHINE);
-    conveyor_sushi = new Room("Conveyor Sushi Restaurant", "You arrive at a restaurant that serves sushi on convenient conveyor belts."
-                                                           " The prices here aren't exorbitant so maybe you can treat yourself every now and again?",
-                              CONVEYOR_SUSHI);
-    lively_alley = new Room("Lively alley", "As you head further down the alley, you come across what seems to be"
-                                            " a gang of people moping about. This could be their hangout spot. Provoking"
-                                            " them might not be a good idea.", LIVELY_ALLEY);
-    noodle_stall = new Room("Noodle Stall", "You see a small noodle stall, operated by a lone man. \"You"
-                                            " must have had it rough, huh? I feel sorry for kids like you.\"", NOODLE_STALL);
-    under_bridge = new Room(&(InteractFunctions::interactPlain), "Bridge", "You cross under a bridge. There doesn't seem to be anyone here.", UNDER_BRIDGE);
+    chinese_restaurant = new Room("Chinese Restaurant", RoomDialogues::chineseRestaurant, CHINESE_RESTAURANT_PIC);
+    cafe = new GoalRoom(&(interactCafe), &(checkCafeCompleteFunc), "Cafe", RoomDialogues::cafe, CAFE);
+    cave = new Room("Cave", RoomDialogues::cave, CAVE_PIC);
+    claw_machine = new Room("Alley with Claw Machine", RoomDialogues::clawMachine, CLAW_MACHINE);
+    conveyor_sushi = new Room("Conveyor Sushi Restaurant", RoomDialogues::conveyorSushi, CONVEYOR_SUSHI);
+    lively_alley = new Room("Lively alley", RoomDialogues::livelyAlley, LIVELY_ALLEY);
+    noodle_stall = new Room("Noodle Stall", RoomDialogues::noodleStall, NOODLE_STALL);
+    under_bridge = new Room(&(InteractFunctions::interactPlain), "Bridge", RoomDialogues::underBridge, UNDER_BRIDGE);
 
 
     *city_centre + frog;
@@ -198,12 +183,13 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
     if(WordleEngine::getWordleStatus() == WordleEngine::WORDLE_PROGRESS){
         output += WordleEngine::evaluateInput(command.getCommandWord());
 
+        if(WordleEngine::getWordleStatus() == WordleEngine::WORDLE_PROGRESS){
+            return output;
+        }
         // If it's a success, give the reward of that particular room
-        if(WordleEngine::getWordleStatus() == WordleEngine::WORDLE_SUCCESS){
+        else if(WordleEngine::getWordleStatus() == WordleEngine::WORDLE_SUCCESS){
             output += ZorkUL::giveReward();
         }
-
-        //return output;
     }
 
     string commandWord = command.getCommandWord();
@@ -325,7 +311,16 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
     else if(commandWord.compare("interact") == 0){
 //        Room* interactRoom = (Room*) currentRoom;
 //        output += interactRoom->interactionFunc(interactRoom);
-        output += currentRoom->interactionFunc(currentRoom);
+        if((currentRoom->getTypeOfRoom() & Room::GOAL) == Room::GOAL){
+            GoalRoom* room = (GoalRoom*) currentRoom;
+            output += room->interactFunc(room);
+        }
+        else{
+            output += currentRoom->interactFunc(currentRoom);
+
+        }
+
+
     }
 
     else if(commandWord.compare("check") == 0){
@@ -535,6 +530,10 @@ void ZorkUL::changeMoney(int moneyAmount){
 
 int ZorkUL::getMoney(){
     return ZorkUL::money;
+}
+
+int ZorkUL::getGoalMoney(){
+    return ZorkUL::goalMoney;
 }
 
 Room *ZorkUL::getCurrentRoom(){

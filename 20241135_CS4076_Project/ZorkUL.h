@@ -24,6 +24,7 @@ private:
     void createItems();
     static string printAllItems();
     static int money;
+    const static int goalMoney = 1000;
 
     static Quantities *allQuantities;
     static Parser *parser;
@@ -51,6 +52,7 @@ public:
     static void deleteAll();
     static void setParser(Parser* parser);
     static Parser* getParser();
+    static int getGoalMoney();
 
 };
 

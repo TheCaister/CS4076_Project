@@ -2,22 +2,34 @@
 #include "Command.h"
 #include "ZorkUL.h"
 
-// For checking variable types
-#include <typeinfo>
 #include <string.h>
-
+#include "dialogues.h"
 
 
 namespace InteractFunctions{
 string interactPlain(Room* room){
     return "Plain interaction.";
 }
+
+string interactPlainGoal(GoalRoom* room){
+    return "Objective to be completed";
+}
+
 string interactDescription(Room* room){
     return room->getShortDescription();
 }
 string interactClawMachine(Room* room){
     string output = "";
     return output;
+}
+
+string interactCafe(GoalRoom* room){
+    if(room->getGoalStatus()){
+        return InteractDialogues::cafeCompleteInteract;
+    }
+    else{
+        return InteractDialogues::cafeNotCompleteInteract;
+    }
 }
 }
 
@@ -28,7 +40,7 @@ Room::Room(string name, string description, string backgroundPath,
     this->backgroundPath = backgroundPath;
     this->roomType = typeOfRoom;
     this->hasHiddenItem = hasHiddenItem;
-    this->interactionFunc = &(InteractFunctions::interactDescription);
+    this->interactFunc = &(InteractFunctions::interactDescription);
 }
 
 Room::Room(string(*interactFunc)(Room*), string name, string description, string backgroundPath,
@@ -38,7 +50,7 @@ Room::Room(string(*interactFunc)(Room*), string name, string description, string
     this->backgroundPath = backgroundPath;
     this->roomType = typeOfRoom;
     this->hasHiddenItem = hasHiddenItem;
-    this->interactionFunc = interactFunc;
+    this->interactFunc = interactFunc;
 }
 
 // Copy constructor
@@ -109,8 +121,14 @@ GoalRoom::GoalRoom(string(*goalFunc)(GoalRoom*), string name, string description
 
 }
 
+GoalRoom::GoalRoom(string(*interactFunc)(GoalRoom*), string(*goalFunc)(GoalRoom*), string name, string description,
+                   string backgroundPath, typeOfRoom roomType,
+                   bool hasHiddenItem, bool goalCompleted) : Room(name, description, backgroundPath, roomType, hasHiddenItem){
+    this->goalCompleted = goalCompleted;
+    this->checkIfGoalCompleted = goalFunc;
+    this->interactFunc = interactFunc;
 
-
+}
 
 GoalRoom::~GoalRoom(){}
 
@@ -321,9 +339,7 @@ string checkPeiCompleteFunc(GoalRoom* currentRoom){
     // I want to remove a particular item from the list that matches the name of the goal item.
     if(currentRoom->deleteItemByName(goalItem)){
         currentRoom->setGoalStatus(true);
-        output += "You set the frog free into Pei Street. It"
-                  " looks back at you with moist eyes, overcome with sadness."
-                  " Maybe, just maybe, you two might meet again...\n";
+        output += CompletionDialogues::peiComplete;
         ZorkUL::changeMoney(1000);
 
     }
@@ -331,22 +347,33 @@ string checkPeiCompleteFunc(GoalRoom* currentRoom){
     return output;
 }
 
+string checkCafeCompleteFunc(GoalRoom* currentRoom){
+    string output = "";
+    string goalItem = "pen";
+
+    if(currentRoom->deleteItemByName(goalItem)){
+        currentRoom->setGoalStatus(true);
+        output += CompletionDialogues::cafeComplete;
+        ZorkUL::changeMoney(2);
+    }
+
+    if(currentRoom->getGoalStatus() == false){
+        output += CompletionDialogues::cafeNotComplete;
+    }
+
+
+    return output;
+}
+
 string checkFinalGoalFunc(GoalRoom* room){
     string output = "";
-    int goalMoney = 1000;
 
-    if(ZorkUL::getMoney() >= goalMoney){
+    if(ZorkUL::getMoney() >= ZorkUL::getGoalMoney()){
         room->setGoalStatus(true);
-        output += "You present the money to your father. He nods"
-                  " and you go home together. It looks like you'll"
-                  " be able to eat dinner tonight.\n Congratulations!"
-                  " you have beaten this game! Feel free to quit or if you"
-                  " want, you can also play the Wordle challenges again!";
+        output += CompletionDialogues::finalGoalComplete;
     }
     else{
-        output += "Your father is sitting on the bench, scowling at you."
-                  " He knows that you haven't earned enough money yet. Better"
-                  " get back to it.";
+        output += CompletionDialogues::finalGoalNotComplete;
     }
     return output;
 }
