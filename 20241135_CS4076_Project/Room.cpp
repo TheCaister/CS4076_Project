@@ -15,6 +15,10 @@ string interactPlain(Room* room){
 string interactDescription(Room* room){
     return room->getShortDescription();
 }
+string interactClawMachine(Room* room){
+    string output = "";
+    return output;
+}
 }
 
 Room::Room(string name, string description, string backgroundPath,
@@ -24,6 +28,17 @@ Room::Room(string name, string description, string backgroundPath,
     this->backgroundPath = backgroundPath;
     this->roomType = typeOfRoom;
     this->hasHiddenItem = hasHiddenItem;
+    this->interactionFunc = &(InteractFunctions::interactDescription);
+}
+
+Room::Room(string(*interactFunc)(Room*), string name, string description, string backgroundPath,
+           typeOfRoom typeOfRoom, bool hasHiddenItem){
+    this->name = name;
+    this->description = description;
+    this->backgroundPath = backgroundPath;
+    this->roomType = typeOfRoom;
+    this->hasHiddenItem = hasHiddenItem;
+    this->interactionFunc = interactFunc;
 }
 
 // Copy constructor

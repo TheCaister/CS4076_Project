@@ -41,6 +41,12 @@ private slots:
 
     void on_quitButton_released();
 
+    void on_invButton_released();
+
+    void on_roomButton_released();
+
+    void on_interactButton_released();
+
 private:
     Ui::MainWindow *ui;
 };

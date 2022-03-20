@@ -198,6 +198,9 @@ color: rgb(255, 255, 255);</string>
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>40</width>
@@ -254,6 +257,32 @@ color: rgb(255, 255, 255);</string>
                </spacer>
               </item>
              </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QPushButton" name="invButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>CHECK
+INVENTORY</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="roomButton">
+              <property name="text">
+               <string>CHECK
+ROOM</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

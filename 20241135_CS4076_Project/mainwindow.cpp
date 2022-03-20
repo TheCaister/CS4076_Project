@@ -30,7 +30,11 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete this->currentMovie;
+
+    if(this->currentMovie != NULL){
+        delete this->currentMovie;
+
+    }
 }
 
 void MainWindow::clearConsole(){
@@ -182,5 +186,23 @@ void MainWindow::on_infoButton_released()
 void MainWindow::on_quitButton_released()
 {
     parseInput("quit");
+}
+
+
+void MainWindow::on_invButton_released()
+{
+    parseInput("check inventory");
+}
+
+
+void MainWindow::on_roomButton_released()
+{
+    parseInput("check room");
+}
+
+
+void MainWindow::on_interactButton_released()
+{
+    parseInput("interact");
 }
 

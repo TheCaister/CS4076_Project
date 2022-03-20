@@ -101,6 +101,7 @@ vector<Room*> ZorkUL::createRooms()  {
     using namespace Constants;
     using namespace GoalCheckFunctions;
     using namespace InteractFunctions;
+
     Room *city_centre, *station, *cafe, *cave, *chinese_restaurant,
             *claw_machine, *conveyor_sushi, *lively_alley, *noodle_stall,
             *under_bridge;
@@ -140,7 +141,8 @@ vector<Room*> ZorkUL::createRooms()  {
                                             " them might not be a good idea.", LIVELY_ALLEY);
     noodle_stall = new Room("Noodle Stall", "You see a small noodle stall, operated by a lone man. \"You"
                                             " must have had it rough, huh? I feel sorry for kids like you.\"", NOODLE_STALL);
-    under_bridge = new Room("Bridge", "You cross under a bridge. There doesn't seem to be anyone here.", UNDER_BRIDGE);
+    under_bridge = new Room(&(InteractFunctions::interactPlain), "Bridge", "You cross under a bridge. There doesn't seem to be anyone here.", UNDER_BRIDGE);
+
 
     *city_centre + frog;
     *pei_street + weird_magazine;
@@ -321,6 +323,8 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
     }
 
     else if(commandWord.compare("interact") == 0){
+//        Room* interactRoom = (Room*) currentRoom;
+//        output += interactRoom->interactionFunc(interactRoom);
         output += currentRoom->interactionFunc(currentRoom);
     }
 
