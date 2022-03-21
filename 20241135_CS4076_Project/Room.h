@@ -174,12 +174,12 @@ public:
 
 };
 
-// Room that contains a stack
-class StackRoom : public Room{
-private:
-    // A stack of items?
-    Stack<Item*> roomStack;
-};
+//// Room that contains a stack
+//class StackRoom : public Room{
+//private:
+//    // A stack of items?
+//    Stack<Item*> roomStack;
+//};
 
 
 #endif

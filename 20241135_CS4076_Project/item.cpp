@@ -1,19 +1,12 @@
 #include "item.h"
 
+
+
 Item::Item (string description, int weightGrams, int value/**, int weaponCheck*/) {
     this->description = description;
     this->setWeight(weightGrams);
     this->value = value;
-	/**weaponCheck(isWeapon);*/
-}
-
-Item::Item(string description) : usedDialogue("Used the item.") {
-    this->description = description;
-}
-
-Item::Item(string description, string usedDialogue) : itemType(HINT){
-    this->description = description;
-    this->usedDialogue = usedDialogue;
+    //weaponCheck(isWeapon);
 }
 
 Item::Item(string description, string usedDialogue, typeOfItem itemType){
@@ -22,7 +15,15 @@ Item::Item(string description, string usedDialogue, typeOfItem itemType){
     this->itemType = itemType;
 }
 
-Item::Item(const Item& other) : description(other.description), longDescription(other.longDescription), value(other.value)/*weaponCheck(other.weaponCheck)*/{
+Item::Item(string (*useFunc)(Item*), string description,
+      string usedDialogue, typeOfItem typeOfItem){
+    this->useFunc = useFunc;
+    this->description = description;
+    this->usedDialogue = usedDialogue;
+    this->itemType = typeOfItem;
+}
+
+Item::Item(const Item& other) : description(other.description), value(other.value)/*weaponCheck(other.weaponCheck)*/{
     // Make the copied item slightly heavier.
     int randomWeight = rand() % 10;
     this->weightGrams = other.weightGrams + randomWeight;
@@ -60,3 +61,12 @@ Item::typeOfItem Item::getTypeOfItem(){
     return itemType;
 }
 
+namespace useItemFunctions{
+string useItemDefault(Item* item){
+    return item->getUsedDialogue();
+}
+
+string useItemRaffle(Item* item){
+    return item->getUsedDialogue();
+}
+}

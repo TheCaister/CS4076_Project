@@ -101,32 +101,32 @@ vector<Room*> ZorkUL::createRooms()  {
     using namespace Constants;
     using namespace GoalCheckFunctions;
     using namespace InteractFunctions;
+    using namespace useItemFunctions;
 
-    Room *city_centre, *station, *cave, *chinese_restaurant,
+    Room *city_centre, *cave, *chinese_restaurant,
             *claw_machine, *conveyor_sushi, *lively_alley, *noodle_stall,
             *under_bridge;
-    GoalRoom *sewer_a, *pei_street, *train, *cafe;
+    GoalRoom *sewer_a, *pei_street, *train, *cafe, *train_station;
     Item *frog, *weird_magazine, *pen;
-    frog = new Item("frog", ItemDialogues::frog);
-    weird_magazine = new Item("weird magazine", ItemDialogues::weirdMagazine);
-    pen = new Item("pen", ItemDialogues::pen);
+    frog = new Item(&(useItemDefault), "frog", ItemDialogues::frog);
+    weird_magazine = new Item(&(useItemDefault), "weird magazine", ItemDialogues::weirdMagazine);
+    pen = new Item(&(useItemDefault),"pen", ItemDialogues::pen);
     vector<Room*> allRooms;
 
     // Adding all rooms
     city_centre = new Room("City Centre", RoomDialogues::cityCentre, NIGHT_CITY_GIF);
     sewer_a = new WordleRoom(100, "Sewers", RoomDialogues::sewers, SEWER_GIF);
     train = new WordleRoom(pen, "Train", "The local metro train.", TRAIN_GIF);
-    station = new GoalRoom(&(checkFinalGoalFunc),"Station", "", STATION_PIC);
-    pei_street = new GoalRoom(&(checkPeiCompleteFunc),"Pei Street", "The northern street.",
-                              BUSY_STREET);
-    chinese_restaurant = new Room("Chinese Restaurant", RoomDialogues::chineseRestaurant, CHINESE_RESTAURANT_PIC);
+    train_station = new GoalRoom(&(interactPlainGoal), &(checkFinalGoalFunc),"Station", "", STATION_PIC);
+    pei_street = new GoalRoom(&(interactPlainGoal), &(checkPeiCompleteFunc),"Pei Street", "The northern street.", BUSY_STREET);
+    chinese_restaurant = new Room(&(interactPlain), "Chinese Restaurant", RoomDialogues::chineseRestaurant, CHINESE_RESTAURANT_PIC);
     cafe = new GoalRoom(&(interactCafe), &(checkCafeCompleteFunc), "Cafe", RoomDialogues::cafe, CAFE);
-    cave = new Room("Cave", RoomDialogues::cave, CAVE_PIC);
-    claw_machine = new Room("Alley with Claw Machine", RoomDialogues::clawMachine, CLAW_MACHINE);
-    conveyor_sushi = new Room("Conveyor Sushi Restaurant", RoomDialogues::conveyorSushi, CONVEYOR_SUSHI);
-    lively_alley = new Room("Lively alley", RoomDialogues::livelyAlley, LIVELY_ALLEY);
-    noodle_stall = new Room("Noodle Stall", RoomDialogues::noodleStall, NOODLE_STALL);
-    under_bridge = new Room(&(InteractFunctions::interactPlain), "Bridge", RoomDialogues::underBridge, UNDER_BRIDGE);
+    cave = new Room(&(interactPlain), "Cave", RoomDialogues::cave, CAVE_PIC);
+    claw_machine = new Room(&(interactPlain), "Alley with Claw Machine", RoomDialogues::clawMachine, CLAW_MACHINE);
+    conveyor_sushi = new Room(&(interactPlain), "Conveyor Sushi Restaurant", RoomDialogues::conveyorSushi, CONVEYOR_SUSHI);
+    lively_alley = new Room(&(interactPlain), "Lively alley", RoomDialogues::livelyAlley, LIVELY_ALLEY);
+    noodle_stall = new Room(&(interactPlain), "Noodle Stall", RoomDialogues::noodleStall, NOODLE_STALL);
+    under_bridge = new Room(&(interactPlain), "Bridge", RoomDialogues::underBridge, UNDER_BRIDGE);
 
 
     *city_centre + frog;
@@ -134,10 +134,10 @@ vector<Room*> ZorkUL::createRooms()  {
 
     // Setting exits for each room
     //             (N, E, S, W)
-    city_centre->setExits(pei_street, station, sewer_a, under_bridge);
+    city_centre->setExits(pei_street, train_station, sewer_a, under_bridge);
     sewer_a->setExits(city_centre, NULL, NULL, NULL);
-    station->setExits(NULL, train, NULL, city_centre);
-    train->setExits(NULL, NULL, NULL, station);
+    train_station->setExits(NULL, train, NULL, city_centre);
+    train->setExits(NULL, NULL, NULL, train_station);
     pei_street->setExits(cafe, chinese_restaurant, city_centre, claw_machine);
     chinese_restaurant->setExits(NULL, NULL, NULL, pei_street);
     cafe->setExits(NULL, NULL, pei_street, NULL);
@@ -150,7 +150,7 @@ vector<Room*> ZorkUL::createRooms()  {
 
     allRooms.push_back(city_centre);
     allRooms.push_back(sewer_a);
-    allRooms.push_back(station);
+    allRooms.push_back(train_station);
     allRooms.push_back(train);
     allRooms.push_back(pei_street);
     allRooms.push_back(chinese_restaurant);
@@ -163,7 +163,7 @@ vector<Room*> ZorkUL::createRooms()  {
     allRooms.push_back(under_bridge);
 
     // Start off at this room.
-    currentRoom = station;
+    currentRoom = train_station;
 
     return allRooms;
 }
@@ -241,10 +241,13 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
                 output += "Item not in inventory.";
                 //return "Item not in inventory.";
             }
+            else{
+                output += itemsInInventory.at(location)->useFunc(itemsInInventory.at(location));
+
+            }
 
             //return "Using this item...";
-            output += ZorkUL::useItem(*itemsInInventory.at(location));
-        }
+            }
     }
 
     else if (commandWord.compare("take") == 0)
@@ -440,21 +443,6 @@ void ZorkUL::updateRoom(Room *room, MainWindow *window){
         WordleEngine::initialiseWordleEngine();
         WordleEngine::startWordleGame();
     }
-}
-
-// When trying to use an Item
-string ZorkUL::useItem(Item& item){
-    string output = "";
-    switch (item.getTypeOfItem()){
-    case(Item::HINT):
-        output += item.getUsedDialogue();
-        break;
-    case(Item::HEALTH):
-        break;
-    default:
-        break;
-    }
-    return output;
 }
 
 // Finding the index of an item in the Zork inventory

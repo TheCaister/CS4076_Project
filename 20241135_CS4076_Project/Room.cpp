@@ -122,8 +122,8 @@ GoalRoom::GoalRoom(string(*goalFunc)(GoalRoom*), string name, string description
 }
 
 GoalRoom::GoalRoom(string(*interactFunc)(GoalRoom*), string(*goalFunc)(GoalRoom*), string name, string description,
-                   string backgroundPath, typeOfRoom roomType,
-                   bool hasHiddenItem, bool goalCompleted) : Room(name, description, backgroundPath, roomType, hasHiddenItem){
+                   string backgroundPath, typeOfRoom roomType, bool hasHiddenItem, bool goalCompleted)
+    : Room(name, description, backgroundPath, roomType, hasHiddenItem){
     this->goalCompleted = goalCompleted;
     this->checkIfGoalCompleted = goalFunc;
     this->interactFunc = interactFunc;

@@ -43,7 +43,6 @@ public:
     static string giveReward();
     static Room *getCurrentRoom();
     static vector<Room*> createRooms();
-    static string useItem(Item& item);
     static int findItemIndex(const string& item);
     static void changeMoney(int moneyAmount);
     static int getMoney();

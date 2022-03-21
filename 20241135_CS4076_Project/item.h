@@ -7,11 +7,20 @@ using namespace std;
 
 class ItemProperties{
 public:
-    enum typeOfItem : int {HINT, HEALTH};
+    enum typeOfItem : int {HINT = 1, HEALTH = 2, RAFFLE = 4};
 };
 
+class Item;
+
+namespace useItemFunctions{
+string useItemDefault(Item*);
+
+string useItemRaffle(Item*);
+}
+
 class Item : public ItemProperties{
-private:
+    friend class ZorkUL;
+protected:
     string description;
     string longDescription;
 
@@ -22,9 +31,13 @@ private:
     string usedDialogue;
     typeOfItem itemType;
 
+    string (*useFunc)(Item*);
+
 public:
     Item (string description, int inWeight, int inValue);
     Item (string description, string usedDialogue, typeOfItem typeOfItem);
+    Item (string (*useFunc)(Item*)=&(useItemFunctions::useItemDefault), string description="",
+          string usedDialogue="", typeOfItem typeOfItem=HINT);
     Item (string description, string usedDialogue);
     Item (string description);
 
@@ -51,7 +64,7 @@ public:
 class LuckItem : public Item{
 private:
     float successChance;
-  public:
+public:
     bool tryChance();
 };
 
