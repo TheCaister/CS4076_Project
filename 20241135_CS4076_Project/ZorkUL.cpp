@@ -108,10 +108,12 @@ vector<Room*> ZorkUL::createRooms()  {
             *claw_machine, *conveyor_sushi, *lively_alley, *noodle_stall,
             *under_bridge;
     GoalRoom *sewer_a, *pei_street, *train, *cafe, *train_station;
+
     Item *frog, *weird_magazine, *pen;
-    frog = new Item(&(useItemDefault), "frog", ItemDialogues::frog);
-    weird_magazine = new Item(&(useItemDefault), "weird magazine", ItemDialogues::weirdMagazine);
-    pen = new Item(&(useItemDefault),"pen", ItemDialogues::pen);
+    frog = new Item(&(useItemDefault), "Frog", ItemDialogues::frog);
+    weird_magazine = new Item(&(useItemDefault), "Weird Magazine", ItemDialogues::weirdMagazine);
+    pen = new Item(&(useItemDefault),"Pen", ItemDialogues::pen);
+
     vector<Room*> allRooms;
     // Adding all rooms
     city_centre = new Room("City Centre", RoomDialogues::cityCentre, NIGHT_CITY_GIF);
@@ -418,7 +420,8 @@ bool ZorkUL::goRoom(Command command) {
     }
     else{
         // Try to leave current room.
-        Room* nextRoom = currentRoom->nextRoom(direction);
+        //Room* nextRoom = currentRoom->nextRoom(direction);
+        Room* nextRoom = currentRoom->nextRoom(stringToLower(direction));
 
         if (nextRoom == NULL){
             //cout << "underdefined input"<< endl;
@@ -439,8 +442,6 @@ void ZorkUL::updateRoom(Room *room, MainWindow *window){
     window->updateBackground(room->getBackgroundPath());
 
     if((room->getTypeOfRoom() & Room::WORDLE) == Room::WORDLE){
-        //window->addStringToConsole(Dialogues::welcomeWordle);
-        //window->overwriteConsole(Dialogues::welcomeWordle + room->getShortDescription());
         WordleEngine::initialiseWordleEngine();
         WordleEngine::startWordleGame();
     }
@@ -552,6 +553,14 @@ void ZorkUL::deleteItemByIndex(int index){
 
 void ZorkUL::deleteItemByName(const string &item){
     deleteItemByIndex(findItemIndex(item));
+}
+
+string ZorkUL::stringToLower(string a){
+    string output = a;
+    for(int i = 0; i < (int) a.size(); i++){
+        output[i] = tolower(output[i]);
+    }
+    return output;
 }
 
 // Returns true if 2 strings are equal - Not case sensitive

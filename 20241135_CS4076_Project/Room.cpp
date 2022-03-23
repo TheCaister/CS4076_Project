@@ -237,12 +237,6 @@ string Room::exitString() {
 }
 
 Room* Room::nextRoom(string direction) {
-    // See if the name matches instead of direction first
-    //    for(map<string, Room*>::iterator roomName = exits.begin(); roomName != exits.end(); roomName++){
-    //        if(direction.compare(roomName->second->getShortDescription())){
-    //            return roomName->second;
-    //        }
-    //    }
 
     map<string, Room*>::iterator next = exits.find(direction); //returns an iterator for the "pair"
     if (next == exits.end())
@@ -293,12 +287,10 @@ int Room::isItemInRoom(string inString)
         return -1;
     }
     else if (itemsInRoom.size() > 0) {
-        int x = (0);
+        int x = 0;
         for (int n = sizeItems; n > 0; n--) {
             // compare inString with short description
-            int tempFlag = inString.compare( itemsInRoom[x]->getShortDescription());
-            if (tempFlag == 0) {
-                //itemsInRoom.erase(itemsInRoom.begin()+x);
+            if(ZorkUL::compareIgnoreCase(inString, itemsInRoom[x]->getShortDescription())){
                 return x;
             }
             x++;

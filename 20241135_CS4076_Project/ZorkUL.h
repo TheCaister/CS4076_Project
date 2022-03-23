@@ -57,7 +57,7 @@ public:
     static void addItem(Item*);
     static vector<Item*> getAllItems();
     static bool compareIgnoreCase(string a, string b);
-
+    static string stringToLower(string a);
 };
 
 #endif ZORKUL_H_
