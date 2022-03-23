@@ -44,6 +44,8 @@ public:
     static Room *getCurrentRoom();
     static vector<Room*> createRooms();
     static int findItemIndex(const string& item);
+    static void deleteItemByIndex(int index);
+    static void deleteItemByName(const string& item);
     static void changeMoney(int moneyAmount);
     static int getMoney();
     static void setAllRooms(vector<Room*> rooms);
@@ -52,6 +54,9 @@ public:
     static void setParser(Parser* parser);
     static Parser* getParser();
     static int getGoalMoney();
+    static void addItem(Item*);
+    static vector<Item*> getAllItems();
+    static bool compareIgnoreCase(string a, string b);
 
 };
 

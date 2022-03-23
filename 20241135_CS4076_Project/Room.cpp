@@ -20,6 +20,19 @@ string interactDescription(Room* room){
 }
 string interactClawMachine(Room* room){
     string output = "";
+
+    if(ZorkUL::getMoney() >= 2){
+        ZorkUL::changeMoney(-2);
+        LuckItem* raffle = new Raffle();
+        ZorkUL::addItem(raffle);
+        output += "You put in a bit of money and fiddle with the claw machine"
+                  " for a bit. Luckily, you managed to snag a raffle ticket!";
+        vector<Item*> items = ZorkUL::getAllItems();
+    }
+    else{
+        output += "You don't have enough money for the claw machine.";
+    }
+
     return output;
 }
 

@@ -24,6 +24,7 @@ vector<Room*> ZorkUL::allRooms;
 Stack<Room*> ZorkUL::recentRooms;
 
 int main(int argc, char *argv[]) {
+    ZorkUL::changeMoney(2);
 
     //ZorkUL::parser = new Parser();
     Parser* parser = new Parser();
@@ -112,7 +113,6 @@ vector<Room*> ZorkUL::createRooms()  {
     weird_magazine = new Item(&(useItemDefault), "weird magazine", ItemDialogues::weirdMagazine);
     pen = new Item(&(useItemDefault),"pen", ItemDialogues::pen);
     vector<Room*> allRooms;
-
     // Adding all rooms
     city_centre = new Room("City Centre", RoomDialogues::cityCentre, NIGHT_CITY_GIF);
     sewer_a = new WordleRoom(100, "Sewers", RoomDialogues::sewers, SEWER_GIF);
@@ -122,7 +122,7 @@ vector<Room*> ZorkUL::createRooms()  {
     chinese_restaurant = new Room(&(interactPlain), "Chinese Restaurant", RoomDialogues::chineseRestaurant, CHINESE_RESTAURANT_PIC);
     cafe = new GoalRoom(&(interactCafe), &(checkCafeCompleteFunc), "Cafe", RoomDialogues::cafe, CAFE);
     cave = new Room(&(interactPlain), "Cave", RoomDialogues::cave, CAVE_PIC);
-    claw_machine = new Room(&(interactPlain), "Alley with Claw Machine", RoomDialogues::clawMachine, CLAW_MACHINE);
+    claw_machine = new Room(&(interactClawMachine), "Alley with Claw Machine", RoomDialogues::clawMachine, CLAW_MACHINE);
     conveyor_sushi = new Room(&(interactPlain), "Conveyor Sushi Restaurant", RoomDialogues::conveyorSushi, CONVEYOR_SUSHI);
     lively_alley = new Room(&(interactPlain), "Lively alley", RoomDialogues::livelyAlley, LIVELY_ALLEY);
     noodle_stall = new Room(&(interactPlain), "Noodle Stall", RoomDialogues::noodleStall, NOODLE_STALL);
@@ -194,17 +194,18 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
     string commandWord = command.getCommandWord();
 
-    if (commandWord.compare("info") == 0){
+//    if (commandWord.compare("info") == 0){
+    if (compareIgnoreCase(commandWord, "info")){
         output += printHelp();
         //return printHelp();
     }
-    else if (commandWord.compare("map") == 0)
+    else if (compareIgnoreCase(commandWord, "map"))
     {
         output += "Map to be implemented soon.\n";
         //return "Map to be implemented soon.\n";
     }
 
-    else if (commandWord.compare("go") == 0){
+    else if (compareIgnoreCase(commandWord, "go")){
 
         try{
             // If the goRoom command is successful, return the room's long description.
@@ -229,7 +230,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
         }
     }
 
-    else if (commandWord.compare("use") == 0){
+    else if (compareIgnoreCase(commandWord, "use")){
         if(!command.hasSecondWord()){
             output += "What the hell do you want to use, punk?!";
             //return "What the hell do you want to use, punk?!";
@@ -242,7 +243,12 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
                 //return "Item not in inventory.";
             }
             else{
-                output += itemsInInventory.at(location)->useFunc(itemsInInventory.at(location));
+                Item* itemToBeUsed = itemsInInventory.at(location);
+                if((itemToBeUsed->getTypeOfItem() & Item::RAFFLE) == Item::RAFFLE){
+                    //Raffle* raffle = (Raffle*) itemToBeUsed;
+                    Raffle* raffle = dynamic_cast<Raffle*>(itemToBeUsed);
+                    output += raffle->useFunc(raffle);
+                }
 
             }
 
@@ -250,7 +256,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             }
     }
 
-    else if (commandWord.compare("take") == 0)
+    else if (compareIgnoreCase(commandWord, "take"))
     {
         if (!command.hasSecondWord()) {
             output += "What the hell do you want to take, punk?!\n";
@@ -280,7 +286,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
     }
 
-    else if (commandWord.compare("put") == 0)
+    else if (compareIgnoreCase(commandWord, "put"))
     {
         if (!command.hasSecondWord()) {
             //cout << "What the hell do you want to take, punk?!"<< endl;
@@ -303,17 +309,12 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
                 output += currentRoom->getLongDescription();
             }
-
-
-
             //return output;
 
         }
     }
 
-    else if(commandWord.compare("interact") == 0){
-//        Room* interactRoom = (Room*) currentRoom;
-//        output += interactRoom->interactionFunc(interactRoom);
+    else if(compareIgnoreCase(commandWord, "interact")){
         if((currentRoom->getTypeOfRoom() & Room::GOAL) == Room::GOAL){
             GoalRoom* room = (GoalRoom*) currentRoom;
             output += room->interactFunc(room);
@@ -326,7 +327,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
 
     }
 
-    else if(commandWord.compare("check") == 0){
+    else if(compareIgnoreCase(commandWord, "check")){
 
         if(!command.hasSecondWord()){
             output += "What do you want to check, punk??\n";
@@ -335,13 +336,13 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
         }
         else{
             string secondWord = command.getSecondWord();
-            if(secondWord.compare("inventory") == 0|| secondWord.compare("inv") == 0){
+            if(compareIgnoreCase(secondWord, "inventory")|| compareIgnoreCase(secondWord, "inv")){
                 // Print out inventory here
                 output += printAllItems();
 
                 //                return printAllItems();
             }
-            else if(secondWord.compare("room") == 0 || secondWord.compare("area") == 0){
+            else if(compareIgnoreCase(secondWord, "room") || compareIgnoreCase(secondWord, "area")){
                 output += currentRoom->getLongDescription();
 
                 //                return currentRoom->longDescription();
@@ -349,7 +350,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
         }
     }
 
-    else if (commandWord.compare("quit") == 0) {
+    else if (compareIgnoreCase(commandWord, "quit")) {
         if (command.hasSecondWord())
             output += "Overdefined input. If you want to quit, please type 'quit' in the input console or click the 'quit' button.";
 
@@ -404,7 +405,7 @@ bool ZorkUL::goRoom(Command command) {
     Room* previousRoom = currentRoom;
 
     // Going back to the previous room
-    if(direction.compare("back") == 0){
+    if(compareIgnoreCase(direction, "back")){
         Room* nextRoom = recentRooms.pop();
         if(nextRoom != NULL){
             currentRoom = nextRoom;
@@ -454,20 +455,18 @@ int ZorkUL::findItemIndex(const string& item){
     }
 
     else if (ZorkUL::itemsInInventory.size() > 0) {
-        int x = 0;
-        for (int n = sizeItems; n > 0; n--) {
+        for (int i = 0; i < sizeItems; i++) {
             // compare item with short description
-            int tempFlag = item.compare(ZorkUL::itemsInInventory[x]->getShortDescription());
-            if (tempFlag == 0) {
-                return x;
+            if (compareIgnoreCase(item, ZorkUL::itemsInInventory[i]->getShortDescription())) {
+                return i;
             }
-            x++;
         }
     }
 
     return -1;
 }
 
+// Give reward of a particular room
 string ZorkUL::giveReward(){
     string output = "";
 
@@ -534,4 +533,39 @@ void ZorkUL::setParser(Parser *parser){
 
 Parser* ZorkUL::getParser(){
     return ZorkUL::parser;
+}
+
+vector<Item*> ZorkUL::getAllItems(){
+    return ZorkUL::itemsInInventory;
+}
+
+void ZorkUL::addItem(Item *item){
+    itemsInInventory.push_back(item);
+}
+
+void ZorkUL::deleteItemByIndex(int index){
+    if(index < (int)itemsInInventory.size()){
+        delete itemsInInventory.at(index);
+        itemsInInventory.erase(itemsInInventory.begin() + index);
+    }
+}
+
+void ZorkUL::deleteItemByName(const string &item){
+    deleteItemByIndex(findItemIndex(item));
+}
+
+// Returns true if 2 strings are equal - Not case sensitive
+bool ZorkUL::compareIgnoreCase(string a, string b){
+
+    if(a.size() != b.size()){
+        return false;
+    }
+
+    for(int i = 0; i < (int) a.size(); i++){
+        if(tolower(a[i]) != tolower(b[i])){
+            return false;
+        }
+    }
+
+    return true;
 }

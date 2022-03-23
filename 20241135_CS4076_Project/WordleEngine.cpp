@@ -1,12 +1,7 @@
 #include "WordleEngine.h"
-#include <iostream>
-#include <fstream>
 #include <QTextStream>
 #include <QFile>
-#include <QDebug>
 #include <mainwindow.h>
-#include <unordered_map>
-#include <cctype>
 #include "dialogues.h"
 
 using std::ifstream;
@@ -121,6 +116,8 @@ vector<string> WordleEngine::getAllWords(){
 }
 
 void WordleEngine::startWordleGame(){
+    // Randomising
+    srand(time(NULL));
     WordleEngine::triesLeft = 5;
     // Get a random word
     WordleEngine::targetWord = allWords.at(rand() % allWords.size());

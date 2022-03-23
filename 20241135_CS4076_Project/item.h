@@ -11,18 +11,20 @@ public:
 };
 
 class Item;
+class LuckItem;
 
 namespace useItemFunctions{
 string useItemDefault(Item*);
 
-string useItemRaffle(Item*);
+string useLuckItemDefault(LuckItem*);
+
+string useItemRaffle(LuckItem*);
 }
 
 class Item : public ItemProperties{
     friend class ZorkUL;
 protected:
     string description;
-    string longDescription;
 
     int weightGrams;
     int value;
@@ -41,22 +43,24 @@ public:
     Item (string description, string usedDialogue);
     Item (string description);
 
+    virtual ~Item();
+
     // Copy constructor
     Item(const Item& other);
 
     string getShortDescription();
-    string getLongDescription();
+    //string getLongDescription();
     int getWeight();
     void setWeight(int weightGrams);
-    float getValue();
+    int getValue();
     void setValue(int value);
     string getUsedDialogue();
     typeOfItem getTypeOfItem();
 };
 
-class ConsumableItem : public Item{
+class ConsumableItem{
 public:
-    void consumeItem();
+    virtual void consumeItem() = 0;
 };
 
 // Items that utilize some kind of luck. Each of these will have
@@ -66,9 +70,20 @@ private:
     float successChance;
 public:
     bool tryChance();
+
+    LuckItem(string (*useFunc)(LuckItem*)=&(useItemFunctions::useLuckItemDefault), string description="",
+             string usedDialogue="", typeOfItem typeOfItem=HINT, float successChance=0.5);
 };
 
 class Raffle : public ConsumableItem, public LuckItem{
+
+public:
+    Raffle(string(*useFunc)(LuckItem* raffle)=&(useItemFunctions::useLuckItemDefault), float successChance=0.5, int value=100, string description="Raffle",
+           string usedDialogue="You have tried to use raffle.", typeOfItem typeOfItem=RAFFLE);
+
+    string (*useFunc)(LuckItem*);
+
+    virtual void consumeItem() override;
 };
 
 #endif /*ITEM_H_*/
