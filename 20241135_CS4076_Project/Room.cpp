@@ -23,7 +23,7 @@ string interactClawMachine(Room* room){
 
     if(ZorkUL::getMoney() >= 2){
         ZorkUL::changeMoney(-2);
-        LuckItem* raffle = new Raffle();
+        Raffle* raffle = new Raffle(100, 0.01);
         ZorkUL::addItem(raffle);
         output += "You put in a bit of money and fiddle with the claw machine"
                   " for a bit. Luckily, you managed to snag a raffle ticket!";

@@ -7,7 +7,7 @@ using namespace std;
 
 class ItemProperties{
 public:
-    enum typeOfItem : int {HINT = 1, HEALTH = 2, RAFFLE = 4};
+    enum typeOfItem : int {HINT = 1, HEALTH = 2, LUCK = 4};
 };
 
 class Item;
@@ -39,7 +39,7 @@ public:
     Item (string description, int inWeight, int inValue);
     Item (string description, string usedDialogue, typeOfItem typeOfItem);
     Item (string (*useFunc)(Item*)=&(useItemFunctions::useItemDefault), string description="",
-          string usedDialogue="", typeOfItem typeOfItem=HINT);
+          string usedDialogue="", typeOfItem typeOfItem=HINT, int value=0);
     Item (string description, string usedDialogue);
     Item (string description);
 
@@ -71,17 +71,17 @@ private:
 public:
     bool tryChance();
 
+    string (*useFunc)(LuckItem*);
+
     LuckItem(string (*useFunc)(LuckItem*)=&(useItemFunctions::useLuckItemDefault), string description="",
-             string usedDialogue="", typeOfItem typeOfItem=HINT, float successChance=0.5);
+             string usedDialogue="", typeOfItem typeOfItem=LUCK, float successChance=0.5, int value=0);
 };
 
 class Raffle : public ConsumableItem, public LuckItem{
 
 public:
-    Raffle(string(*useFunc)(LuckItem* raffle)=&(useItemFunctions::useLuckItemDefault), float successChance=0.5, int value=100, string description="Raffle",
-           string usedDialogue="You have tried to use raffle.", typeOfItem typeOfItem=RAFFLE);
-
-    string (*useFunc)(LuckItem*);
+    Raffle(int value=0, float successChance=0.5, string description="Raffle",
+           string usedDialogue="You have tried to use raffle.", typeOfItem typeOfItem=LUCK);
 
     virtual void consumeItem() override;
 };

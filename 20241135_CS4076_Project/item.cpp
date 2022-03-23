@@ -17,11 +17,12 @@ Item::Item(string description, string usedDialogue, typeOfItem itemType){
 }
 
 Item::Item(string (*useFunc)(Item*), string description,
-           string usedDialogue, typeOfItem typeOfItem){
+           string usedDialogue, typeOfItem typeOfItem, int value){
     this->useFunc = useFunc;
     this->description = description;
     this->usedDialogue = usedDialogue;
     this->itemType = typeOfItem;
+    this->value = value;
 }
 
 Item::Item(const Item& other) : description(other.description), value(other.value)/*weaponCheck(other.weaponCheck)*/{
@@ -34,16 +35,17 @@ Item::~Item(){
 
 }
 
-LuckItem::LuckItem(string (*useFunc)(LuckItem*), string description, string usedDialogue, typeOfItem typeOfItem, float successChance)
-    :   Item(NULL, description, usedDialogue, typeOfItem)
+LuckItem::LuckItem(string (*useFunc)(LuckItem*), string description, string usedDialogue, typeOfItem typeOfItem,
+                   float successChance, int value)
+    :   Item(NULL, description, usedDialogue, typeOfItem, value)
 {
     this->successChance = successChance;
 }
 
-Raffle::Raffle(string(*useFunc)(LuckItem* raffle), float successChance, int value, string description,
+Raffle::Raffle(int value, float successChance, string description,
                string usedDialogue, typeOfItem typeOfItem)
-    : LuckItem(useFunc, description, usedDialogue, typeOfItem, successChance){
-
+    : LuckItem(NULL, description, usedDialogue, typeOfItem, successChance, value){
+    this->useFunc = &(useItemFunctions::useItemRaffle);
 }
 
 
@@ -112,14 +114,14 @@ string useItemRaffle(LuckItem* raffle){
 
     if(raffle->tryChance()){
 //        int raffleIndex = ZorkUL::findItemIndex(raffle->LuckItem::getShortDescription());
-        ZorkUL::changeMoney(raffle->LuckItem::getValue());
-        ZorkUL::deleteItemByName(raffle->LuckItem::getShortDescription());
+        ZorkUL::changeMoney(raffle->getValue());
+        ZorkUL::deleteItemByName(raffle->getShortDescription());
         output += "Success! You have won some money from the raffle!";
         //ZorkUL::
     }
     else{
         output += "Oof! Guess you weren't so lucky this time!";
-        ZorkUL::deleteItemByName(raffle->LuckItem::getShortDescription());
+        ZorkUL::deleteItemByName(raffle->getShortDescription());
     }
 
     return output;

@@ -246,14 +246,18 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             }
             else{
                 Item* itemToBeUsed = itemsInInventory.at(location);
-                if((itemToBeUsed->getTypeOfItem() & Item::RAFFLE) == Item::RAFFLE){
-                    //Raffle* raffle = (Raffle*) itemToBeUsed;
-                    Raffle* raffle = dynamic_cast<Raffle*>(itemToBeUsed);
+                if((itemToBeUsed->getTypeOfItem() & Item::LUCK) == Item::LUCK){
+                    Raffle* raffle = (Raffle*) itemToBeUsed;
+                    //Raffle* raffle = dynamic_cast<Raffle*>(itemToBeUsed);
+                    //LuckItem* raffle = (LuckItem*) itemToBeUsed;
+                    //raffle->useFunc(raffle);
+                    //output += raffle->useFunc(raffle);
                     output += raffle->useFunc(raffle);
                 }
-
+                else{
+                    output += itemToBeUsed->useFunc(itemToBeUsed);
+                }
             }
-
             //return "Using this item...";
             }
     }
