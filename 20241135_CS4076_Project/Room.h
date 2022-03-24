@@ -166,11 +166,18 @@ public:
 class WordleRoom : public GoalRoom, public RewardRoom{
 public:
     WordleRoom(string description, string backgroundPath, int moneyReward);
-    WordleRoom(int moneyReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
+//    WordleRoom(int moneyReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
+//               typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
+//    WordleRoom(string clueReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
+//               typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
+//    WordleRoom(Item* itemReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
+//               typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
+
+    WordleRoom(string(*interactFunc)(GoalRoom*)=&(InteractFunctions::interactPlainGoal), int moneyReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
                typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
-    WordleRoom(string clueReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
+    WordleRoom(string(*interactFunc)(GoalRoom*)=&(InteractFunctions::interactPlainGoal), string clueReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
                typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
-    WordleRoom(Item* itemReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
+    WordleRoom(string(*interactFunc)(GoalRoom*)=&(InteractFunctions::interactPlainGoal), Item* itemReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
                typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
 
 };

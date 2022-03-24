@@ -117,8 +117,8 @@ vector<Room*> ZorkUL::createRooms()  {
     vector<Room*> allRooms;
     // Adding all rooms
     city_centre = new Room("City Centre", RoomDialogues::cityCentre, NIGHT_CITY_GIF);
-    sewer_a = new WordleRoom(100, "Sewers", RoomDialogues::sewers, SEWER_GIF);
-    train = new WordleRoom(pen, "Train", "The local metro train.", TRAIN_GIF);
+    sewer_a = new WordleRoom(&(interactPlainGoal), 100, "Sewers", RoomDialogues::sewers, SEWER_GIF);
+    train = new WordleRoom(&(interactPlainGoal), pen, "Train", "The local metro train.", TRAIN_GIF);
     train_station = new GoalRoom(&(interactPlainGoal), &(checkFinalGoalFunc),"Station", "", STATION_PIC);
     pei_street = new GoalRoom(&(interactPlainGoal), &(checkPeiCompleteFunc),"Pei Street", "The northern street.", BUSY_STREET);
     chinese_restaurant = new Room(&(interactPlain), "Chinese Restaurant", RoomDialogues::chineseRestaurant, CHINESE_RESTAURANT_PIC);

@@ -53,7 +53,9 @@ namespace RoomDialogues{
 }
 
 namespace ItemDialogues{
-    const string frog = "The frog stares at you, eyes gleaming with... passion?";
+    const string frog = "The frog stares at you, eyes gleaming. \"Young boy, I am a frog that has lost his way."
+                        " I am from Pei Street but it is too dangerous to go there by myself. Can you find the kindness in your heart"
+                        " to bring this foolish frog back home?\"";
 
     const string weirdMagazine = "A dubious magazine that you picked up from the street. Upon further inspection,\n"
                                  " you see that this magazine contains copious amounts of photos with\n"
@@ -72,7 +74,9 @@ namespace InteractDialogues{
 
 namespace CompletionDialogues{
     const string peiComplete = "You set the frog free into Pei Street. It"
-                               " looks back at you with moist eyes, overcome with sadness."
+                               " looks back at you with moist eyes, overcome with sadness. "
+                               " \"I would like to express my thanks, young boy. Here, please take this money. You're a good"
+                               " kid. Please, don't let this cruel world corrupt you.\" The frog sets off."
                                " Maybe, just maybe, you two might meet again...\n";
 
     const string finalGoalComplete = "You present the money to your father. He nods"

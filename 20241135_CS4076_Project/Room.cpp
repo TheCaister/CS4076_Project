@@ -23,7 +23,7 @@ string interactClawMachine(Room* room){
 
     if(ZorkUL::getMoney() >= 2){
         ZorkUL::changeMoney(-2);
-        Raffle* raffle = new Raffle(100, 0.01);
+        Raffle* raffle = new Raffle(100, 0.2);
         ZorkUL::addItem(raffle);
         output += "You put in a bit of money and fiddle with the claw machine"
                   " for a bit. Luckily, you managed to snag a raffle ticket!";
@@ -98,7 +98,8 @@ void Room::setAllItems(vector<Item*> items){
 bool Room::deleteItemByName(string name){
     vector<Item*> items = this->getAllItems();
     for(int i = 0; i < (int) (items.size()); i++){
-        if(items.at(i)->getShortDescription().compare(name) == 0){
+//        if(items.at(i)->getShortDescription().compare(name) == 0){
+        if(ZorkUL::compareIgnoreCase(items.at(i)->getShortDescription(), name)){
             delete items.at(i);
             items.erase(items.begin() + i);
             this->setAllItems(items);
@@ -183,27 +184,30 @@ Item* RewardRoom::giveItemReward(){
     return reward;
 }
 
-WordleRoom::WordleRoom(int moneyReward, string name, string description, string backgroundPath,
+WordleRoom::WordleRoom(string(*interactFunc)(GoalRoom*), int moneyReward, string name, string description, string backgroundPath,
                        typeOfRoom typeOfRoom, bool hasHiddenItem, bool goalCompleted)
-    : GoalRoom(name, description, backgroundPath, typeOfRoom, hasHiddenItem, goalCompleted){
+    : GoalRoom(interactFunc, name, description, backgroundPath, typeOfRoom, hasHiddenItem, goalCompleted){
     this->rewardType = MONEY;
     this->RewardRoom::rewardMoney = moneyReward;
+    this->interactFunc = interactFunc;
 }
 
-WordleRoom::WordleRoom(string clueReward, string name, string description, string backgroundPath,
+WordleRoom::WordleRoom(string(*interactFunc)(GoalRoom*), string clueReward, string name, string description, string backgroundPath,
                        typeOfRoom typeOfRoom, bool hasHiddenItem, bool goalCompleted)
-    : GoalRoom(name, description, backgroundPath, typeOfRoom, hasHiddenItem, goalCompleted){
+    : GoalRoom(interactFunc, name, description, backgroundPath, typeOfRoom, hasHiddenItem, goalCompleted){
     this->rewardType = CLUE;
     this->RewardRoom::rewardClue = clueReward;
     this->GoalRoom::setGoalStatus(goalCompleted);
+    this->interactFunc = interactFunc;
 }
 
-WordleRoom::WordleRoom(Item* itemReward, string name, string description, string backgroundPath,
+WordleRoom::WordleRoom(string(*interactFunc)(GoalRoom*), Item* itemReward, string name, string description, string backgroundPath,
                        typeOfRoom typeOfRoom, bool hasHiddenItem, bool goalCompleted)
-    : GoalRoom(name, description, backgroundPath, typeOfRoom, hasHiddenItem, goalCompleted){
+    : GoalRoom(interactFunc, name, description, backgroundPath, typeOfRoom, hasHiddenItem, goalCompleted){
     this->rewardType = ITEM;
     this->RewardRoom::rewardItem = itemReward;
     this->GoalRoom::setGoalStatus(goalCompleted);
+    this->interactFunc = interactFunc;
 }
 
 
