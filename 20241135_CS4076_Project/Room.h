@@ -32,6 +32,7 @@ string interactDescription(Room*);
 string interactPlainGoal(GoalRoom*);
 string interactCafe(GoalRoom*);
 string interactClawMachine(Room*);
+string interactChineseRestaurant(Room*);
 }
 
 // Abstract class holding properties and features that rooms will have

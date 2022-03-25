@@ -26,7 +26,9 @@ namespace RoomDialogues{
                           " but gag at the foul odours emanating from this area. Maybe it's best that you leave soon...";
 
     const string chineseRestaurant = "The local Chinese restaurant. Your stomach rumbles as the scent of"
-                                     " fried pork and soy sauce emanates from the establishment.";
+                                     " soy sauce and MSG emanates from the establishment. \"Well hello there, little boy,\" the"
+                                     " person at the counter gestures to you. \"How can I help you? Our special offer of the day is Guo Bao Rou."
+                                     " Don't know what that is? Why don't you get a portion and find out? It'll be $10 if you're interested!\"";
 
     const string cafe = "You arrive at one of the popular cafes in town. Nobody bats an eye when you entered."
                         " They are too busy either lost in their conversations or working with headphones on.";
@@ -63,6 +65,10 @@ namespace ItemDialogues{
                                  " folks out there who are really into apologies.";
 
     const string pen = "A pen that you got from a man in the train. It smells kinda funky and the tip seems slightly chewed on.";
+
+    const string guoBaoRou = "A traditional dish loved by many from the East. It consists of deep-fried, thinly sliced pieces of"
+                             " pork coated in a fragrant sweet and sour sauce. You can't help but drool at the prospect of devouring"
+                             " this meal. However, you keep yourself firm. Maybe you can use it for a better purpose...?";
 
 }
 

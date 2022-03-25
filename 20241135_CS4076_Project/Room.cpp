@@ -27,10 +27,29 @@ string interactClawMachine(Room* room){
         ZorkUL::addItem(raffle);
         output += "You put in a bit of money and fiddle with the claw machine"
                   " for a bit. Luckily, you managed to snag a raffle ticket!";
-        vector<Item*> items = ZorkUL::getAllItems();
     }
     else{
         output += "You don't have enough money for the claw machine.";
+    }
+
+    return output;
+}
+
+string interactChineseRestaurant(Room*){
+    string output = "";
+
+    if(ZorkUL::getMoney() >= 10){
+        ZorkUL::changeMoney(-10);
+        Item* food = new Item(&(useItemFunctions::useItemDefault), "Guo Bao Rou", ItemDialogues::guoBaoRou);
+        ZorkUL::addItem(food);
+        output += "You fork over some money,"
+                  " wondering what in the world this \"Guo Bao Rou\" is."
+                  " \"Thank you very much for your business! We hope you enjoy!\"";
+    }
+    else{
+        output += "\"Emm... I'm afraid you don't have the money to"
+                  " sample our delicious Guo Bao Rou, little boy,\" said"
+                  " the person at the counter.";
     }
 
     return output;

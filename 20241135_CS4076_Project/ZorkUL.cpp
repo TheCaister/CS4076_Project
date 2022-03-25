@@ -121,7 +121,7 @@ vector<Room*> ZorkUL::createRooms()  {
     train = new WordleRoom(&(interactPlainGoal), pen, "Train", "The local metro train.", TRAIN_GIF);
     train_station = new GoalRoom(&(interactPlainGoal), &(checkFinalGoalFunc),"Station", "", STATION_PIC);
     pei_street = new GoalRoom(&(interactPlainGoal), &(checkPeiCompleteFunc),"Pei Street", "The northern street.", BUSY_STREET);
-    chinese_restaurant = new Room(&(interactPlain), "Chinese Restaurant", RoomDialogues::chineseRestaurant, CHINESE_RESTAURANT_PIC);
+    chinese_restaurant = new Room(&(interactChineseRestaurant), "Chinese Restaurant", RoomDialogues::chineseRestaurant, CHINESE_RESTAURANT_PIC);
     cafe = new GoalRoom(&(interactCafe), &(checkCafeCompleteFunc), "Cafe", RoomDialogues::cafe, CAFE);
     cave = new Room(&(interactPlain), "Cave", RoomDialogues::cave, CAVE_PIC);
     claw_machine = new Room(&(interactClawMachine), "Alley with Claw Machine", RoomDialogues::clawMachine, CLAW_MACHINE);
@@ -392,10 +392,15 @@ string ZorkUL::printAllItems(){
     }
 
     output += "Here are all the items currently in your inventory: ";
-    for(Item* item : itemsInInventory){
-        output += item->getShortDescription();
-        output += " ";
+
+    for(int i = 0; i < (int) itemsInInventory.size() - 1; i++){
+        output += itemsInInventory.at(i)->getShortDescription();
+        output += ", ";
     }
+    output += itemsInInventory.at(itemsInInventory.size() - 1)->getShortDescription();
+//    for(Item* item : itemsInInventory){
+
+//    }
     output += "\n";
     return output;
 }
