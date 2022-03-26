@@ -22,6 +22,7 @@ bool ZorkUL::keysPresent[5];
 int ZorkUL::money;
 vector<Room*> ZorkUL::allRooms;
 Stack<Room*> ZorkUL::recentRooms;
+bool ZorkUL::canGoToParadise;
 
 int main(int argc, char *argv[]) {
     ZorkUL::changeMoney(2);
@@ -31,7 +32,7 @@ int main(int argc, char *argv[]) {
     ZorkUL::setParser(parser);
 
     // For printing stuff out in the output pane and debugging
-    QTextStream out(stdout);
+    //QTextStream out(stdout);
 
     WordleEngine *worldleEngine = new WordleEngine();
     QApplication a(argc, argv);
@@ -69,6 +70,7 @@ ZorkUL::ZorkUL() {
     ZorkUL::allQuantities->KeysPresent = 0;
     ZorkUL::allQuantities->Bombs = 0;
     ZorkUL::money = 10;
+    ZorkUL::canGoToParadise = false;
 
     createRooms();
 }
@@ -104,10 +106,10 @@ vector<Room*> ZorkUL::createRooms()  {
     using namespace InteractFunctions;
     using namespace useItemFunctions;
 
-    Room *city_centre, *cave, *chinese_restaurant,
+    Room *city_centre, *chinese_restaurant,
             *claw_machine, *conveyor_sushi, *lively_alley, *noodle_stall,
             *under_bridge;
-    GoalRoom *sewer_a, *pei_street, *train, *cafe, *train_station;
+    GoalRoom *sewer_a, *pei_street, *train, *cafe, *train_station, *cave;
 
     Item *frog, *weird_magazine, *pen;
     frog = new Item(&(useItemDefault), "Frog", ItemDialogues::frog);
@@ -123,13 +125,12 @@ vector<Room*> ZorkUL::createRooms()  {
     pei_street = new GoalRoom(&(interactPlainGoal), &(checkPeiCompleteFunc),"Pei Street", "The northern street.", BUSY_STREET);
     chinese_restaurant = new Room(&(interactChineseRestaurant), "Chinese Restaurant", RoomDialogues::chineseRestaurant, CHINESE_RESTAURANT_PIC);
     cafe = new GoalRoom(&(interactCafe), &(checkCafeCompleteFunc), "Cafe", RoomDialogues::cafe, CAFE);
-    cave = new Room(&(interactPlain), "Cave", RoomDialogues::cave, CAVE_PIC);
+    cave = new GoalRoom(&(interactCave), &(checkCaveCompleteFunc), "Cave", RoomDialogues::cave, CAVE_PIC);
     claw_machine = new Room(&(interactClawMachine), "Alley with Claw Machine", RoomDialogues::clawMachine, CLAW_MACHINE);
     conveyor_sushi = new Room(&(interactPlain), "Conveyor Sushi Restaurant", RoomDialogues::conveyorSushi, CONVEYOR_SUSHI);
     lively_alley = new Room(&(interactPlain), "Lively alley", RoomDialogues::livelyAlley, LIVELY_ALLEY);
     noodle_stall = new Room(&(interactPlain), "Noodle Stall", RoomDialogues::noodleStall, NOODLE_STALL);
     under_bridge = new Room(&(interactPlain), "Bridge", RoomDialogues::underBridge, UNDER_BRIDGE);
-
 
     *city_centre + frog;
     *pei_street + weird_magazine;
@@ -350,8 +351,6 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             }
             else if(compareIgnoreCase(secondWord, "room") || compareIgnoreCase(secondWord, "area")){
                 output += currentRoom->getLongDescription();
-
-                //                return currentRoom->longDescription();
             }
         }
     }
@@ -415,6 +414,15 @@ bool ZorkUL::goRoom(Command command) {
 
     Room* previousRoom = currentRoom;
 
+    if(compareIgnoreCase(direction, "paradise") && canGoToParadise){
+        Room *paradise = new Room(&(InteractFunctions::interactParadise), "Paradise", RoomDialogues::paradise, Constants::PARADISE);
+        paradise->setExits(NULL, NULL, NULL, NULL);
+        allRooms.push_back(paradise);
+
+        currentRoom = paradise;
+        return true;
+    }
+
     // Going back to the previous room
     if(compareIgnoreCase(direction, "back")){
         Room* nextRoom = recentRooms.pop();
@@ -447,6 +455,7 @@ bool ZorkUL::goRoom(Command command) {
 
 // Update the background
 void ZorkUL::updateRoom(Room *room, MainWindow *window){
+
     currentRoom = room;
     window->updateBackground(room->getBackgroundPath());
 
@@ -586,4 +595,8 @@ bool ZorkUL::compareIgnoreCase(string a, string b){
     }
 
     return true;
+}
+
+void ZorkUL::enableParadise(){
+    canGoToParadise = true;
 }

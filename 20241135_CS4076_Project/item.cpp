@@ -105,6 +105,14 @@ string useItemDefault(Item* item){
     return item->getUsedDialogue();
 }
 
+string useOrb(Item* item){
+    string output = item->getUsedDialogue();
+    ZorkUL::deleteItemByName(item->getShortDescription());
+    ZorkUL::enableParadise();
+    return output;
+
+}
+
 string useLuckItemDefault(LuckItem* item){
     return item->getUsedDialogue();
 }

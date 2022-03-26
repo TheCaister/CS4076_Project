@@ -21,6 +21,8 @@ string checkPeiCompleteFunc(GoalRoom*);
 
 string checkCafeCompleteFunc(GoalRoom*);
 
+string checkCaveCompleteFunc(GoalRoom*);
+
 string checkFinalGoalFunc(GoalRoom*);
 }
 
@@ -31,8 +33,10 @@ string interactPlain(Room*);
 string interactDescription(Room*);
 string interactPlainGoal(GoalRoom*);
 string interactCafe(GoalRoom*);
+string interactCave(GoalRoom*);
 string interactClawMachine(Room*);
 string interactChineseRestaurant(Room*);
+string interactParadise(Room*);
 }
 
 // Abstract class holding properties and features that rooms will have

@@ -63,6 +63,19 @@ string interactCafe(GoalRoom* room){
         return InteractDialogues::cafeNotCompleteInteract;
     }
 }
+
+string interactCave(GoalRoom* room){
+    if(room->getGoalStatus()){
+        return InteractDialogues::caveCompleteInteract;
+    }
+    else{
+        return InteractDialogues::caveNotCompleteInteract;
+    }
+}
+
+string interactParadise(Room*){
+    return InteractDialogues::paradiseInteract;
+}
 }
 
 Room::Room(string name, string description, string backgroundPath,
@@ -389,6 +402,20 @@ string checkCafeCompleteFunc(GoalRoom* currentRoom){
         output += CompletionDialogues::cafeNotComplete;
     }
 
+
+    return output;
+}
+
+string checkCaveCompleteFunc(GoalRoom* currentRoom){
+    string output = "";
+    string goalItem = "guo bao rou";
+
+    if(currentRoom->deleteItemByName(goalItem)){
+        currentRoom->setGoalStatus(true);
+        output += CompletionDialogues::caveComplete;
+        Item* orb = new Item(&(useItemFunctions::useOrb), "Orb", ItemDialogues::orb);
+        ZorkUL::addItem(orb);
+    }
 
     return output;
 }

@@ -20,6 +20,7 @@ namespace Constants{
     const string BUSY_STREET = ":/img/img/busy_street.gif";
     const string UNDER_BRIDGE = ":/img/img/under_bridge.gif";
     const string LIVELY_ALLEY = ":/img/img/lively_alley.gif";
+    const string PARADISE = ":/img/img/paradise.gif";
 }
 
 #endif // CONSTANTS_H

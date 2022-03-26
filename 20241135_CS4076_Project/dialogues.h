@@ -34,7 +34,9 @@ namespace RoomDialogues{
                         " They are too busy either lost in their conversations or working with headphones on.";
 
     const string cave = "You head out further away from the big city and ended up in a cave."
-                        " The walls are damp and there's not a soul in sight.";
+                        " The walls are damp and there's not a soul in sight. Suddenly, you see an Eldritch horror"
+                        " covered in slimy tentacles and eyeballs lurking in the shadows! It looks at you with its eyes."
+                        " \"Hungry... I'm so hungry... Nobody should suffer from hunger...\"";
 
     const string clawMachine = "As you wander about, you see a claw machine on the side of"
                                " the street. Maybe you can try to grab something to sell later on?";
@@ -51,7 +53,8 @@ namespace RoomDialogues{
 
     const string underBridge = "You cross under a bridge. There doesn't seem to be anyone here.";
 
-
+    const string paradise = "After wishing at the orb with all your might, you have reached paradise. Finally,"
+                            " you can exist in peace.";
 }
 
 namespace ItemDialogues{
@@ -70,12 +73,25 @@ namespace ItemDialogues{
                              " pork coated in a fragrant sweet and sour sauce. You can't help but drool at the prospect of devouring"
                              " this meal. However, you keep yourself firm. Maybe you can use it for a better purpose...?";
 
+    const string orb = "An orb with a regal glow to it. You tremble as you hold it. This orb has the power"
+                       " to reset the world if the user desires so. Should such a power be given to any individual,"
+                       " let alone a child? You look back at your life. Screw it. You stare at the orb and focus. Now,"
+                       " you feel as though you can go to \"paradise\".";
+
 }
 
 namespace InteractDialogues{
     const string cafeCompleteInteract = "\"Yo! Thanks again for the pen, broski!\"";
 
     const string cafeNotCompleteInteract = "\"Hmm... what to do... if only I had another pen...\"";
+
+    const string caveCompleteInteract  = "Many thanks once again, human. With your heart, you will reach great heights.";
+
+    const string caveNotCompleteInteract = "\"Hungry... so hungry...\"";
+
+    const string paradiseInteract = "You lie down on the grass and it caresses you as a gentle breeze soothes your soul."
+                            " So... this is what paradise feels like...";
+
 }
 
 namespace CompletionDialogues{
@@ -102,6 +118,14 @@ namespace CompletionDialogues{
                                    " that seems to be a student. \"Hey man,\" he said. \"I was tryna take down some"
                                    " notes but my pen's all out. Going to the store is gonna be such a pain... Say,"
                                    " would you have a spare pen on you? I got something nice for you in return!\"";
+
+    const string caveComplete = "You give the portion of guo bao rou to the tentacled monstrosity, hoping that it will be appeased"
+                                " by chinese takeway food somehow. Tears started to roll down the creature's many eyes."
+                                " \"Is this... for me? Oh thank you, thank you, human child!\" I thought this world is"
+                                " unsalvageable, but here you are, a beacon of light in the flesh! I implore you,"
+                                " please take this orb. It has the power to change the world as you know it, and I"
+                                " will bestow it upon you. If anyone should rewrite the foundations of this world, it"
+                                " should be you!";
 }
 
 #endif // DIALOGUES_H

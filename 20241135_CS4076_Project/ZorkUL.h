@@ -17,6 +17,7 @@ class ZorkUL {
 private:
     static Room *currentRoom;
     static vector<Room*> allRooms;
+    static bool canGoToParadise;
 
     void printWelcome();
     static string printHelp();
@@ -58,6 +59,7 @@ public:
     static vector<Item*> getAllItems();
     static bool compareIgnoreCase(string a, string b);
     static string stringToLower(string a);
+    static void enableParadise();
 };
 
 #endif ZORKUL_H_

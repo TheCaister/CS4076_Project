@@ -16,6 +16,10 @@ class LuckItem;
 namespace useItemFunctions{
 string useItemDefault(Item*);
 
+string useOrb(Item*);
+
+//////// LUCK ITEMS /////////////////
+
 string useLuckItemDefault(LuckItem*);
 
 string useItemRaffle(LuckItem*);
