@@ -24,8 +24,20 @@ MainWindow::MainWindow(QWidget *parent)
     ui->moneyLabel->setText(QString::fromStdString("Money: " + std::to_string(ZorkUL::getMoney())));
     // Makking the image fill the available space.
     ui->current_image->setScaledContents( true );
-    ui->input->setFocus();
+    //ui->input->setFocus();
+    ui->upButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
+    ui->downButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
+    ui->leftButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
+    ui->rightButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
+    ui->quitButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
+    ui->infoButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
+    ui->interactButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
+    ui->roomButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
+    ui->invButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
+
+    //ui->upButton->setStyleSheet("hover :{background-color: rgb(111, 145, 255);color: rgb(183, 110, 255);}");
 }
+
 
 MainWindow::~MainWindow()
 {
