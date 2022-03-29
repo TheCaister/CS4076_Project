@@ -74,6 +74,7 @@ public:
     int numberOfItems();
     void setExits(Room *north, Room *east, Room *south, Room *west);
     string getShortDescription();
+    string getName();
     void addItem(Item *inItem);
     string displayItem();
     int isItemInRoom(string inString);
@@ -171,12 +172,6 @@ public:
 class WordleRoom : public GoalRoom, public RewardRoom{
 public:
     WordleRoom(string description, string backgroundPath, int moneyReward);
-//    WordleRoom(int moneyReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
-//               typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
-//    WordleRoom(string clueReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
-//               typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
-//    WordleRoom(Item* itemReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
-//               typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);
 
     WordleRoom(string(*interactFunc)(GoalRoom*)=&(InteractFunctions::interactPlainGoal), int moneyReward=0, string name="Generic Wordle Area", string description="No description.", string backgroundPath=Constants::NIGHT_CITY_GIF,
                typeOfRoom=(typeOfRoom) (WORDLE | GOAL), bool hasHiddenItem=false, bool goalCompleted=false);

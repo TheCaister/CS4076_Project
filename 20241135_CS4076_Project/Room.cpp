@@ -8,11 +8,13 @@
 
 namespace InteractFunctions{
 string interactPlain(Room* room){
-    return "Plain interaction.";
+    //return "Plain interaction.";
+    return room->getShortDescription();
 }
 
 string interactPlainGoal(GoalRoom* room){
-    return "Objective to be completed";
+    //return "Objective to be completed";
+    return "";
 }
 
 string interactDescription(Room* room){
@@ -146,6 +148,10 @@ void Room::deleteAllItems(){
         delete iPtr;
     }
     this->getAllItems().clear();
+}
+
+string Room::getName(){
+    return this->name;
 }
 
 GoalRoom::GoalRoom(string name, string description, string backgroundPath, typeOfRoom typeOfRoom,

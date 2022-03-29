@@ -23,12 +23,15 @@ namespace RoomDialogues{
                                " every direction. Keep an eye out for tourist traps.";
 
     const string sewers = "The city sewers. Hidden from the glamour of life above-ground, you can't help"
-                          " but gag at the foul odours emanating from this area. Maybe it's best that you leave soon...";
+                          " but gag at the foul odours emanating from this area. A weird man jumps out at you!"
+                          " \"Well there, matey!\" he said, \"You know what goes on in this area! I give you this here Wordle"
+                          " challenge and if you manage to guess right, I give you free money! Yes, yes, very good!\"";
 
     const string chineseRestaurant = "The local Chinese restaurant. Your stomach rumbles as the scent of"
                                      " soy sauce and MSG emanates from the establishment. \"Well hello there, little boy,\" the"
                                      " person at the counter gestures to you. \"How can I help you? Our special offer of the day is Guo Bao Rou."
-                                     " Don't know what that is? Why don't you get a portion and find out? It'll be $10 if you're interested!\"";
+                                     " Don't know what that is? Why don't you get a portion and find out? It'll be $10 if you're interested!\""
+                                     " (INTERACT TO BUY GUO BAO ROU)";
 
     const string cafe = "You arrive at one of the popular cafes in town. Nobody bats an eye when you entered."
                         " They are too busy either lost in their conversations or working with headphones on.";
@@ -39,7 +42,8 @@ namespace RoomDialogues{
                         " \"Hungry... I'm so hungry... Nobody should suffer from hunger...\"";
 
     const string clawMachine = "As you wander about, you see a claw machine on the side of"
-                               " the street. Maybe you can try to grab something to sell later on?";
+                               " the street. Maybe you can try to grab something to sell later on? (INTERACT"
+                               " TO USE CLAW MACHINE)";
 
     const string conveyorSushi = "You arrive at a restaurant that serves sushi on convenient conveyor belts."
                                  " The prices here aren't exorbitant so maybe you can treat yourself every now and again?";
@@ -55,6 +59,10 @@ namespace RoomDialogues{
 
     const string paradise = "After wishing at the orb with all your might, you have reached paradise. Finally,"
                             " you can exist in peace.";
+
+    const string train = "You hop on one of the local trains, looking to see if anyone has left behind anything of value."
+                         " \"Yo,\" said one of the passengers, \"You must also be bored, right? Tell you what, I'll give"
+                         " you a Wordle to pass the time, what do you think? Your reward can be... uh... this pen in my pocket!\"";
 }
 
 namespace ItemDialogues{
@@ -121,11 +129,11 @@ namespace CompletionDialogues{
 
     const string caveComplete = "You give the portion of guo bao rou to the tentacled monstrosity, hoping that it will be appeased"
                                 " by chinese takeway food somehow. Tears started to roll down the creature's many eyes."
-                                " \"Is this... for me? Oh thank you, thank you, human child!\" I thought this world is"
+                                " \"Is this... for me? Oh thank you, thank you, human child! I thought this world is"
                                 " unsalvageable, but here you are, a beacon of light in the flesh! I implore you,"
                                 " please take this orb. It has the power to change the world as you know it, and I"
                                 " will bestow it upon you. If anyone should rewrite the foundations of this world, it"
-                                " should be you!";
+                                " should be you!\"";
 }
 
 #endif // DIALOGUES_H

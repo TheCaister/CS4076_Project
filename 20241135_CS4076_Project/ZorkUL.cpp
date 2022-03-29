@@ -120,7 +120,7 @@ vector<Room*> ZorkUL::createRooms()  {
     // Adding all rooms
     city_centre = new Room("City Centre", RoomDialogues::cityCentre, NIGHT_CITY_GIF);
     sewer_a = new WordleRoom(&(interactPlainGoal), 100, "Sewers", RoomDialogues::sewers, SEWER_GIF);
-    train = new WordleRoom(&(interactPlainGoal), pen, "Train", "The local metro train.", TRAIN_GIF);
+    train = new WordleRoom(&(interactPlainGoal), pen, "Train", RoomDialogues::train, TRAIN_GIF);
     train_station = new GoalRoom(&(interactPlainGoal), &(checkFinalGoalFunc),"Station", "", STATION_PIC);
     pei_street = new GoalRoom(&(interactPlainGoal), &(checkPeiCompleteFunc),"Pei Street", "The northern street.", BUSY_STREET);
     chinese_restaurant = new Room(&(interactChineseRestaurant), "Chinese Restaurant", RoomDialogues::chineseRestaurant, CHINESE_RESTAURANT_PIC);
@@ -209,6 +209,10 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
     }
 
     else if (compareIgnoreCase(commandWord, "go")){
+        if(compareIgnoreCase(currentRoom->getName(), "paradise")){
+            return "You are already in paradise. There is nowhere that you"
+                   " need to go.";
+        }
 
         try{
             // If the goRoom command is successful, return the room's long description.

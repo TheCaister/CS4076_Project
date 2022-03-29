@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Setting stylesheets for buttons
     ui->rightButton->setStyleSheet("color:(255, 255, 255) :hover{color: rgb(229, 84, 222);} :active{color: rgb(200, 200, 200)}");
 
-    ui->moneyLabel->setText(QString::fromStdString("Money: " + std::to_string(ZorkUL::getMoney())));
+    ui->moneyLabel->setText(QString::fromStdString("Money: $" + std::to_string(ZorkUL::getMoney())));
     // Makking the image fill the available space.
     ui->current_image->setScaledContents( true );
     ui->input->setFocus();
@@ -145,7 +145,7 @@ void MainWindow::parseInput(string input){
 
     //    addStringToConsole(output);
     overwriteConsole(output);
-    ui->moneyLabel->setText(QString::fromStdString("Money: " + std::to_string(ZorkUL::getMoney())));
+    ui->moneyLabel->setText(QString::fromStdString("Money: $" + std::to_string(ZorkUL::getMoney())));
 
     delete command;
 
