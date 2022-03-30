@@ -93,14 +93,14 @@ string WordleEngine::evaluateInput(const string &input){
 
     // If the guess is correct, set status to success
     if(correctLettersAmount == (int) correctWord.size()){
-        output += Dialogues::wordleSuccess;
+        output += OtherDialogues::wordleSuccess;
         WordleEngine::wordleStatus = WordleEngine::WORDLE_SUCCESS;
     }
     else{
         WordleEngine::triesLeft--;
 
         if(WordleEngine::triesLeft == 0){
-            output += Dialogues::wordleOutOfAttempts;
+            output += OtherDialogues::wordleOutOfAttempts;
             WordleEngine::wordleStatus = WordleEngine::WORDLE_STOP;
         }
         else{

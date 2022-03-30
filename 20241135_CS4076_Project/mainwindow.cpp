@@ -18,13 +18,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->outputConsole->setWordWrap(true);
 
-    //Setting stylesheets for buttons
-    ui->rightButton->setStyleSheet("color:(255, 255, 255) :hover{color: rgb(229, 84, 222);} :active{color: rgb(200, 200, 200)}");
 
     ui->moneyLabel->setText(QString::fromStdString("Money: $" + std::to_string(ZorkUL::getMoney())));
-    // Makking the image fill the available space.
+
+    // Making the image fill the available space.
     ui->current_image->setScaledContents( true );
-    //ui->input->setFocus();
+
+    ui->input->setFocus();
+
+    //Setting stylesheets for buttons
     ui->upButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
     ui->downButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
     ui->leftButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
@@ -35,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->roomButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
     ui->invButton->setStyleSheet(":hover{color: rgb(183, 110, 255); border: 3px solid rgb(183, 110, 255)}");
 
-    //ui->upButton->setStyleSheet("hover :{background-color: rgb(111, 145, 255);color: rgb(183, 110, 255);}");
 }
 
 
@@ -53,41 +54,32 @@ void MainWindow::clearConsole(){
     ui->outputConsole->clear();
 }
 
-// Scrolls to the bottom of the output
-void MainWindow::scrollToBottom(){
-    //ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximum());
-}
-
 // Printing to game console - Supports string and QString
-void MainWindow::addStringToConsole(string input){
+void MainWindow::addStringToConsole(const string &input){
     //qDebug("Hello");
     ui->outputConsole->setText(ui->outputConsole->text() + QString::fromStdString("\n") + QString::fromStdString(input));
-    scrollToBottom();
 }
 
-void MainWindow::addQStringToConsole(QString input){
+void MainWindow::addQStringToConsole(const QString &input){
     //qDebug("Hello");
     ui->outputConsole->setText(ui->outputConsole->text() + QString::fromStdString("\n") + input);
-    scrollToBottom();
 }
 
 // Clears the console and prints something
-void MainWindow::overwriteConsole(string input){
+void MainWindow::overwriteConsole(const string &input){
     ui->outputConsole->clear();
     addStringToConsole(input);
-
-    scrollToBottom();
 }
 
 // Updates the background based on the path parameter
-void MainWindow::updateBackground(string path){
+void MainWindow::updateBackground(const string &path){
+    const unsigned long long dotIndex = path.find(".");
 
     // find() returns npos if a "." is not found
-    if(path.find(".") == string::npos){
+    if(dotIndex == string::npos){
         return;
     }
 
-    int dotIndex = (int) path.find(".");
 
     // Check what type of file "path" is
     // E.g. we have movie.gif and we want to separate the ".gif" part
@@ -100,9 +92,6 @@ void MainWindow::updateBackground(string path){
 
     if(fileType.compare(".gif") == 0){
         this->currentMovie = new QMovie(file);
-
-        // Making the image fill the available space.
-        ui->current_image->setScaledContents( true );
 
         ui->current_image->setMovie(this->currentMovie);
         this->currentMovie->start();
@@ -127,31 +116,27 @@ void MainWindow::on_input_textChanged()
         return;
     }
 
-    // Removing the newline from the string
+    // Removing the newline from the input to be later passed into parseInput
     input = input.substr(0, newlineIndex);
 
     // Checks if there are any newlines or if the "enter" key is pressed
     if(newlineIndex != string::npos && input.size() > 0){
         //addStringToConsole("> " + input + "\n");
         this->parseInput(input);
-
-        ui->input->clear();
     }
-
-    scrollToBottom();
 }
 
 // Trying to convert input to a command and printing out the appropriate output.
-void MainWindow::parseInput(string input){
+void MainWindow::parseInput(const string &input){
     Command *command = ZorkUL::getParser()->convertToCommand(input);
-    //    addStringToConsole("> " + input + "\n");
-    overwriteConsole("> " + input + "\n");
-    string output = ZorkUL::processCommand(*command, this);
+
+    string output = "> " + input + "\n\n";
+    output += ZorkUL::processCommand(*command, this);
 
     // Processes errors
     if(output.compare("") == 0){
         //addStringToConsole(Dialogues::inputError);
-        overwriteConsole(Dialogues::inputError);
+        overwriteConsole(OtherDialogues::inputError);
         return;
     }
 
@@ -162,7 +147,6 @@ void MainWindow::parseInput(string input){
     delete command;
 
     ui->input->setFocus();
-    scrollToBottom();
 }
 
 void MainWindow::on_upButton_released()

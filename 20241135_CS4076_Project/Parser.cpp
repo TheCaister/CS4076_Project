@@ -33,10 +33,6 @@ Command* Parser::convertToCommand(string input){
         word2 = words[1]; //get second word
     }
 
-    // note: we just ignore the rest of the input line.
-    // Now check whether this word is known. If so, create a command with it.
-    // If not, create a "nil" command (empty string for unknown command).
-
     return new Command(word1, word2);
 }
 

@@ -18,12 +18,11 @@ public:
     ~MainWindow();
 
     void clearConsole();
-    void addStringToConsole(string input);
-    void addQStringToConsole(QString input);
-    void overwriteConsole(string input);
-    void updateBackground(string path);
-    void parseInput(string input);
-    void scrollToBottom();
+    void addStringToConsole(const string &input);
+    void addQStringToConsole(const QString &input);
+    void overwriteConsole(const string &input);
+    void updateBackground(const string &path);
+    void parseInput(const string &input);
     QMovie* currentMovie;
 
 private slots:

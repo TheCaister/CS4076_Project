@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
     //    }
 
     ZorkUL::setAllRooms(ZorkUL::createRooms());
-    w.addStringToConsole(Dialogues::welcome);
+    w.addStringToConsole(OtherDialogues::welcome);
 
     //ZorkUL::updateRoom(ZorkUL::getAllRooms().at(0), windowPtr);
     ZorkUL::updateRoom(ZorkUL::getCurrentRoom(), windowPtr);
@@ -220,7 +220,7 @@ string ZorkUL::processCommand(Command command, MainWindow *window) {
             if(goRoom(command)){
                 ZorkUL::updateRoom(currentRoom, window);
                 if((currentRoom->getTypeOfRoom() & Room::WORDLE) == Room::WORDLE){
-                    output += Dialogues::welcomeWordle + "\n";
+                    output += OtherDialogues::welcomeWordle + "\n";
                 }
 
                 output += currentRoom->getLongDescription();

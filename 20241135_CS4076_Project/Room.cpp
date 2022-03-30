@@ -117,6 +117,10 @@ Room::~Room(){
         delete item;
     }
 
+    if(this->hasHiddenItem){
+        delete hiddenItem;
+    }
+
     this->getAllItems().clear();
 
 }

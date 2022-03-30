@@ -10,6 +10,7 @@ public:
     enum typeOfItem : int {HINT = 1, HEALTH = 2, LUCK = 4};
 };
 
+// Forward declaring some classes so useItemFunctions can recognise them
 class Item;
 class LuckItem;
 
@@ -62,11 +63,6 @@ public:
     typeOfItem getTypeOfItem();
 };
 
-class ConsumableItem{
-public:
-    virtual void consumeItem() = 0;
-};
-
 // Items that utilize some kind of luck. Each of these will have
 // a corresponding "success chance"
 class LuckItem : public Item{
@@ -81,13 +77,11 @@ public:
              string usedDialogue="", typeOfItem typeOfItem=LUCK, float successChance=0.5, int value=0);
 };
 
-class Raffle : public ConsumableItem, public LuckItem{
+class Raffle : public LuckItem{
 
 public:
     Raffle(int value=0, float successChance=0.5, string description="Raffle",
            string usedDialogue="You have tried to use raffle.", typeOfItem typeOfItem=LUCK);
-
-    virtual void consumeItem() override;
 };
 
 #endif /*ITEM_H_*/

@@ -33,7 +33,7 @@ public:
     void push(T item){
         // If the size is exceeded, remove the bottom of the stack
         // and then add the new item
-        if(this->objectList.size() <= this->maxAmount){
+        if((int) this->objectList.size() <= this->maxAmount){
             this->objectList.push_back(item);
         }
         else{
