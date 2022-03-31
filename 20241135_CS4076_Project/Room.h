@@ -78,15 +78,13 @@ public:
     void addItem(Item *inItem);
     string displayItem();
     int isItemInRoom(string inString);
-    void removeItemFromRoom(int location);
     string getBackgroundPath();
     void setHiddenItem(Item* item);
-    void setHiddenClue(string string);
     typeOfRoom getTypeOfRoom();
     vector<Item*> getAllItems();
     void setAllItems(vector<Item*> items);
     void deleteAllItems();
-    bool deleteItemByName(string name);
+    bool deleteItemByName(string& name);
 
     // Display different long descriptions for different types of rooms.
     virtual string getLongDescription();

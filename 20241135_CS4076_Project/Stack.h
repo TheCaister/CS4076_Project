@@ -30,7 +30,7 @@ public:
     T popDelete();
     void clear();
 
-    void push(T item){
+    void push(T& item){
         // If the size is exceeded, remove the bottom of the stack
         // and then add the new item
         if((int) this->objectList.size() <= this->maxAmount){

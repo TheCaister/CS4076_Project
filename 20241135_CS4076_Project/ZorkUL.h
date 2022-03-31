@@ -9,8 +9,8 @@
 using namespace std;
 
 struct Quantities{
-        unsigned int KeysPresent : 4;
-        unsigned int Bombs : 4;
+    unsigned int KeysPresent : 4;
+    unsigned int Bombs : 4;
 };
 
 class ZorkUL {
@@ -34,32 +34,34 @@ private:
     static vector<Item*> itemsInInventory;
     static bool keysPresent[5];
 
+
+    static int findItemIndex(const string& item);
+    static void deleteItemByIndex(int& index);
+    static void deleteAll();
+    static vector<Item*> getAllItems();
+    static string stringToLower(string& a);
+
 public:
 
 
     ZorkUL();
 
     static void updateRoom(Room *room, MainWindow *window);
-    static string processCommand(Command command, MainWindow *window);
-    static string giveReward();
+    static string processCommand(Command& command, MainWindow *window);
     static Room *getCurrentRoom();
     static vector<Room*> createRooms();
-    static int findItemIndex(const string& item);
-    static void deleteItemByIndex(int index);
+    static void setParser(Parser* parser);
+    static string giveReward();
     static void deleteItemByName(const string& item);
     static void changeMoney(int moneyAmount);
     static int getMoney();
     static void setAllRooms(vector<Room*> rooms);
     static vector<Room*> getAllRooms();
-    static void deleteAll();
-    static void setParser(Parser* parser);
     static Parser* getParser();
     static int getGoalMoney();
-    static void addItem(Item*);
-    static vector<Item*> getAllItems();
-    static bool compareIgnoreCase(string a, string b);
-    static string stringToLower(string a);
     static void enableParadise();
+    static bool compareIgnoreCase(string a, string b);
+    static void addItem(Item*);
 };
 
 #endif ZORKUL_H_

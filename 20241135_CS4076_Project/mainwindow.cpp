@@ -123,6 +123,7 @@ void MainWindow::on_input_textChanged()
     if(newlineIndex != string::npos && input.size() > 0){
         //addStringToConsole("> " + input + "\n");
         this->parseInput(input);
+        this->ui->input->clear();
     }
 }
 
@@ -130,18 +131,19 @@ void MainWindow::on_input_textChanged()
 void MainWindow::parseInput(const string &input){
     Command *command = ZorkUL::getParser()->convertToCommand(input);
 
-    string output = "> " + input + "\n\n";
-    output += ZorkUL::processCommand(*command, this);
+    string inputString = "> " + input + "\n\n";
+
+    string output = ZorkUL::processCommand(*command, this);
 
     // Processes errors
     if(output.compare("") == 0){
         //addStringToConsole(Dialogues::inputError);
-        overwriteConsole(OtherDialogues::inputError);
+        overwriteConsole(inputString + OtherDialogues::inputError);
         return;
     }
 
     //    addStringToConsole(output);
-    overwriteConsole(output);
+    overwriteConsole(inputString + output);
     ui->moneyLabel->setText(QString::fromStdString("Money: $" + std::to_string(ZorkUL::getMoney())));
 
     delete command;

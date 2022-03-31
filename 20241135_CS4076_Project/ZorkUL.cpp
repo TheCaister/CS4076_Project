@@ -75,7 +75,7 @@ ZorkUL::ZorkUL() {
     createRooms();
 }
 
-void ZorkUL::setAllRooms(vector<Room *> rooms){
+void ZorkUL::setAllRooms(vector<Room*> rooms){
     ZorkUL::allRooms = rooms;
 }
 
@@ -180,7 +180,7 @@ void deleteAllRooms(){
  * If this command ends the ZorkUL game, true is returned, otherwise false is
  * returned.
  */
-string ZorkUL::processCommand(Command command, MainWindow *window) {
+string ZorkUL::processCommand(Command& command, MainWindow *window) {
     string output = "";
     // If we're in a Wordle game, treat the input as a Wordle attempt
     if(WordleEngine::getWordleStatus() == WordleEngine::WORDLE_PROGRESS){
@@ -566,7 +566,7 @@ void ZorkUL::addItem(Item *item){
     itemsInInventory.push_back(item);
 }
 
-void ZorkUL::deleteItemByIndex(int index){
+void ZorkUL::deleteItemByIndex(int& index){
     if(index < (int)itemsInInventory.size()){
         delete itemsInInventory.at(index);
         itemsInInventory.erase(itemsInInventory.begin() + index);
@@ -574,10 +574,11 @@ void ZorkUL::deleteItemByIndex(int index){
 }
 
 void ZorkUL::deleteItemByName(const string &item){
-    deleteItemByIndex(findItemIndex(item));
+    int itemIndex = findItemIndex(item);
+    deleteItemByIndex(itemIndex);
 }
 
-string ZorkUL::stringToLower(string a){
+string ZorkUL::stringToLower(string& a){
     string output = a;
     for(int i = 0; i < (int) a.size(); i++){
         output[i] = tolower(output[i]);

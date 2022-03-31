@@ -133,7 +133,7 @@ void Room::setAllItems(vector<Item*> items){
     this->itemsInRoom = items;
 }
 
-bool Room::deleteItemByName(string name){
+bool Room::deleteItemByName(string& name){
     vector<Item*> items = this->getAllItems();
     for(int i = 0; i < (int) (items.size()); i++){
 //        if(items.at(i)->getShortDescription().compare(name) == 0){
