@@ -177,8 +177,6 @@ void deleteAllRooms(){
 
 /**
  * Given a command, process (that is: execute) the command.
- * If this command ends the ZorkUL game, true is returned, otherwise false is
- * returned.
  */
 string ZorkUL::processCommand(Command& command, MainWindow *window) {
     string output = "";
@@ -253,10 +251,6 @@ string ZorkUL::processCommand(Command& command, MainWindow *window) {
                 Item* itemToBeUsed = itemsInInventory.at(location);
                 if((itemToBeUsed->getTypeOfItem() & Item::LUCK) == Item::LUCK){
                     Raffle* raffle = (Raffle*) itemToBeUsed;
-                    //Raffle* raffle = dynamic_cast<Raffle*>(itemToBeUsed);
-                    //LuckItem* raffle = (LuckItem*) itemToBeUsed;
-                    //raffle->useFunc(raffle);
-                    //output += raffle->useFunc(raffle);
                     output += raffle->useFunc(raffle);
                 }
                 else{
@@ -554,11 +548,11 @@ void ZorkUL::setParser(Parser *parser){
     ZorkUL::parser = parser;
 }
 
-Parser* ZorkUL::getParser(){
+inline Parser* ZorkUL::getParser(){
     return ZorkUL::parser;
 }
 
-vector<Item*> ZorkUL::getAllItems(){
+inline vector<Item*> ZorkUL::getAllItems(){
     return ZorkUL::itemsInInventory;
 }
 
