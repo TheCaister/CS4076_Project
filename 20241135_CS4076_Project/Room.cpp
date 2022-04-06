@@ -102,12 +102,20 @@ Room::Room(string(*interactFunc)(Room*), string name, string description, string
 
 // Copy constructor
 Room::Room(const Room& other){
-    if(hasHiddenItem){
-        return;
-        //this->hiddenItem = new Item(other.hiddenItem);
+
+    if(other.hasHiddenItem){
+        //return;
+        this->hasHiddenItem = true;
+        //string otherDesc = other.hiddenItem->getShortDescription();
+        this->hiddenItem = new Item(other.hiddenItem->useFunc, other.hiddenItem->getShortDescription(),
+                                    other.hiddenItem->getUsedDialogue(), other.hiddenItem->getTypeOfItem(),
+                                    other.hiddenItem->getValue());
     }
     else{
-        this->itemsInRoom = other.itemsInRoom;
+        for(auto item : other.itemsInRoom){
+            this->itemsInRoom.push_back(new Item(item->useFunc, item->getShortDescription(), item->getUsedDialogue(),
+                                                 item->getTypeOfItem(), item->getValue()));
+        }
         this->hiddenClue = other.hiddenClue;
     }
 }

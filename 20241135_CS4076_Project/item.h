@@ -38,7 +38,7 @@ protected:
     string usedDialogue;
     typeOfItem itemType;
 
-    string (*useFunc)(Item*);
+
 
 public:
     Item (string description, int inWeight, int inValue);
@@ -46,7 +46,6 @@ public:
     Item (string (*useFunc)(Item*)=&(useItemFunctions::useItemDefault), string description="",
           string usedDialogue="", typeOfItem typeOfItem=HINT, int value=0);
     Item (string description, string usedDialogue);
-    Item (string description);
 
     virtual ~Item();
 
@@ -61,6 +60,7 @@ public:
     void setValue(int value);
     string getUsedDialogue();
     typeOfItem getTypeOfItem();
+    string (*useFunc)(Item*);
 };
 
 // Items that utilize some kind of luck. Each of these will have
